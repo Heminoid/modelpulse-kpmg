@@ -293,6 +293,121 @@ def phase_3(client: httpx.Client) -> None:
     check("Constant column PSI returns skipped", results_const[0].status == "skipped")
 
 # ---------------------------------------------------------------------------
+# Phase 4 checks: Monitors, Runs, Alerts
+# ---------------------------------------------------------------------------
+def phase_4(client: httpx.Client) -> None:
+    heading("Phase 4: Run Orchestration & Alerting")
+    
+    # 1. Generate synthetic data if not exists
+    import os, subprocess
+    if not os.path.exists("data/healthy_baseline.csv"):
+        print("Generating synthetic data...")
+        subprocess.run(["python", "scripts/generate_demo_data.py"], check=True)
+        
+    # 2. Upload baseline and stable
+    with open("data/healthy_baseline.csv", "rb") as f:
+        rb = client.post(f"{BASE_URL}/api/v1/datasets/upload", files={"file": ("healthy_baseline.csv", f)})
+        baseline_id = rb.json()["data"]["id"]
+        
+    with open("data/healthy_current_stable.csv", "rb") as f:
+        rs = client.post(f"{BASE_URL}/api/v1/datasets/upload", files={"file": ("healthy_current_stable.csv", f)})
+        stable_id = rs.json()["data"]["id"]
+        
+    # 3. Mappings (we can use the exact same logic as underwriting, since schema is identical)
+    mapping_save_payload = {
+        "feature_fields": ["credit_score", "debt_to_income", "annual_income", "revolving_utilization"],
+        "segment_fields": ["loan_purpose"],
+        "column_roles": {
+            "actual_default": "target",
+            "model_score": "prediction_score",
+            "probability_of_default": "prediction_probability",
+            "application_status": "decision"
+        },
+        "target_positive_label": 1,
+        "decision_positive_label": "APPROVED"
+    }
+    client.post(f"{BASE_URL}/api/v1/datasets/{baseline_id}/save-mapping", json=mapping_save_payload)
+    client.post(f"{BASE_URL}/api/v1/datasets/{stable_id}/save-mapping", json=mapping_save_payload)
+    
+    # Fetch mapping from server to pass to monitor
+    mapping_payload = client.get(f"{BASE_URL}/api/v1/datasets/{stable_id}/mapping").json()["data"]
+    
+    # 4. Create monitor
+    mon = client.post(f"{BASE_URL}/api/v1/monitors", json={
+        "monitor_id": "mon_stable",
+        "name": "Stable Monitor",
+        "dataset_id": stable_id,
+        "baseline_dataset_id": baseline_id,
+        "column_mapping": mapping_payload,
+        "selected_metrics": []
+    })
+    check("Monitor created", mon.status_code == 200)
+    if mon.status_code != 200:
+        print("MONITOR CREATE ERROR:", mon.text)
+    
+    # 5. Run stable
+    print("Triggering stable run (blocks)...")
+    rr = client.post(f"{BASE_URL}/api/v1/monitors/mon_stable/run")
+    check("Stable run returns 200", rr.status_code == 200)
+    run_meta = rr.json().get("data", {})
+    if run_meta.get("status") == "failed":
+        print("STABLE RUN ERROR MESSAGE:", run_meta.get("error_message"))
+    check("Stable run completed", run_meta.get("status") == "completed")
+    
+    # Check no alerts (FALSE POSITIVE GATE)
+    # The alerts are saved in artifacts, but how to fetch? We need an endpoint or we can read from disk directly for the test.
+    # The API doesn't expose GET /runs/{run_id}/alerts in our spec (it says Section 34 has 50 endpoints, but we didn't add it in Phase 4 plan, we only added GET /runs).
+    # We will read from disk directly for the smoke test.
+    import json
+    run_id = run_meta["run_id"]
+    alert_path = f"storage/runs/{run_id}/alerts.json"
+    if os.path.exists(alert_path):
+        with open(alert_path) as f:
+            alerts = json.load(f)
+        bad_alerts = [a for a in alerts if a["severity"] in ["warning", "critical"]]
+        if len(bad_alerts) > 0:
+            print(f"STABLE BAD ALERTS: {bad_alerts}")
+        check("Zero drift/performance alerts on stable", len(bad_alerts) == 0)
+    else:
+        check("Alerts artifact exists", False)
+        
+    # 6. Drifted dataset
+    with open("data/healthy_current_drifted.csv", "rb") as f:
+        rd = client.post(f"{BASE_URL}/api/v1/datasets/upload", files={"file": ("healthy_current_drifted.csv", f)})
+        drifted_id = rd.json()["data"]["id"]
+        
+    client.post(f"{BASE_URL}/api/v1/datasets/{drifted_id}/save-mapping", json=mapping_save_payload)
+    mapping_payload_drifted = client.get(f"{BASE_URL}/api/v1/datasets/{drifted_id}/mapping").json()["data"]
+    
+    mon_drift = client.post(f"{BASE_URL}/api/v1/monitors", json={
+        "monitor_id": "mon_drifted",
+        "name": "Drifted Monitor",
+        "dataset_id": drifted_id,
+        "baseline_dataset_id": baseline_id,
+        "column_mapping": mapping_payload_drifted,
+        "selected_metrics": []
+    })
+    
+    print("Triggering drifted run (blocks)...")
+    rr2 = client.post(f"{BASE_URL}/api/v1/monitors/mon_drifted/run")
+    run_meta2 = rr2.json().get("data", {})
+    if run_meta2.get("status") == "failed":
+        print("DRIFTED RUN ERROR MESSAGE:", run_meta2.get("error_message"))
+    check("Drifted run completed", run_meta2.get("status") == "completed")
+    
+    alert_path2 = f"storage/runs/{run_meta2['run_id']}/alerts.json"
+    if os.path.exists(alert_path2):
+        with open(alert_path2) as f:
+            alerts2 = json.load(f)
+        crit_psi = [a for a in alerts2 if a["metric_key"] == "psi_model_score" and a["severity"] == "critical"]
+        check("Critical PSI alert fired on drifted", len(crit_psi) > 0)
+        
+        warn_auc = [a for a in alerts2 if a["metric_key"] == "perf_auc" and a["severity"] == "warning"]
+        check("Warning AUC decline fired", len(warn_auc) > 0)
+    else:
+        check("Alerts artifact exists for drifted", False)
+        
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 def main() -> None:
@@ -330,6 +445,9 @@ def main() -> None:
 
     if args.phase >= 3:
         phase_3(client)
+
+    if args.phase >= 4:
+        phase_4(client)
 
     # Summary
     total = PASS + FAIL
