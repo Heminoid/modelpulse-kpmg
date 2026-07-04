@@ -1,0 +1,22 @@
+fastapi>=0.111.0,<1.0
+uvicorn[standard]>=0.29.0,<1.0
+python-multipart>=0.0.9,<1.0
+pydantic>=2.7.1,<3.0
+pydantic-settings>=2.2.1,<3.0
+pandas>=2.2.2,<3.0
+numpy>=1.26.4,<3.0
+scipy>=1.13.0,<2.0
+scikit-learn>=1.4.2,<2.0
+python-dateutil>=2.9.0,<3.0
+aiofiles>=23.2.1,<25.0
+loguru>=0.7.2,<1.0
+httpx>=0.27.0,<1.0
+matplotlib>=3.8.4,<4.0
+pillow>=10.3.0,<12.0
+# weasyprint>=62.3  # Optional: PDF reports. Requires OS-level pango/cairo.
+#                   # See SPEC_AMENDMENTS B6: lazy import; fallback to HTML.
+#                   # Linux: apt install libpango-1.0-0 libpangocairo-1.0-0
+#                   # macOS: brew install pango
+#                   # then: pip install weasyprint
+jinja2>=3.1.4,<4.0
+markupsafe>=2.1.5,<3.0
