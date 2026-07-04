@@ -218,6 +218,80 @@ def phase_2(client: httpx.Client) -> None:
     check("decision_flag -> decision", f_map["decision_flag"]["suggested_role"] == "decision")
     check("txn_id -> record_id", f_map["txn_id"]["suggested_role"] == "record_id")
 
+def phase_3(client: httpx.Client) -> None:
+    heading("Phase 3 — Metric Engine + Core Metrics")
+    import pandas as pd
+    from app.metrics.engine import run_metrics
+    from app.schemas.mapping import ColumnMapping
+    import scripts.expected_values as ev
+
+    data_dir = _PROJECT_ROOT / "data"
+    df = pd.read_csv(data_dir / "underwriting_scorecard_clean.csv")
+    
+    mapping = ColumnMapping(
+        id="test",
+        dataset_id="test",
+        mappings={
+            "actual_default": "target",
+            "model_score": "prediction_score",
+            "probability_of_default": "prediction_probability",
+            "application_status": "decision",
+            "application_id": "record_id",
+            "application_time": "event_time",
+            "past_due_days": "dpd_field",
+            "score_band": "score_band",
+        },
+        segment_fields=[],
+        feature_fields=[],
+        ignored_fields=[],
+        score_direction="higher_is_better",
+        target_positive_label=1,
+        decision_positive_label="APPROVED",
+        version=1,
+        created_at="2023-01-01T00:00:00Z"
+    )
+    
+    # Run core metrics
+    keys = [
+        "perf_auc", "perf_gini", "perf_ks", "perf_decile_table",
+        "calib_summary", "strategy_bad_rate", "strategy_approval_rate",
+        "delinq_buckets", "dq_score_pd_coherence", "psi_model_score"
+    ]
+    
+    results = run_metrics(df, mapping, keys)
+    res_map = {r.metric_key: r for r in results}
+    
+    # Check scalars
+    check("AUC matches expected", abs(res_map["perf_auc"].scalar_value - ev.AUC_MODEL_SCORE) < 1e-3)
+    check("Gini matches expected", abs(res_map["perf_gini"].scalar_value - ev.GINI_MODEL_SCORE) < 1e-3)
+    check("KS matches expected", abs(res_map["perf_ks"].scalar_value - ev.KS_MODEL_SCORE) < 1e-3)
+    check("Bad rate matches expected", abs(res_map["strategy_bad_rate"].scalar_value - ev.BAD_RATE) < 1e-3)
+    check("Approval rate matches expected", abs(res_map["strategy_approval_rate"].scalar_value - ev.APPROVAL_RATE) < 1e-3)
+    check("Calibration ratio matches expected", abs(res_map["calib_summary"].scalar_value - ev.CALIBRATION_RATIO) < 1e-3)
+    
+    # Check tables
+    check("Decile table has 10 rows", len(res_map["perf_decile_table"].table_data) == 10)
+    
+    buckets = {b["bucket"]: b["count"] for b in res_map["delinq_buckets"].table_data}
+    check("DPD buckets match perfectly", 
+          buckets["Current"] == ev.DPD_BUCKETS["Current"] and 
+          buckets["30-59"] == ev.DPD_BUCKETS["30-59 DPD"])
+          
+    # Missing role guard check
+    mapping_no_decision = mapping.model_copy(deep=True)
+    mapping_no_decision.mappings.pop("application_status")
+    results_no_dec = run_metrics(df, mapping_no_decision, ["strategy_approval_rate"])
+    check("Missing role returns skipped", results_no_dec[0].status == "skipped")
+    
+    # PSI degenerate bins guard check
+    df_constant = df.copy()
+    df_constant["constant_score"] = 500
+    mapping_const = mapping.model_copy(deep=True)
+    mapping_const.mappings.pop("model_score", None)
+    mapping_const.mappings["constant_score"] = "prediction_score"
+    results_const = run_metrics(df_constant, mapping_const, ["psi_model_score"], baseline_df=df_constant)
+    check("Constant column PSI returns skipped", results_const[0].status == "skipped")
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -253,6 +327,9 @@ def main() -> None:
 
     if args.phase >= 2:
         phase_2(client)
+
+    if args.phase >= 3:
+        phase_3(client)
 
     # Summary
     total = PASS + FAIL
