@@ -132,12 +132,17 @@ def execute_run(monitor_id: str) -> RunMetadata:
         # Health Score
         health = compute_health_score(metric_results)
         
+        # Charts
+        from app.charts.builder import build_charts
+        charts = build_charts(df, ColumnMapping(**monitor.get("column_mapping")), metric_results, baseline_stats)
+        
         # Save artifacts
         run_store.save_artifact(run_id, "metrics.json", [r.model_dump() for r in metric_results])
         run_store.save_artifact(run_id, "segments.json", [s.model_dump() for s in segments])
         run_store.save_artifact(run_id, "alerts.json", [a.model_dump() for a in alerts])
         run_store.save_artifact(run_id, "insights.json", context.model_dump())
         run_store.save_artifact(run_id, "health.json", health.model_dump())
+        run_store.save_artifact(run_id, "charts.json", [c.model_dump() for c in charts])
         
         # Complete
         meta.status = "completed"

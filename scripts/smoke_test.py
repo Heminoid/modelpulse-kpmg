@@ -407,6 +407,57 @@ def phase_4(client: httpx.Client) -> None:
     else:
         check("Alerts artifact exists for drifted", False)
         
+    return run_meta2["run_id"]
+
+# ---------------------------------------------------------------------------
+# Phase 5: Charts
+# ---------------------------------------------------------------------------
+def phase_5(client: httpx.Client, run_id: str) -> None:
+    heading("Phase 5: Charts")
+    
+    # 1. GET /runs/{run_id}/charts
+    cr = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/charts")
+    check("GET charts returns 200", cr.status_code == 200)
+    charts = cr.json().get("data", [])
+    check("Returns >= 6 payloads", len(charts) >= 6)
+    
+    if len(charts) == 0:
+        return
+        
+    chart_id = charts[0]["chart_id"]
+    
+    # 2. GET image (PNG)
+    img_resp = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/charts/{chart_id}/image?format=png")
+    check("PNG image returns 200", img_resp.status_code == 200)
+    check("PNG magic bytes", img_resp.content.startswith(b"\x89PNG"))
+    
+    # 3. GET image (SVG)
+    svg_resp = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/charts/{chart_id}/image?format=svg")
+    check("SVG image returns 200", svg_resp.status_code == 200)
+    check("SVG content type", svg_resp.headers.get("content-type") == "image/svg+xml")
+    
+    # 4. Check for matplotlib import leakage
+    import subprocess
+    try:
+        # Grep for 'import matplotlib' or 'from matplotlib'
+        result = subprocess.run(
+            ["grep", "-rn", "matplotlib", "app/"],
+            capture_output=True, text=True
+        )
+        lines = result.stdout.strip().split("\n")
+        leaks = [l for l in lines if "app/charts/renderer.py" not in l and "__pycache__" not in l and l.strip()]
+        if len(leaks) > 0:
+            print("Matplotlib leaks found:")
+            print("\n".join(leaks))
+        check("Matplotlib imported ONLY in renderer.py", len(leaks) == 0)
+    except Exception as e:
+        print("Grep failed:", e)
+        check("Matplotlib leak check", False)
+
+    # 5. Render twice consecutively (no crash)
+    img_resp2 = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/charts/{chart_id}/image?format=png")
+    check("Consecutive render succeeds (no crash)", img_resp2.status_code == 200)
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -447,7 +498,15 @@ def main() -> None:
         phase_3(client)
 
     if args.phase >= 4:
-        phase_4(client)
+        run_id = phase_4(client)
+
+    if args.phase >= 5:
+        if args.phase == 5 and args.phase >= 4:
+            phase_5(client, run_id)
+        elif args.phase == 5: # Just in case it was run without phase 4
+            rr = client.get(f"{BASE_URL}/api/v1/runs?limit=100")
+            run_id = [r["run_id"] for r in rr.json()["data"] if r["status"] == "completed"][0]
+            phase_5(client, run_id)
 
     # Summary
     total = PASS + FAIL
