@@ -2,6 +2,7 @@ import matplotlib
 matplotlib.use("Agg")  # headless backend, must be set before importing pyplot
 import matplotlib.pyplot as plt
 import io
+import base64
 
 from app.schemas.charts import ChartPayload
 
@@ -58,7 +59,7 @@ def render_chart(payload: ChartPayload, fmt: str = "png", dpi: int = 100) -> byt
     renderer_fn = CHART_TYPE_RENDERERS.get(payload.chart_type, render_bar)
     renderer_fn(ax, payload)
     
-    ax.set_title(payload.title, fontsize=12)
+    ax.set_title(payload.title, pad=15, fontsize=12, fontweight="bold")
     if payload.x_label: 
         ax.set_xlabel(payload.x_label)
     if payload.y_label: 
@@ -71,8 +72,13 @@ def render_chart(payload: ChartPayload, fmt: str = "png", dpi: int = 100) -> byt
             elif "x" in ann:
                 ax.axvline(ann["x"], color=ann.get("color", "red"), linestyle=ann.get("linestyle", "--"), alpha=0.7, label=ann.get("label"))
                 
-    if len(payload.series) > 1 or (payload.annotations and any("label" in a for a in payload.annotations)):
-        ax.legend(loc="best", fontsize=8)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    
+    if payload.chart_type not in ["heatmap"]:
+        ax.grid(True, axis='y', alpha=0.15)
+        if len(payload.series) > 1 or (payload.annotations and any("label" in a for a in payload.annotations)):
+            ax.legend(frameon=False, loc="upper right")
         
     fig.tight_layout()
 
@@ -81,3 +87,8 @@ def render_chart(payload: ChartPayload, fmt: str = "png", dpi: int = 100) -> byt
     plt.close(fig)   # critical — prevents memory leak across requests
     buf.seek(0)
     return buf.read()
+
+def render_to_base64(payload: ChartPayload, dpi: int = 100) -> str:
+    """Render a ChartPayload to a base64 encoded PNG string."""
+    image_bytes = render_chart(payload, fmt="png", dpi=dpi)
+    return base64.b64encode(image_bytes).decode('utf-8')

@@ -68,23 +68,26 @@ def generate_deterministic_findings(results: list[MetricResult], alerts: list[Al
             narrative="Score band column does not consistently match bands derived from the score.",
             evidence_metrics=["dq_band_consistency"]
         ))
-        
-    # Drift
-    if has_alert("psi_model_score", "critical"):
+        # Check model score PSI
+    if has_alert("psi_prediction_score", "critical"):
         findings.append(Finding(
             finding_id=f"fnd_{uuid.uuid4().hex[:12]}",
-            category="drift", severity="critical",
-            title="Major Score Drift",
-            narrative="Score distribution shows critical population drift. Model may be scoring a different population than training.",
-            evidence_metrics=["psi_model_score"]
+            category="drift",
+            severity="critical",
+            title="Severe Score Drift Detected",
+            narrative="The model score distribution has shifted significantly compared to the baseline. This indicates a structural change in the applicant population or feature inputs, which may invalidate the model's calibration and rank ordering.",
+            evidence_metrics=["psi_prediction_score"],
+            recommended_actions=["Review feature drift to isolate drivers.", "Consider model retraining if population shift is permanent."]
         ))
-    elif has_alert("psi_model_score", "warning"):
+    elif has_alert("psi_prediction_score", "warning"):
         findings.append(Finding(
             finding_id=f"fnd_{uuid.uuid4().hex[:12]}",
-            category="drift", severity="warning",
-            title="Score Drift Detected",
-            narrative="Score distribution shows warning population drift.",
-            evidence_metrics=["psi_model_score"]
+            category="drift",
+            severity="warning",
+            title="Moderate Score Drift Detected",
+            narrative="The model score distribution shows moderate shift. Monitor closely to ensure it does not degrade performance.",
+            evidence_metrics=["psi_prediction_score"],
+            recommended_actions=["Monitor next vintage.", "Check distribution of top features."]
         ))
         
     # Calibration

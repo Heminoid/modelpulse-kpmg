@@ -74,7 +74,7 @@ def compute_segments(df: pd.DataFrame, mapping: ColumnMapping, selected_segments
                 share_pct=share,
                 bad_rate=bad_rate,
                 approval_rate=approval_rate,
-                avg_model_score=avg_score,
+                avg_prediction_score=avg_score,
                 avg_probability_of_default=avg_pd,
                 avg_loan_amount=avg_amount,
                 severe_dpd_rate=severe_dpd

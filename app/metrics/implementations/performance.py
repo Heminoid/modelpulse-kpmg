@@ -157,7 +157,7 @@ def _calc_decile_table(df: pd.DataFrame, mapped_roles: dict[str, list[str]], map
         return MetricResult(status="skipped", skipped_reason="Insufficient data")
         
     # Per amendment C5: rank first
-    # Sort by model_score descending so highest score = decile 1.
+    # Sort by prediction_score descending so highest score = decile 1.
     # Wait, if lower_is_better, ascending=True.
     ascending = True if mapping.score_direction == "lower_is_better" else False
     

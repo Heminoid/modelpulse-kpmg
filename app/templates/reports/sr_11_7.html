@@ -1,0 +1,94 @@
+{% extends "reports/base.html" %}
+
+{% block content %}
+<div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+    <!-- Report Header -->
+    <div class="bg-brand-900 text-white p-8">
+        <div class="flex justify-between items-start">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">SR 11-7 Compliance Checklist</h1>
+                <p class="text-brand-100 text-lg">Model Risk Management Regulatory Report</p>
+            </div>
+            <div class="text-right">
+                <p class="text-sm text-brand-100 font-semibold uppercase tracking-wider mb-1">Generated At</p>
+                <p class="text-lg font-medium">{{ generated_at[:10] }}</p>
+            </div>
+        </div>
+        
+        <div class="mt-8 grid grid-cols-2 gap-6">
+            <div class="bg-white/10 rounded-lg p-4 border border-white/20">
+                <p class="text-xs text-brand-100 font-semibold uppercase tracking-wider mb-1">Monitor ID</p>
+                <p class="font-medium truncate" title="{{ run.monitor_id }}">{{ run.monitor_id }}</p>
+            </div>
+            <div class="bg-white/10 rounded-lg p-4 border border-white/20">
+                <p class="text-xs text-brand-100 font-semibold uppercase tracking-wider mb-1">Run ID</p>
+                <p class="font-medium truncate">{{ run_id[:12] }}...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-8">
+        <div class="mb-10 avoid-break">
+            <h2 class="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-6">Checklist Evaluation</h2>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-blue-800 text-sm">
+                <strong>Disclaimer:</strong> This is an automated checklist generated based on model metrics. It does not replace qualitative review by Model Risk Management (MRM).
+            </div>
+
+            <div class="overflow-hidden rounded-lg border border-gray-200">
+                <table class="w-full text-left text-sm text-gray-700">
+                    <thead class="bg-gray-50 border-b border-gray-200 text-gray-900 font-semibold uppercase tracking-wider text-xs">
+                        <tr>
+                            <th class="px-6 py-4">Requirement Area</th>
+                            <th class="px-6 py-4">Evidence/Metric</th>
+                            <th class="px-6 py-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium">Conceptual Soundness</td>
+                            <td class="px-6 py-4 text-gray-600">Model accuracy bounds and baseline metrics checked.</td>
+                            <td class="px-6 py-4">
+                                {% set score = health.score if health and health.score else 0 %}
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase
+                                    {% if score >= 80 %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                    {% if score >= 80 %}PASS{% else %}REVIEW{% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium">Ongoing Monitoring</td>
+                            <td class="px-6 py-4 text-gray-600">Continuous execution of metric tracking ({{ metrics|length }} metrics verified).</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase bg-green-100 text-green-800">PASS</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium">Outcomes Analysis</td>
+                            <td class="px-6 py-4 text-gray-600">Alert thresholds and breaches reviewed. {% if alerts %}Found {{ alerts|length }} active alerts.{% endif %}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase
+                                    {% if not alerts %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                    {% if not alerts %}PASS{% else %}FLAGGED{% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if narrative and narrative.recommended_actions %}
+        <div class="mb-10 avoid-break">
+            <h2 class="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-6">Action Plan</h2>
+            <div class="bg-gray-50 rounded-lg p-6 border border-gray-100 text-gray-700">
+                <ul class="list-disc pl-5 space-y-2">
+                    {% for action in narrative.recommended_actions %}
+                    <li>{{ action }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

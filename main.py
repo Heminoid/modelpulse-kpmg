@@ -116,10 +116,12 @@ async def startup_event() -> None:
 
 
 # --- Routers ---
-from app.api.routes import health, datasets, mappings, monitors, runs  # noqa: E402
+from app.api.routes import health, datasets, mappings, monitors, runs, registry, reports  # noqa: E402
 
 app.include_router(health.router, prefix="/api/v1", tags=["health"])
 app.include_router(datasets.router, prefix="/api/v1", tags=["datasets"])
 app.include_router(mappings.router, prefix="/api/v1", tags=["mappings"])
 app.include_router(monitors.router, prefix="/api/v1", tags=["monitors"])
 app.include_router(runs.router, prefix="/api/v1", tags=["runs"])
+app.include_router(registry.router, prefix="/api/v1", tags=["registry"])
+app.include_router(reports.router, prefix="/api/v1", tags=["reports"])

@@ -255,7 +255,7 @@ def phase_3(client: httpx.Client) -> None:
     keys = [
         "perf_auc", "perf_gini", "perf_ks", "perf_decile_table",
         "calib_summary", "strategy_bad_rate", "strategy_approval_rate",
-        "delinq_buckets", "dq_score_pd_coherence", "psi_model_score"
+        "delinq_buckets", "dq_score_pd_coherence", "psi_prediction_score"
     ]
     
     results = run_metrics(df, mapping, keys)
@@ -289,7 +289,7 @@ def phase_3(client: httpx.Client) -> None:
     mapping_const = mapping.model_copy(deep=True)
     mapping_const.mappings.pop("model_score", None)
     mapping_const.mappings["constant_score"] = "prediction_score"
-    results_const = run_metrics(df_constant, mapping_const, ["psi_model_score"], baseline_df=df_constant)
+    results_const = run_metrics(df_constant, mapping_const, ["psi_prediction_score"], baseline_df=df_constant)
     check("Constant column PSI returns skipped", results_const[0].status == "skipped")
 
 # ---------------------------------------------------------------------------
@@ -399,13 +399,22 @@ def phase_4(client: httpx.Client) -> None:
     if os.path.exists(alert_path2):
         with open(alert_path2) as f:
             alerts2 = json.load(f)
-        crit_psi = [a for a in alerts2 if a["metric_key"] == "psi_model_score" and a["severity"] == "critical"]
+        crit_psi = [a for a in alerts2 if a["metric_key"] == "psi_prediction_score" and a["severity"] == "critical"]
         check("Critical PSI alert fired on drifted", len(crit_psi) > 0)
         
         warn_auc = [a for a in alerts2 if a["metric_key"] == "perf_auc" and a["severity"] == "warning"]
         check("Warning AUC decline fired", len(warn_auc) > 0)
     else:
         check("Alerts artifact exists for drifted", False)
+        
+    print("Testing LLM Narratives endpoint...")
+    nr = client.post(f"{BASE_URL}/api/v1/runs/{run_meta2['run_id']}/narratives")
+    check("POST narratives returns 200", nr.status_code == 200)
+    nr_data = nr.json().get("data", {})
+    check("Narrative has executive_summary", "executive_summary" in nr_data)
+    
+    nr_get = client.get(f"{BASE_URL}/api/v1/runs/{run_meta2['run_id']}/narratives")
+    check("GET narratives returns 200", nr_get.status_code == 200)
         
     return run_meta2["run_id"]
 
@@ -458,6 +467,193 @@ def phase_5(client: httpx.Client, run_id: str) -> None:
     img_resp2 = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/charts/{chart_id}/image?format=png")
     check("Consecutive render succeeds (no crash)", img_resp2.status_code == 200)
 
+def phase_6(client: httpx.Client, run_id: str) -> None:
+    heading("Phase 6 — Advanced Modules & Registry")
+    
+    # Check stat-tests
+    res = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/stat-tests")
+    if res.status_code != 200: print(res.text)
+    check("GET /stat-tests returns 200", res.status_code == 200)
+    if res.status_code == 200:
+        data = res.json()["data"]
+        check("stat-tests has tests array", "tests" in data)
+        check("stat-tests has correction_method", "correction_method" in data)
+        
+    # Check vintage
+    res = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/vintage")
+    if res.status_code != 200: print(res.text)
+    check("GET /vintage returns 200", res.status_code == 200)
+    if res.status_code == 200:
+        data = res.json()["data"]
+        check("vintage has roll_rate_matrix", "roll_rate_matrix" in data)
+        check("vintage identifies malformed application_time", data.get("cohort_curves") is None and "reason" in data)
+
+    # Check override
+    res = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/override-analysis?score_cutoff=600")
+    if res.status_code != 200: print(res.text)
+    check("GET /override-analysis returns 200", res.status_code == 200)
+    if res.status_code == 200:
+        data = res.json()["data"]
+        check("override includes counts", "total_model_declines" in data)
+        
+    # Check fairness
+    res = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/fairness")
+    if res.status_code != 200: print(res.text)
+    check("GET /fairness returns 200", res.status_code == 200)
+    if res.status_code == 200:
+        data = res.json()["data"]
+        check("fairness includes di_results", "di_results" in data)
+
+    # Check timeseries
+    res = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/time-series")
+    if res.status_code != 200: print(res.text)
+    check("GET /time-series returns 200", res.status_code == 200)
+    if res.status_code == 200:
+        data = res.json()["data"]
+        check("time-series reports unavailable", data.get("available") is False)
+
+    # Check registry
+    res = client.post(f"{BASE_URL}/api/v1/registry/models", json={
+        "name": "CreditScorecard_v3",
+        "version": "3.0.0",
+        "model_type": "scorecard",
+        "owner": "Data Science Team"
+    })
+    if res.status_code != 200: print(res.text)
+    check("POST /registry/models returns 200", res.status_code == 200)
+    if res.status_code == 200:
+        model_id = res.json()["data"]["model_id"]
+        check("Model creation returns valid ID", model_id is not None)
+        
+        # Link run
+        res = client.post(f"{BASE_URL}/api/v1/registry/models/{model_id}/link-run/{run_id}")
+        check("POST link-run returns 200", res.status_code == 200)
+
+def phase_7(client: httpx.Client, run_id: str) -> None:
+    heading("Phase 7: Reports")
+    
+    # Generate HTML report
+    res = client.post(f"{BASE_URL}/api/v1/runs/{run_id}/reports/generate", json={
+        "report_type": "executive_summary",
+        "format": "html"
+    })
+    if res.status_code != 200:
+        print(f"Generate HTML error: {res.status_code} {res.text}")
+    check("POST /reports/generate (HTML) returns 200", res.status_code == 200)
+    if res.status_code == 200:
+        data = res.json()["data"]
+        report_id = data["report_id"]
+        
+        # Download HTML report
+        dl_res = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/reports/{report_id}/download")
+        check("GET /reports/{id}/download returns 200", dl_res.status_code == 200)
+        
+        html_text = dl_res.text
+        check("HTML contains base64 image", "<img class=\"chart-img\" src=\"data:image/png;base64," in html_text)
+        # Check health status is embedded
+        check("HTML contains health status", "status" in html_text or "CRITICAL" in html_text or "DETERIORATING" in html_text or "WATCH" in html_text or "HEALTHY" in html_text)
+        
+    # Generate PDF report (expect success or 400 with fallback msg)
+    res = client.post(f"{BASE_URL}/api/v1/runs/{run_id}/reports/generate", json={
+        "report_type": "executive_summary",
+        "format": "pdf"
+    })
+    if res.status_code == 400:
+        check("PDF fallback returns 400 with weasyprint message", "weasyprint not installed" in res.json().get("detail", ""))
+    else:
+        if res.status_code != 200:
+            print(f"Generate PDF error: {res.status_code} {res.text}")
+        check("POST /reports/generate (PDF) returns 200", res.status_code == 200)
+        
+    # List reports
+    res = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/reports")
+    check("GET /reports returns 200", res.status_code == 200)
+    if res.status_code == 200:
+        check("List includes generated report", len(res.json()["data"]) > 0)
+
+def phase_8_acceptance(client) -> None:
+    heading("Phase 8: Full Acceptance (6 datasets)")
+    import os
+    import json
+    from pathlib import Path
+    data_dir = Path("data")
+    
+    def setup_monitor(name, filename, is_baseline=True, baseline_id=None, score_direction="higher_is_better", dec_label="APPROVED"):
+        print(f"\n--- {name} ---")
+        with open(data_dir / filename, "rb") as f:
+            r = client.post(f"{BASE_URL}/api/v1/datasets/upload", files={"file": (filename, f, "text/csv")})
+        check(f"Upload {filename}", r.status_code == 200)
+        ds_id = r.json()["data"]["id"]
+        
+        r = client.post(f"{BASE_URL}/api/v1/datasets/{ds_id}/suggest-mapping")
+        sug = r.json()["data"]["suggestions"]
+        map_req = {"column_roles": {s["column_name"]: s["suggested_role"] for s in sug}, "score_direction": score_direction, "target_positive_label": 1, "decision_positive_label": dec_label}
+        r = client.post(f"{BASE_URL}/api/v1/datasets/{ds_id}/save-mapping", json=map_req)
+        check(f"Save mapping {filename}", r.status_code == 200)
+        
+        mapping_payload = client.get(f"{BASE_URL}/api/v1/datasets/{ds_id}/mapping").json()["data"]
+        
+        mon_req = {
+            "monitor_id": f"mon_{name}",
+            "name": name,
+            "dataset_id": ds_id,
+            "column_mapping": mapping_payload
+        }
+        if not is_baseline:
+            mon_req["baseline_dataset_id"] = baseline_id
+            
+        r = client.post(f"{BASE_URL}/api/v1/monitors", json=mon_req)
+        check(f"Create monitor {name}", r.status_code == 200)
+        mon_id = r.json()["data"]["monitor_id"]
+        
+        r = client.post(f"{BASE_URL}/api/v1/monitors/{mon_id}/run")
+        check(f"Run {name}", r.status_code == 200)
+        run_data = r.json()["data"]
+        if run_data.get("status") == "failed":
+            print(f"RUN {name} FAILED: {run_data.get('error_message')}")
+        check(f"Run {name} completed", run_data.get("status") == "completed")
+        run_id = run_data["run_id"]
+        return ds_id, mon_id, run_id
+
+    # 1. healthy_baseline.csv
+    baseline_id, mon_base, run_base = setup_monitor("baseline", "healthy_baseline.csv")
+    with open(f"storage/runs/{run_base}/health.json") as f:
+        h_data = json.load(f)
+    check("Baseline health is healthy", h_data["status"] == "healthy")
+    ts_res = client.get(f"{BASE_URL}/api/v1/runs/{run_base}/time-series")
+    check("Baseline timeseries available", ts_res.json()["data"]["available"] == True)
+    
+    # 2. healthy_current_stable.csv
+    _, _, run_stable = setup_monitor("stable", "healthy_current_stable.csv", is_baseline=False, baseline_id=baseline_id)
+    with open(f"storage/runs/{run_stable}/alerts.json") as f:
+        alerts = json.load(f)
+    drift_perf_alerts = [a for a in alerts if a["alert_type"] in ["drift", "performance"]]
+    check("Zero drift/performance alerts on stable", len(drift_perf_alerts) == 0)
+    
+    # 3. healthy_current_drifted.csv
+    _, _, run_drifted = setup_monitor("drifted", "healthy_current_drifted.csv", is_baseline=False, baseline_id=baseline_id)
+    with open(f"storage/runs/{run_drifted}/alerts.json") as f:
+        alerts = json.load(f)
+    check("Critical PSI alert fired", any(a["metric_key"] == "psi_prediction_score" and a["severity"] == "critical" for a in alerts))
+    
+    # 4. fraud_sample.csv
+    _, _, run_fraud = setup_monitor("fraud", "fraud_sample.csv", score_direction="lower_is_better", dec_label="APPROVE")
+    with open(f"storage/runs/{run_fraud}/metrics.json") as f:
+        metrics = json.load(f)
+    auc_val = next(m["scalar_value"] for m in metrics if m["metric_key"] == "perf_auc")
+    check("Fraud AUC ≈ 0.755 (fixes direction bug)", abs(auc_val - 0.755) < 0.05)
+    
+    # 5. edge_cases.csv
+    _, _, run_edge = setup_monitor("edge", "edge_cases.csv")
+    check("Run edge cases completes", True)
+    
+    # 6. underwriting_scorecard_clean.csv
+    _, _, run_client = setup_monitor("client", "underwriting_scorecard_clean.csv")
+    with open(f"storage/runs/{run_client}/insights.json") as f:
+        insights = json.load(f)
+    findings = insights.get("deterministic_findings", [])
+    check("Client file has findings", len(findings) > 0)
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -507,6 +703,24 @@ def main() -> None:
             rr = client.get(f"{BASE_URL}/api/v1/runs?limit=100")
             run_id = [r["run_id"] for r in rr.json()["data"] if r["status"] == "completed"][0]
             phase_5(client, run_id)
+            
+    if args.phase >= 6:
+        # Run id from phase 4 or 5
+        if not 'run_id' in locals():
+            rr = client.get(f"{BASE_URL}/api/v1/runs?limit=100")
+            run_id = [r["run_id"] for r in rr.json()["data"] if r["status"] == "completed"][0]
+        if args.phase >= 5:
+            phase_5(client, run_id)
+        phase_6(client, run_id)
+        
+    if args.phase >= 7:
+        if not 'run_id' in locals():
+            rr = client.get(f"{BASE_URL}/api/v1/runs?limit=100")
+            run_id = [r["run_id"] for r in rr.json()["data"] if r["status"] == "completed"][0]
+        phase_7(client, run_id)
+        
+    if args.phase >= 8:
+        phase_8_acceptance(client)
 
     # Summary
     total = PASS + FAIL

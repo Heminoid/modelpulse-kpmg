@@ -1,0 +1,44 @@
+/* Additional styling for Dataset Detail to make ag-grid look good in dark mode */
+
+.dataset-detail-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tab-content {
+  flex: 1;
+}
+
+/* Custom dark theme overrides for ag-grid */
+.ag-theme-alpine-dark {
+  --ag-background-color: var(--bg-secondary);
+  --ag-header-background-color: var(--bg-primary);
+  --ag-border-color: var(--border-color);
+  --ag-row-border-color: var(--border-light);
+  --ag-header-column-separator-display: none;
+  --ag-header-column-resize-handle-display: block;
+  --ag-font-family: var(--font-sans);
+  --ag-font-size: 14px;
+  
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+}
+
+.ag-theme-alpine-dark .ag-header-cell-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+}
+
+.ag-theme-alpine-dark .ag-row {
+  transition: background-color var(--transition-fast);
+}
+
+.ag-theme-alpine-dark .ag-row-hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}

@@ -8,7 +8,7 @@ from app.schemas.mapping import ColumnMapping
 class MonitorConfig(BaseModel):
     model_config = ConfigDict(ser_json_timedelta="iso8601")
 
-    monitor_id: str
+    monitor_id: Optional[str] = None
     name: str
     description: Optional[str] = None
     template_type: str = "credit_scorecard_monitoring"

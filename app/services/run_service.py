@@ -80,8 +80,8 @@ def execute_run(monitor_id: str) -> RunMetadata:
         
         # Load or compute baseline
         baseline_stats = None
+        from app.schemas.mapping import ColumnMapping
         if monitor.get("baseline_dataset_id"):
-            from app.schemas.mapping import ColumnMapping
             baseline_stats = _get_or_compute_baseline(monitor.get("baseline_dataset_id"), ColumnMapping(**monitor.get("column_mapping")))
             meta.baseline_row_count = baseline_stats.row_count
             
@@ -136,6 +136,22 @@ def execute_run(monitor_id: str) -> RunMetadata:
         from app.charts.builder import build_charts
         charts = build_charts(df, ColumnMapping(**monitor.get("column_mapping")), metric_results, baseline_stats)
         
+        # Advanced Modules
+        from app.metrics.implementations.statistical_tests import run_statistical_tests
+        stat_tests = run_statistical_tests(df, ColumnMapping(**monitor.get("column_mapping")), baseline_stats)
+        
+        from app.metrics.implementations.vintage import run_vintage_analysis
+        vintage_analysis = run_vintage_analysis(df, ColumnMapping(**monitor.get("column_mapping")))
+        
+        from app.metrics.implementations.override import run_override_analysis_all
+        override_analysis = run_override_analysis_all(df, ColumnMapping(**monitor.get("column_mapping")))
+        
+        from app.metrics.implementations.fairness import run_fairness_analysis
+        fairness_analysis = run_fairness_analysis(df, ColumnMapping(**monitor.get("column_mapping")), ["income_band", "home_ownership", "loan_purpose"])
+        
+        from app.services.timeseries_service import TimeSeriesService
+        timeseries_analysis = TimeSeriesService().analyze(df, ColumnMapping(**monitor.get("column_mapping")))
+        
         # Save artifacts
         run_store.save_artifact(run_id, "metrics.json", [r.model_dump() for r in metric_results])
         run_store.save_artifact(run_id, "segments.json", [s.model_dump() for s in segments])
@@ -143,11 +159,17 @@ def execute_run(monitor_id: str) -> RunMetadata:
         run_store.save_artifact(run_id, "insights.json", context.model_dump())
         run_store.save_artifact(run_id, "health.json", health.model_dump())
         run_store.save_artifact(run_id, "charts.json", [c.model_dump() for c in charts])
+        run_store.save_artifact(run_id, "stat_tests.json", stat_tests.model_dump())
+        run_store.save_artifact(run_id, "vintage.json", vintage_analysis.model_dump())
+        run_store.save_artifact(run_id, "override.json", {k: v.model_dump() for k, v in override_analysis.items()})
+        run_store.save_artifact(run_id, "fairness.json", fairness_analysis.model_dump())
+        run_store.save_artifact(run_id, "timeseries.json", timeseries_analysis)
         
         # Complete
         meta.status = "completed"
         
     except Exception as e:
+        import traceback; traceback.print_exc()
         meta.status = "failed"
         meta.error_message = str(e)
         

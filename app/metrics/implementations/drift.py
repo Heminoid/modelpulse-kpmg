@@ -76,7 +76,7 @@ def _calc_score_psi(df: pd.DataFrame, mapped_roles: dict[str, list[str]], baseli
 
 register_metric(
     MetricDefinition(
-        metric_key="psi_model_score",
+        metric_key="psi_prediction_score",
         display_name="Score PSI",
         category="drift",
         description="Population Stability Index for model score",

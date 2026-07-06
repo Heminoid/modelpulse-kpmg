@@ -198,8 +198,8 @@ def build_charts(
         overall_bad_rate = df[target_col].mean()
         if overall_bad_rate > 0:
             df_temp = df.copy()
-            # Sort desc for lift if higher is better, else asc. Just assume descending for now.
-            df_temp["_decile"] = pd.qcut(df_temp[score_col].rank(method="first", ascending=False), 10, labels=False) + 1
+            ascending = True if mapping.score_direction == "lower_is_better" else False
+            df_temp["_decile"] = pd.qcut(df_temp[score_col].rank(method="first", ascending=ascending), 10, labels=False) + 1
             grouped = df_temp.groupby("_decile")[target_col].mean()
             data = [{"x": f"Decile {int(k)}", "y": float(val / overall_bad_rate)} for k, val in grouped.items()]
             charts.append(ChartPayload(
@@ -215,21 +215,26 @@ def build_charts(
     # 10. chart_roc_curve
     if score_col and target_col and score_col in df.columns and target_col in df.columns:
         from sklearn.metrics import roc_curve
-        # Just grab ~20 points for the chart to keep payload small
-        fpr, tpr, _ = roc_curve(df[target_col], df[score_col])
-        step = max(1, len(fpr) // 20)
-        data = [{"x": float(f), "y": float(t)} for f, t in zip(fpr[::step], tpr[::step])]
-        if len(fpr) > 0 and (data[-1]["x"] != fpr[-1] or data[-1]["y"] != tpr[-1]):
-            data.append({"x": float(fpr[-1]), "y": float(tpr[-1])})
+        # If higher_is_better, invert score for standard sklearn ROC
+        clean_df = df[[target_col, score_col]].dropna()
+        if len(clean_df) > 0:
+            y_score = clean_df[score_col]
+            if mapping.score_direction == "higher_is_better":
+                y_score = -y_score
+            fpr, tpr, _ = roc_curve(clean_df[target_col], y_score)
+            step = max(1, len(fpr) // 20)
+            data = [{"x": float(f), "y": float(t)} for f, t in zip(fpr[::step], tpr[::step])]
+            if len(fpr) > 0 and (data[-1]["x"] != fpr[-1] or data[-1]["y"] != tpr[-1]):
+                data.append({"x": float(fpr[-1]), "y": float(tpr[-1])})
             
-        charts.append(ChartPayload(
-            chart_id="chart_roc_curve",
-            chart_type="line",
-            title="ROC Curve",
-            x_label="False Positive Rate",
-            y_label="True Positive Rate",
-            series=[ChartSeries(name="ROC", data=data, color="#8b5cf6")],
-            annotations=[{"x": 0, "y": 0, "label": "Diagonal", "color": "gray", "linestyle": "dotted"}] # Just a hint
-        ))
+            charts.append(ChartPayload(
+                chart_id="chart_roc_curve",
+                chart_type="line",
+                title="ROC Curve",
+                x_label="False Positive Rate",
+                y_label="True Positive Rate",
+                series=[ChartSeries(name="ROC", data=data, color="#8b5cf6")],
+                annotations=[{"x": 0, "y": 0, "label": "Diagonal", "color": "gray", "linestyle": "dotted"}] # Just a hint
+            ))
 
     return charts

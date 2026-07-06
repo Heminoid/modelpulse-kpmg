@@ -4,7 +4,7 @@ from app.schemas.metrics import MetricResult
 HEALTH_WEIGHTS = {
     "perf_gini":           0.25,
     "perf_ks":             0.20,
-    "psi_model_score":     0.20,
+    "psi_prediction_score":     0.20,
     "calib_ratio_overall": 0.20,
     "perf_auc":            0.15,
 }
@@ -18,7 +18,7 @@ def compute_health_score(results: list[MetricResult]) -> HealthScore:
     scorers = {
         "perf_gini":           lambda v: min(100.0, max(0.0, v / 0.7 * 100)),
         "perf_ks":             lambda v: min(100.0, max(0.0, v / 0.5 * 100)),
-        "psi_model_score":     lambda v: max(0.0, 100.0 - (v / 0.25) * 100),
+        "psi_prediction_score":     lambda v: max(0.0, 100.0 - (v / 0.25) * 100),
         "calib_ratio_overall": lambda v: max(0.0, 100.0 - abs(1.0 - v) * 200),
         "perf_auc":            lambda v: min(100.0, max(0.0, (v - 0.5) / 0.3 * 100)),
     }

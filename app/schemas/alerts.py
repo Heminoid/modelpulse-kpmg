@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict
 
 DEFAULT_ALERT_THRESHOLDS = {
     # PSI thresholds
-    "psi_model_score":                {"warning": 0.10, "critical": 0.25},
+    "psi_prediction_score":                {"warning": 0.10, "critical": 0.25},
     "psi_probability_of_default":     {"warning": 0.10, "critical": 0.25},
     "csi_credit_score":               {"warning": 0.10, "critical": 0.25},
     "csi_debt_to_income":             {"warning": 0.10, "critical": 0.25},

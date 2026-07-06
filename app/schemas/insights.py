@@ -65,13 +65,14 @@ class InsightContext(BaseModel):
 class LLMProvider(str, Enum):
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
+    CLOUDFLARE = "cloudflare"
     MOCK = "mock"
 
 
 class LLMConfig(BaseModel):
     model_config = ConfigDict(ser_json_timedelta="iso8601")
 
-    provider: LLMProvider = LLMProvider.MOCK
-    model: str = "gpt-4o"
+    provider: LLMProvider = LLMProvider.CLOUDFLARE
+    model: str = "@cf/meta/llama-3.1-8b-instruct"
     temperature: float = 0.3
     max_tokens: int = 2000

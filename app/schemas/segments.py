@@ -12,7 +12,7 @@ class SegmentResult(BaseModel):
     share_pct: float            # share of total portfolio
     bad_rate: Optional[float] = None
     approval_rate: Optional[float] = None
-    avg_model_score: Optional[float] = None
+    avg_prediction_score: Optional[float] = None
     avg_probability_of_default: Optional[float] = None
     avg_loan_amount: Optional[float] = None
     severe_dpd_rate: Optional[float] = None    # 90+ DPD rate

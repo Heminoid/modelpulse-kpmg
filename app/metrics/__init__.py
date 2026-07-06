@@ -6,6 +6,7 @@ from app.metrics.implementations import (
     delinquency,
     drift,
     performance,
+    score_distribution,
     strategy,
 )
 from app.metrics.engine import run_metrics
