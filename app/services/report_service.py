@@ -49,6 +49,14 @@ class ReportService:
         except Exception:
             template = self.env.get_template("reports/base.html")
             
+        # Load logo for templates
+        import base64
+        logo_path = Path(__file__).parent.parent / "static" / "kpmg-logo.png"
+        kpmg_logo_b64 = ""
+        if logo_path.exists():
+            with open(logo_path, "rb") as f:
+                kpmg_logo_b64 = base64.b64encode(f.read()).decode("utf-8")
+
         context = {
             "run_id": run_id,
             "run": run,
@@ -63,6 +71,7 @@ class ReportService:
             "override": override,
             "fairness": fairness,
             "generated_at": datetime.now(timezone.utc).isoformat(),
+            "kpmg_logo_b64": kpmg_logo_b64,
         }
         
         html_content = template.render(**context)

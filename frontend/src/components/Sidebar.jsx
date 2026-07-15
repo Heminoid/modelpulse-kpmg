@@ -38,11 +38,8 @@ const Sidebar = () => {
         })}
       </div>
 
-      <div className="sidebar-footer">
-        <button className="nav-item settings-btn">
-          <Settings size={20} className="nav-icon" />
-          <span>Settings</span>
-        </button>
+      <div className="sidebar-footer" style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', padding: '0.875rem 1rem' }}>
+        <img src="/kpmg-logo.png" alt="KPMG" style={{ height: '35px', filter: 'brightness(0) invert(1)', opacity: 0.9 }} />
       </div>
     </div>
   );
