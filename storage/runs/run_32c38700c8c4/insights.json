@@ -1,0 +1,138 @@
+{
+  "run_id": "run_32c38700c8c4",
+  "monitor_name": "Drifted Monitor",
+  "template_type": "credit_scorecard_monitoring",
+  "run_date": "2026-07-05T11:26:45.327978+00:00",
+  "dataset_rows": 2500,
+  "has_baseline": true,
+  "target_base_rate": 0.278,
+  "approval_rate": 0.6048,
+  "metric_status_table": [
+    {
+      "metric_key": "calib_brier_score",
+      "value": 0.09034474570715845,
+      "status": "ok"
+    },
+    {
+      "metric_key": "calib_summary",
+      "value": 1.479668878037837,
+      "status": "warning"
+    },
+    {
+      "metric_key": "data_quality_row_count",
+      "value": 2500.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_duplicate_count",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_invalid_probability",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_invalid_target",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "dq_score_pd_coherence",
+      "value": -0.9892206572201461,
+      "status": "ok"
+    },
+    {
+      "metric_key": "psi_prediction_score",
+      "value": 0.26218509109877713,
+      "status": "critical"
+    },
+    {
+      "metric_key": "perf_auc",
+      "value": 0.7490005779310069,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_gini",
+      "value": 0.4980011558620139,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_ks",
+      "value": 0.3715817373801789,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_approval_rate",
+      "value": 0.6048,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_bad_rate",
+      "value": 0.278,
+      "status": "ok"
+    }
+  ],
+  "threshold_breaches": [
+    {
+      "metric_key": "psi_prediction_score",
+      "value": 0.26218509109877713,
+      "severity": "critical"
+    },
+    {
+      "metric_key": "perf_auc",
+      "value": 0.7490005779310069,
+      "severity": "warning"
+    },
+    {
+      "metric_key": "perf_gini",
+      "value": 0.4980011558620139,
+      "severity": "warning"
+    },
+    {
+      "metric_key": "perf_ks",
+      "value": 0.3715817373801789,
+      "severity": "critical"
+    },
+    {
+      "metric_key": "strategy_approval_rate",
+      "value": 0.6048,
+      "severity": "critical"
+    }
+  ],
+  "top_worsening_metrics": [],
+  "top_drifting_features": [],
+  "top_worsening_segments": [],
+  "calibration_ratio_overall": null,
+  "calibration_worst_band": null,
+  "severe_dpd_rate": null,
+  "dpd_worst_segment": null,
+  "deterministic_findings": [
+    {
+      "finding_id": "fnd_1e0e766bc372",
+      "category": "drift",
+      "severity": "critical",
+      "title": "Severe Score Drift Detected",
+      "narrative": "The model score distribution has shifted significantly compared to the baseline. This indicates a structural change in the applicant population or feature inputs, which may invalidate the model's calibration and rank ordering.",
+      "evidence_metrics": [
+        "psi_prediction_score"
+      ],
+      "evidence_segments": [],
+      "supporting_values": {},
+      "possible_causes": [],
+      "recommended_actions": [
+        "Review feature drift to isolate drivers.",
+        "Consider model retraining if population shift is permanent."
+      ],
+      "confidence": "high",
+      "generated_by": "rule_engine"
+    }
+  ],
+  "finding_count_by_severity": {
+    "critical": 1,
+    "warning": 0,
+    "info": 0
+  },
+  "priority_review_areas": []
+}

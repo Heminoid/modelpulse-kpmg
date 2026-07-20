@@ -1,0 +1,200 @@
+{
+  "proxy_groups_analyzed": [
+    "income_band",
+    "home_ownership",
+    "loan_purpose"
+  ],
+  "overall_approval_rate": 0.8047619047619048,
+  "di_results": [
+    {
+      "group_col": "home_ownership",
+      "group_value": "OWN",
+      "n": 53,
+      "approval_rate": 0.717,
+      "reference_rate": 0.8048,
+      "di_ratio": 0.8909,
+      "status": "warning",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "home_ownership used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "loan_purpose",
+      "group_value": "credit_card",
+      "n": 96,
+      "approval_rate": 0.7708,
+      "reference_rate": 0.8048,
+      "di_ratio": 0.9578,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "loan_purpose used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "income_band",
+      "group_value": "<50K",
+      "n": 123,
+      "approval_rate": 0.7724,
+      "reference_rate": 0.8048,
+      "di_ratio": 0.9597,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "income_band used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "income_band",
+      "group_value": "50-75K",
+      "n": 135,
+      "approval_rate": 0.7926,
+      "reference_rate": 0.8048,
+      "di_ratio": 0.9849,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "income_band used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "loan_purpose",
+      "group_value": "major_purchase",
+      "n": 73,
+      "approval_rate": 0.7945,
+      "reference_rate": 0.8048,
+      "di_ratio": 0.9873,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "loan_purpose used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "home_ownership",
+      "group_value": "MORTGAGE",
+      "n": 166,
+      "approval_rate": 0.7952,
+      "reference_rate": 0.8048,
+      "di_ratio": 0.9881,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "home_ownership used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "loan_purpose",
+      "group_value": "debt_consolidation",
+      "n": 94,
+      "approval_rate": 0.7979,
+      "reference_rate": 0.8048,
+      "di_ratio": 0.9914,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "loan_purpose used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "loan_purpose",
+      "group_value": "home_improvement",
+      "n": 82,
+      "approval_rate": 0.8171,
+      "reference_rate": 0.8048,
+      "di_ratio": 1.0153,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "loan_purpose used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "home_ownership",
+      "group_value": "RENT",
+      "n": 170,
+      "approval_rate": 0.8176,
+      "reference_rate": 0.8048,
+      "di_ratio": 1.016,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "home_ownership used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "income_band",
+      "group_value": "75-100K",
+      "n": 94,
+      "approval_rate": 0.8298,
+      "reference_rate": 0.8048,
+      "di_ratio": 1.0311,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "income_band used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "income_band",
+      "group_value": "100K+",
+      "n": 68,
+      "approval_rate": 0.8529,
+      "reference_rate": 0.8048,
+      "di_ratio": 1.0599,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "income_band used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "loan_purpose",
+      "group_value": "other",
+      "n": 75,
+      "approval_rate": 0.8533,
+      "reference_rate": 0.8048,
+      "di_ratio": 1.0604,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "loan_purpose used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "home_ownership",
+      "group_value": "OTHER",
+      "n": 31,
+      "approval_rate": 0.9355,
+      "reference_rate": 0.8048,
+      "di_ratio": 1.1624,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "home_ownership used as proxy variable. Not a legally protected class."
+    }
+  ],
+  "adverse_impact_flags": [],
+  "borderline_flags": [
+    {
+      "group_col": "home_ownership",
+      "group_value": "OWN",
+      "n": 53,
+      "approval_rate": 0.717,
+      "reference_rate": 0.8048,
+      "di_ratio": 0.8909,
+      "status": "warning",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "home_ownership used as proxy variable. Not a legally protected class."
+    }
+  ],
+  "regulatory_note": "Proxy analysis only. ECOA/FHA require actual protected class data.",
+  "recommended_actions": [
+    "Monitor borderline groups for emerging adverse impact trends."
+  ],
+  "ecoa_compliance_summary": "No direct adverse impact detected. Borderline: OWN (DI=0.8909)"
+}

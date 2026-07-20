@@ -1,0 +1,25 @@
+{
+  "id": "map_20260705_fd9dc6630c5b",
+  "dataset_id": "ds_20260705_446a2c10f743",
+  "mappings": {
+    "actual_default": "target",
+    "model_score": "prediction_score",
+    "probability_of_default": "prediction_probability",
+    "application_status": "decision"
+  },
+  "segment_fields": [
+    "loan_purpose"
+  ],
+  "feature_fields": [
+    "credit_score",
+    "debt_to_income",
+    "annual_income",
+    "revolving_utilization"
+  ],
+  "ignored_fields": [],
+  "score_direction": "higher_is_better",
+  "target_positive_label": 1,
+  "decision_positive_label": "APPROVED",
+  "created_at": "2026-07-05T11:26:45.210522Z",
+  "version": 1
+}

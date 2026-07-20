@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ModelPulse Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        @media print {
+            .page-break { page-break-before: always; }
+            .avoid-break { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans p-8 md:p-12 max-w-6xl mx-auto">
+    
+<div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+    <!-- Report Header -->
+    <div class="bg-brand-900 text-white p-8">
+        <div class="flex justify-between items-start">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">SR 11-7 Compliance Checklist</h1>
+                <p class="text-brand-100 text-lg">Model Risk Management Regulatory Report</p>
+            </div>
+            <div class="text-right">
+                <p class="text-sm text-brand-100 font-semibold uppercase tracking-wider mb-1">Generated At</p>
+                <p class="text-lg font-medium">2026-07-06</p>
+            </div>
+        </div>
+        
+        <div class="mt-8 grid grid-cols-2 gap-6">
+            <div class="bg-white/10 rounded-lg p-4 border border-white/20">
+                <p class="text-xs text-brand-100 font-semibold uppercase tracking-wider mb-1">Monitor ID</p>
+                <p class="font-medium truncate" title="mon_baseline">mon_baseline</p>
+            </div>
+            <div class="bg-white/10 rounded-lg p-4 border border-white/20">
+                <p class="text-xs text-brand-100 font-semibold uppercase tracking-wider mb-1">Run ID</p>
+                <p class="font-medium truncate">run_f66c1afe...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-8">
+        <div class="mb-10 avoid-break">
+            <h2 class="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-6">Checklist Evaluation</h2>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-blue-800 text-sm">
+                <strong>Disclaimer:</strong> This is an automated checklist generated based on model metrics. It does not replace qualitative review by Model Risk Management (MRM).
+            </div>
+
+            <div class="overflow-hidden rounded-lg border border-gray-200">
+                <table class="w-full text-left text-sm text-gray-700">
+                    <thead class="bg-gray-50 border-b border-gray-200 text-gray-900 font-semibold uppercase tracking-wider text-xs">
+                        <tr>
+                            <th class="px-6 py-4">Requirement Area</th>
+                            <th class="px-6 py-4">Evidence/Metric</th>
+                            <th class="px-6 py-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium">Conceptual Soundness</td>
+                            <td class="px-6 py-4 text-gray-600">Model accuracy bounds and baseline metrics checked.</td>
+                            <td class="px-6 py-4">
+                                
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase
+                                    bg-green-100 text-green-800">
+                                    PASS
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium">Ongoing Monitoring</td>
+                            <td class="px-6 py-4 text-gray-600">Continuous execution of metric tracking (19 metrics verified).</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase bg-green-100 text-green-800">PASS</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium">Outcomes Analysis</td>
+                            <td class="px-6 py-4 text-gray-600">Alert thresholds and breaches reviewed. </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase
+                                    bg-green-100 text-green-800">
+                                    PASS
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+</body>
+</html>

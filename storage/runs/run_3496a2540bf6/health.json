@@ -1,0 +1,27 @@
+{
+  "score": 22.491134108673787,
+  "status": "critical",
+  "components": {
+    "calib_ratio_overall": {
+      "score": 18.703539367246464,
+      "weight": 0.2,
+      "status": "critical"
+    },
+    "perf_auc": {
+      "score": 0.0,
+      "weight": 0.15,
+      "status": "critical"
+    },
+    "perf_gini": {
+      "score": 0.0,
+      "weight": 0.25,
+      "status": "critical"
+    },
+    "perf_ks": {
+      "score": 71.26099706744868,
+      "weight": 0.2,
+      "status": "watch"
+    }
+  },
+  "recommended_actions": []
+}

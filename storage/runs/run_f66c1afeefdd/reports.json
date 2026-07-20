@@ -1,0 +1,92 @@
+[
+  {
+    "report_id": "report_671c5881",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_671c5881.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_671c5881/download",
+    "size_bytes": 267258,
+    "generated_at": "2026-07-05T12:02:08.895443+00:00"
+  },
+  {
+    "report_id": "report_8d9385a4",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_8d9385a4.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_8d9385a4/download",
+    "size_bytes": 241346,
+    "generated_at": "2026-07-05T12:07:28.998492+00:00"
+  },
+  {
+    "report_id": "report_e58c14db",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_e58c14db.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_e58c14db/download",
+    "size_bytes": 241346,
+    "generated_at": "2026-07-05T12:08:39.414660+00:00"
+  },
+  {
+    "report_id": "report_64426ba9",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_64426ba9.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_64426ba9/download",
+    "size_bytes": 286789,
+    "generated_at": "2026-07-06T10:51:22.713194+00:00"
+  },
+  {
+    "report_id": "report_125e5a7a",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_125e5a7a.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_125e5a7a/download",
+    "size_bytes": 286789,
+    "generated_at": "2026-07-06T10:51:26.530097+00:00"
+  },
+  {
+    "report_id": "report_5fb02c0e",
+    "report_type": "ifrs9",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_5fb02c0e.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_5fb02c0e/download",
+    "size_bytes": 244220,
+    "generated_at": "2026-07-06T17:45:13.617137+00:00"
+  },
+  {
+    "report_id": "report_56b1b6fe",
+    "report_type": "sr_11_7",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_56b1b6fe.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_56b1b6fe/download",
+    "size_bytes": 5590,
+    "generated_at": "2026-07-06T17:47:18.907627+00:00"
+  },
+  {
+    "report_id": "report_e335558f",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_e335558f.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_e335558f/download",
+    "size_bytes": 338914,
+    "generated_at": "2026-07-15T15:34:48.696366+00:00"
+  },
+  {
+    "report_id": "report_8fa86911",
+    "report_type": "sr_11_7",
+    "format": "html",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_8fa86911.html",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_8fa86911/download",
+    "size_bytes": 57715,
+    "generated_at": "2026-07-15T15:35:33.211999+00:00"
+  },
+  {
+    "report_id": "report_b50b040d",
+    "report_type": "sr_11_7",
+    "format": "pdf",
+    "file_path": "storage/runs/run_f66c1afeefdd/report_b50b040d.pdf",
+    "download_url": "/api/v1/runs/run_f66c1afeefdd/reports/report_b50b040d/download",
+    "size_bytes": 294489,
+    "generated_at": "2026-07-15T15:35:45.305547+00:00"
+  }
+]
