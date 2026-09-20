@@ -14,6 +14,11 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     debug: bool = True
 
+    # LLM config
+    cloudflare_account_id: str = ""
+    cloudflare_api_token: str = ""
+    llm_provider: str = "auto"
+
     # Storage paths
     storage_root: Path = Path("storage")
     uploads_dir: Path = Path("storage/uploads")

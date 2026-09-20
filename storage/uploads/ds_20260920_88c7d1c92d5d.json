@@ -1,0 +1,10 @@
+{
+  "id": "ds_20260920_88c7d1c92d5d",
+  "filename": "fraud_sample.csv",
+  "row_count": 800,
+  "column_count": 8,
+  "file_size_bytes": 48415,
+  "csv_path": "storage/uploads/ds_20260920_88c7d1c92d5d.csv",
+  "created_at": "2026-09-20T18:45:19.914570+00:00",
+  "status": "uploaded"
+}

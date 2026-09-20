@@ -1,0 +1,29 @@
+[
+  {
+    "report_id": "report_aef27161",
+    "report_type": "full_technical",
+    "format": "docx",
+    "file_path": "storage/runs/run_3496a2540bf6/report_aef27161.docx",
+    "download_url": "/api/v1/runs/run_3496a2540bf6/reports/report_aef27161/download",
+    "size_bytes": 37756,
+    "generated_at": "2026-09-16T18:45:06.972304+00:00"
+  },
+  {
+    "report_id": "report_4f370dc2",
+    "report_type": "full_technical",
+    "format": "docx",
+    "file_path": "storage/runs/run_3496a2540bf6/report_4f370dc2.docx",
+    "download_url": "/api/v1/runs/run_3496a2540bf6/reports/report_4f370dc2/download",
+    "size_bytes": 240491,
+    "generated_at": "2026-09-16T18:57:35.684334+00:00"
+  },
+  {
+    "report_id": "report_74093918",
+    "report_type": "full_technical",
+    "format": "docx",
+    "file_path": "storage/runs/run_3496a2540bf6/report_74093918.docx",
+    "download_url": "/api/v1/runs/run_3496a2540bf6/reports/report_74093918/download",
+    "size_bytes": 240567,
+    "generated_at": "2026-09-16T19:04:07.012362+00:00"
+  }
+]

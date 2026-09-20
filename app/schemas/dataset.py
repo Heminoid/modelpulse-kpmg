@@ -31,6 +31,8 @@ class ColumnProfile(BaseModel):
     parse_warning: Optional[str] = None
     # ID-like
     is_likely_id: Optional[bool] = None
+    # MRM Flags
+    flags: list[str] = Field(default_factory=list)
 
 
 class DatasetProfile(BaseModel):

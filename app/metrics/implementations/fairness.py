@@ -63,7 +63,7 @@ def run_fairness_analysis(df: pd.DataFrame, mapping, group_cols: list[str]) -> F
             ecoa_compliance_summary="Unable to compute."
         )
         
-    positive_label = mapping.mappings.get(decision_col + "_positive_label", "APPROVED")
+    positive_label = mapping.decision_positive_label
     if df[decision_col].dtype == object:
         is_approved = df[decision_col].astype(str).str.upper() == positive_label.upper()
     else:

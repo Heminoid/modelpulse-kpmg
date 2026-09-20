@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import Card from '../components/Card';
 import { getModels, createModel, getChampionChallenger, updateModel } from '../services/api';
-import { Box, Trophy, ArrowRight, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { Box, Trophy, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { useToast } from '../components/ui/ToastContext';
+import DataTable from '../components/ui/DataTable';
+import Badge from '../components/ui/Badge';
+import Modal from '../components/ui/Modal';
+import './Registry.css';
 
 const Registry = () => {
   const [models, setModels] = useState([]);
   const [champion, setChampion] = useState(null);
   const [loading, setLoading] = useState(true);
   const [comparison, setComparison] = useState(null);
+  
+  const { addToast } = useToast();
   
   // Register Form
   const [showRegister, setShowRegister] = useState(false);
@@ -19,6 +26,9 @@ const Registry = () => {
     model_type: 'scorecard',
     owner: 'Data Science Team'
   });
+
+  // Details Modal
+  const [selectedModel, setSelectedModel] = useState(null);
 
   const fetchRegistryData = async () => {
     setLoading(true);
@@ -33,7 +43,7 @@ const Registry = () => {
         // Find a challenger (staging)
         const chall = res.data?.find(m => m.stage === 'staging');
         if (chall) {
-          const compRes = await getChampionChallenger(champ.model_id, chall.model_id);
+          const compRes = await getChampionChallenger(champ.model_id, chall.model_id, true);
           setComparison(compRes.data);
         }
       }
@@ -48,23 +58,35 @@ const Registry = () => {
     fetchRegistryData();
   }, []);
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const handleRegister = async () => {
     try {
       await createModel(formData);
       setShowRegister(false);
+      addToast({ message: 'Model registered successfully', type: 'success' });
       fetchRegistryData();
     } catch (e) {
-      alert("Failed to register model");
+      addToast({ message: 'Failed to register model', type: 'error' });
     }
   };
 
   const handleStageChange = async (modelId, newStage) => {
     try {
       await updateModel(modelId, { stage: newStage });
+      addToast({ message: 'Model stage updated', type: 'success' });
       fetchRegistryData();
     } catch (e) {
-      alert("Failed to update stage");
+      addToast({ message: 'Failed to update stage', type: 'error' });
+    }
+  };
+
+  const getStageBadgeStatus = (stage) => {
+    switch (stage) {
+      case 'development': return 'info';
+      case 'staging': return 'watch';
+      case 'production': return 'healthy';
+      case 'archived':
+      case 'retired': return 'deteriorating';
+      default: return 'info';
     }
   };
 
@@ -74,57 +96,113 @@ const Registry = () => {
     const { metric_deltas, metric_winners, champion_latest_metrics, challenger_latest_metrics } = comparison;
     const metrics = Object.keys(metric_winners);
 
+    const compColumns = [
+      { key: 'metric', label: 'Metric', render: row => row },
+      { key: 'champion', label: `Champion (${comparison.champion_model_id})`, render: row => champion_latest_metrics[row]?.toFixed(4) || '-' },
+      { key: 'challenger', label: `Challenger (${comparison.challenger_model_id})`, render: row => challenger_latest_metrics[row]?.toFixed(4) || '-' },
+      { 
+        key: 'delta', 
+        label: 'Delta', 
+        render: row => {
+          const val = metric_deltas[row];
+          return (
+            <span className={val > 0 ? 'text-success' : 'text-error'}>
+              {val > 0 ? '+' : ''}{val?.toFixed(4) || '-'}
+            </span>
+          );
+        } 
+      },
+      {
+        key: 'winner',
+        label: 'Winner',
+        render: row => {
+          const winner = metric_winners[row];
+          let colorClass = 'text-muted';
+          if (winner === 'champion') colorClass = 'text-secondary';
+          else if (winner === 'challenger') colorClass = 'text-success';
+          return <span className={colorClass}>{winner.toUpperCase()}</span>;
+        }
+      }
+    ];
+
     return (
       <Card title="Champion vs Challenger" icon={Trophy} className="mb-4">
-        <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>{comparison.summary}</p>
+        <p className="comparison-summary">{comparison.summary}</p>
         
-        <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div className="recommendation-box mb-4">
           {comparison.recommendation.includes('outperforms') ? (
-            <ShieldAlert color="var(--warning)" />
+            <ShieldAlert className="icon-warning" />
           ) : (
-            <ShieldCheck color="var(--success)" />
+            <ShieldCheck className="icon-success" />
           )}
-          <strong style={{ color: 'var(--text-primary)' }}>Recommendation: {comparison.recommendation}</strong>
+          <strong className="text-primary">Recommendation: {comparison.recommendation}</strong>
         </div>
 
-        <div className="data-table-container">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Champion ({comparison.champion_model_id})</th>
-                <th>Challenger ({comparison.challenger_model_id})</th>
-                <th>Delta</th>
-                <th>Winner</th>
-              </tr>
-            </thead>
-            <tbody>
-              {metrics.map(k => (
-                <tr key={k}>
-                  <td>{k}</td>
-                  <td>{champion_latest_metrics[k]?.toFixed(4) || '-'}</td>
-                  <td>{challenger_latest_metrics[k]?.toFixed(4) || '-'}</td>
-                  <td style={{ color: metric_deltas[k] > 0 ? 'var(--success)' : 'var(--error)' }}>
-                    {metric_deltas[k] > 0 ? '+' : ''}{metric_deltas[k]?.toFixed(4) || '-'}
-                  </td>
-                  <td style={{ 
-                    color: metric_winners[k] === 'champion' ? 'var(--text-secondary)' : 
-                           metric_winners[k] === 'challenger' ? 'var(--success)' : 'var(--text-muted)' 
-                  }}>
-                    {metric_winners[k].toUpperCase()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {comparison.ai_narrative && (
+          <div className="ai-narrative-panel panel mb-4" style={{ backgroundColor: 'var(--bg-secondary)', padding: '1rem', borderRadius: '8px' }}>
+            <p className="lead-text" style={{ marginBottom: '1rem' }}>{comparison.ai_narrative.comparison_summary}</p>
+            
+            <h5 style={{ marginBottom: '0.5rem' }}>Key Differences</h5>
+            <ul style={{ marginBottom: '1rem', paddingLeft: '1.5rem' }}>
+              {comparison.ai_narrative.key_differences?.map((diff, i) => <li key={i}>{diff}</li>)}
+            </ul>
+
+            <h5 style={{ marginBottom: '0.5rem' }}>Risks</h5>
+            <ul style={{ marginBottom: '1rem', paddingLeft: '1.5rem', color: 'var(--text-warning)' }}>
+              {comparison.ai_narrative.risks?.map((risk, i) => <li key={i}><ShieldAlert size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }}/>{risk}</li>)}
+            </ul>
+
+            <Badge status="info">Recommendation: {comparison.ai_narrative.recommendation}</Badge>
+          </div>
+        )}
+
+        <DataTable columns={compColumns} data={metrics} />
       </Card>
     );
   };
 
+  const modelColumns = [
+    { key: 'model_id', label: 'Model ID' },
+    { key: 'name', label: 'Name' },
+    { key: 'version', label: 'Version' },
+    { 
+      key: 'stage', 
+      label: 'Stage',
+      render: row => (
+        <select
+          className="stage-select"
+          value={row.stage}
+          onChange={(e) => handleStageChange(row.model_id, e.target.value)}
+          aria-label={`Change stage for ${row.name || row.model_id}`}
+        >
+          <option value="development">Development</option>
+          <option value="staging">Staging (Challenger)</option>
+          <option value="production">Production (Champion)</option>
+          <option value="archived">Archived</option>
+          <option value="retired">Retired</option>
+        </select>
+      )
+    },
+    { 
+      key: 'badge', 
+      label: 'Status',
+      render: row => <Badge status={getStageBadgeStatus(row.stage)}>{row.stage}</Badge>
+    },
+    { key: 'created_at', label: 'Registered At', render: row => new Date(row.created_at).toLocaleDateString() },
+    { 
+      key: 'actions', 
+      label: 'Actions',
+      render: row => (
+        <button className="btn btn-secondary action-btn" onClick={() => setSelectedModel(row)}>
+          View Details
+        </button>
+      )
+    }
+  ];
+
   return (
     <div className="registry-container">
-      <div className="page-header" style={{ marginBottom: '2rem' }}>
+      <div className="page-header header-spacing">
         <div>
           <h1 className="page-title">Model Registry</h1>
           <p className="page-subtitle">Govern model lifecycles and evaluate challengers.</p>
@@ -132,83 +210,72 @@ const Registry = () => {
         <button className="btn btn-primary" onClick={() => setShowRegister(true)}>Register Model</button>
       </div>
 
-      {showRegister && (
-        <Card title="Register New Model" style={{ marginBottom: '2rem' }}>
-          <form onSubmit={handleRegister} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label>Model ID</label>
-              <input required value={formData.model_id} onChange={e => setFormData({...formData, model_id: e.target.value})} style={{ padding: '0.5rem', background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }} />
-            </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label>Name</label>
-              <input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} style={{ padding: '0.5rem', background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }} />
-            </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label>Version</label>
-              <input required value={formData.version} onChange={e => setFormData({...formData, version: e.target.value})} style={{ padding: '0.5rem', background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }} />
-            </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label>Type & Owner</label>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <input required placeholder="Type" value={formData.model_type} onChange={e => setFormData({...formData, model_type: e.target.value})} style={{ flex: 1, padding: '0.5rem', background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }} />
-                <input required placeholder="Owner" value={formData.owner} onChange={e => setFormData({...formData, owner: e.target.value})} style={{ flex: 1, padding: '0.5rem', background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button type="button" className="btn btn-secondary" onClick={() => setShowRegister(false)}>Cancel</button>
-              <button type="submit" className="btn btn-primary">Save</button>
-            </div>
-          </form>
-        </Card>
-      )}
-
       {renderComparison()}
 
       <Card title="Registered Models" icon={Box}>
         {loading ? (
           <div>Loading models...</div>
         ) : (
-          <div className="data-table-container">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Model ID</th>
-                  <th>Name</th>
-                  <th>Version</th>
-                  <th>Stage</th>
-                  <th>Registered At</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {models.map(model => (
-                  <tr key={model.model_id}>
-                    <td>{model.model_id}</td>
-                    <td>{model.name}</td>
-                    <td>{model.version}</td>
-                    <td>
-                      <select 
-                        value={model.stage}
-                        onChange={(e) => handleStageChange(model.model_id, e.target.value)}
-                        style={{ padding: '0.25rem 0.5rem', background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }}
-                      >
-                        <option value="development">Development</option>
-                        <option value="staging">Staging (Challenger)</option>
-                        <option value="production">Production (Champion)</option>
-                        <option value="archived">Archived</option>
-                      </select>
-                    </td>
-                    <td>{new Date(model.created_at).toLocaleDateString()}</td>
-                    <td>
-                      <button className="btn btn-secondary" style={{ padding: '0.25rem 0.5rem' }}>View Details</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable columns={modelColumns} data={models} emptyMessage="No models registered." />
         )}
       </Card>
+
+      <Modal
+        isOpen={showRegister}
+        onClose={() => setShowRegister(false)}
+        onConfirm={handleRegister}
+        title="Register New Model"
+        confirmText="Save"
+      >
+        <div className="form-layout">
+          <div className="form-group">
+            <label htmlFor="registry-model-id">Model ID</label>
+            <input id="registry-model-id" required value={formData.model_id} onChange={e => setFormData({...formData, model_id: e.target.value})} className="form-input" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="registry-name">Name</label>
+            <input id="registry-name" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="form-input" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="registry-version">Version</label>
+            <input id="registry-version" required value={formData.version} onChange={e => setFormData({...formData, version: e.target.value})} className="form-input" />
+          </div>
+          <div className="form-group-flex">
+            <div className="form-group">
+              <label htmlFor="registry-type">Type</label>
+              <input id="registry-type" required placeholder="Type" value={formData.model_type} onChange={e => setFormData({...formData, model_type: e.target.value})} className="form-input" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="registry-owner">Owner</label>
+              <input id="registry-owner" required placeholder="Owner" value={formData.owner} onChange={e => setFormData({...formData, owner: e.target.value})} className="form-input" />
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={!!selectedModel}
+        onClose={() => setSelectedModel(null)}
+        onConfirm={() => setSelectedModel(null)}
+        title="Model Details"
+        confirmText="Close"
+        cancelText=""
+      >
+        {selectedModel && (
+          <div className="details-layout">
+            <p><strong>Model ID:</strong> {selectedModel.model_id}</p>
+            <p><strong>Name:</strong> {selectedModel.name}</p>
+            <p><strong>Version:</strong> {selectedModel.version}</p>
+            <p>
+              <strong>Stage:</strong> 
+              <Badge status={getStageBadgeStatus(selectedModel.stage)} className="ml-2">{selectedModel.stage}</Badge>
+            </p>
+            <p><strong>Description:</strong> {selectedModel.description || 'No description available.'}</p>
+            <p><strong>Owner:</strong> {selectedModel.owner || 'Unknown'}</p>
+            <p><strong>Registration Date:</strong> {new Date(selectedModel.created_at).toLocaleString()}</p>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

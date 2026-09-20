@@ -1,0 +1,27 @@
+{
+  "score": 71.4050285469867,
+  "status": "watch",
+  "components": {
+    "calib_ratio_overall": {
+      "score": 51.31872930243504,
+      "weight": 0.2,
+      "status": "deteriorating"
+    },
+    "perf_auc": {
+      "score": 84.97979501377296,
+      "weight": 0.15,
+      "status": "healthy"
+    },
+    "perf_gini": {
+      "score": 72.83982429751967,
+      "weight": 0.25,
+      "status": "watch"
+    },
+    "perf_ks": {
+      "score": 79.51675825328243,
+      "weight": 0.2,
+      "status": "healthy"
+    }
+  },
+  "recommended_actions": []
+}

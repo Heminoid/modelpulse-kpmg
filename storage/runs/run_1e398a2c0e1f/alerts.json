@@ -1,0 +1,14 @@
+[
+  {
+    "alert_id": "al_05b2da5499bf",
+    "run_id": "run_1e398a2c0e1f",
+    "metric_key": "calib_summary",
+    "metric_display_name": "Calibration Ratio",
+    "category": "calibration",
+    "severity": "warning",
+    "observed_value": 0.7565936465121752,
+    "threshold_value": 0.8,
+    "message": "Calibration Ratio = 0.7566, outside warning range [0.8, 1.25]",
+    "triggered_at": "2026-09-20 17:59:11.511581+00:00"
+  }
+]

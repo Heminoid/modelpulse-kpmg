@@ -1,0 +1,12 @@
+{
+  "proxy_groups_analyzed": [
+    "merchant_category"
+  ],
+  "overall_approval_rate": 0.0,
+  "di_results": [],
+  "adverse_impact_flags": [],
+  "borderline_flags": [],
+  "regulatory_note": "Proxy analysis only. ECOA/FHA require actual protected class data.",
+  "recommended_actions": [],
+  "ecoa_compliance_summary": "No direct adverse impact detected."
+}

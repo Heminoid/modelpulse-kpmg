@@ -3,13 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import Card from '../components/Card';
 import { getDatasets, uploadDataset, deleteDataset } from '../services/api';
 import { Upload, Trash2, FileSpreadsheet, Eye, Plus } from 'lucide-react';
+import { useToast } from '../components/ui/ToastContext';
+import Modal from '../components/ui/Modal';
+import DataTable from '../components/ui/DataTable';
+import './Datasets.css';
 
 const Datasets = () => {
   const [datasets, setDatasets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [datasetToDelete, setDatasetToDelete] = useState(null);
+  
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const fetchDatasets = async () => {
     setLoading(true);
@@ -39,31 +46,93 @@ const Datasets = () => {
     try {
       await uploadDataset(file);
       await fetchDatasets();
+      addToast({ message: 'Dataset uploaded successfully', type: 'success' });
     } catch (error) {
       console.error("Upload failed", error);
-      alert("Failed to upload dataset.");
+      addToast({ message: 'Failed to upload dataset', type: 'error' });
     } finally {
       setUploading(false);
-      // Reset input
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
-  const handleDelete = async (datasetId) => {
-    if (!window.confirm("Are you sure you want to delete this dataset?")) return;
-    
+  const confirmDelete = async () => {
+    if (!datasetToDelete) return;
     try {
-      await deleteDataset(datasetId);
-      setDatasets(datasets.filter(d => d.id !== datasetId));
+      await deleteDataset(datasetToDelete);
+      setDatasets(datasets.filter(d => d.id !== datasetToDelete));
+      addToast({ message: 'Dataset deleted successfully', type: 'success' });
     } catch (error) {
       console.error("Delete failed", error);
-      alert("Failed to delete dataset.");
+      addToast({ message: 'Failed to delete dataset', type: 'error' });
+    } finally {
+      setDatasetToDelete(null);
     }
   };
 
+  const columns = [
+    {
+      key: 'name',
+      label: 'Name',
+      render: (row) => (
+        <div className="dataset-name-cell">
+          <FileSpreadsheet size={16} className="text-accent" />
+          <span className="font-medium text-primary">{row.filename || row.name}</span>
+        </div>
+      )
+    },
+    {
+      key: 'rows',
+      label: 'Rows',
+      render: (row) => row.row_count?.toLocaleString() || '-'
+    },
+    {
+      key: 'columns',
+      label: 'Columns',
+      render: (row) => row.column_count || '-'
+    },
+    {
+      key: 'size',
+      label: 'Size',
+      render: (row) => row.file_size_bytes ? (row.file_size_bytes / 1024).toFixed(2) + ' KB' : '-'
+    },
+    {
+      key: 'uploaded',
+      label: 'Uploaded',
+      render: (row) => (
+        <span className="text-muted">
+          {new Date(row.created_at).toLocaleDateString()}
+        </span>
+      )
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      align: 'right',
+      render: (row) => (
+        <div className="actions-cell">
+          <button 
+            className="btn btn-secondary action-btn" 
+            onClick={() => navigate(`/datasets/${row.id}`)}
+            title="View Profile"
+          >
+            <Eye size={16} />
+          </button>
+          <button 
+            className="btn btn-danger action-btn" 
+            onClick={() => setDatasetToDelete(row.id)}
+            title="Delete Dataset"
+          >
+            <Trash2 size={16} />
+          </button>
+        </div>
+      )
+    }
+  ];
+
   return (
     <div className="datasets-container">
-      <div className="page-header" style={{ marginBottom: '2rem' }}>
+      <div className="page-header header-spacing">
         <div>
           <h1 className="page-title">Datasets</h1>
           <p className="page-subtitle">Manage your training and inference data.</p>
@@ -72,7 +141,7 @@ const Datasets = () => {
         <input 
           type="file" 
           ref={fileInputRef} 
-          style={{ display: 'none' }} 
+          className="hidden-input"
           accept=".csv,.json"
           onChange={handleFileChange} 
         />
@@ -83,8 +152,8 @@ const Datasets = () => {
           disabled={uploading}
         >
           {uploading ? (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div className="spinner" style={{ width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid white', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+            <span className="uploading-indicator">
+              <div className="spinner-small"></div>
               Uploading...
             </span>
           ) : (
@@ -93,77 +162,40 @@ const Datasets = () => {
         </button>
       </div>
 
-      <style>{`
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      `}</style>
-
       <Card>
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+          <div className="loading-state">
             Loading datasets...
           </div>
         ) : datasets.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
-            <FileSpreadsheet size={48} color="var(--text-muted)" style={{ margin: '0 auto 1rem', opacity: 0.5 }} />
-            <h3 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem' }}>No datasets found</h3>
-            <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Upload your first dataset to start monitoring.</p>
-            <button className="btn btn-primary" onClick={handleUploadClick}><Plus size={18} /> Add Dataset</button>
+          <div className="empty-state">
+            <FileSpreadsheet size={48} className="empty-icon" />
+            <h3 className="empty-title">No datasets found</h3>
+            <p className="empty-subtitle">Upload your first dataset to start monitoring.</p>
+            <button className="btn btn-primary" onClick={handleUploadClick}>
+              <Plus size={18} /> Add Dataset
+            </button>
           </div>
         ) : (
-          <div className="data-table-container">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Rows</th>
-                  <th>Columns</th>
-                  <th>Size</th>
-                  <th>Uploaded</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {datasets.map((dataset) => (
-                  <tr key={dataset.id}>
-                    <td style={{ fontWeight: '500', color: 'var(--text-primary)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <FileSpreadsheet size={16} color="var(--accent-primary)" />
-                        {dataset.filename || dataset.name}
-                      </div>
-                    </td>
-                    <td>{dataset.row_count?.toLocaleString() || '-'}</td>
-                    <td>{dataset.column_count || '-'}</td>
-                    <td>{dataset.file_size_bytes ? (dataset.file_size_bytes / 1024).toFixed(2) + ' KB' : '-'}</td>
-                    <td style={{ color: 'var(--text-muted)' }}>
-                      {new Date(dataset.created_at).toLocaleDateString()}
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
-                        <button 
-                          className="btn btn-secondary" 
-                          style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)' }} 
-                          onClick={() => navigate(`/datasets/${dataset.id}`)}
-                          title="View Profile"
-                        >
-                          <Eye size={16} />
-                        </button>
-                        <button 
-                          className="btn btn-danger" 
-                          style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)' }}
-                          onClick={() => handleDelete(dataset.id)}
-                          title="Delete Dataset"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable 
+            columns={columns}
+            data={datasets}
+            emptyMessage="No datasets available."
+          />
         )}
       </Card>
+
+      <Modal 
+        isOpen={!!datasetToDelete} 
+        onClose={() => setDatasetToDelete(null)}
+        onConfirm={confirmDelete}
+        title="Delete Dataset"
+        variant="danger"
+        confirmText="Delete"
+        cancelText="Cancel"
+      >
+        <p>Are you sure you want to delete this dataset? This action cannot be undone.</p>
+      </Modal>
     </div>
   );
 };

@@ -125,6 +125,12 @@ def _profile_column(name: str, series: pd.Series, nrows: int) -> ColumnProfile:
     if inferred == "id":
         profile.is_likely_id = True
 
+    # MRM Protected Class Detection
+    _PROTECTED_CLASS_PATTERNS = {"gender", "race", "age", "zip", "ethnicity", "sex", "marital", "religion", "national_origin"}
+    n = name.lower()
+    if any(pat in n for pat in _PROTECTED_CLASS_PATTERNS):
+        profile.flags.append("protected_class_risk")
+
     return profile
 
 

@@ -1,0 +1,110 @@
+[
+  {
+    "alert_id": "al_7c637c1ac5dd",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "calib_summary",
+    "metric_display_name": "Calibration Ratio",
+    "category": "calibration",
+    "severity": "warning",
+    "observed_value": 1.479668878037837,
+    "threshold_value": 1.25,
+    "message": "Calibration Ratio = 1.4797, outside warning range [0.8, 1.25]",
+    "triggered_at": "2026-09-20 18:45:36.783801+00:00"
+  },
+  {
+    "alert_id": "al_e38350bb65b3",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "delinq_severe_rate",
+    "metric_display_name": "Severe Delinquency Rate",
+    "category": "delinquency",
+    "severity": "critical",
+    "observed_value": 0.2088,
+    "threshold_value": 0.2,
+    "message": "Severe Delinquency Rate = 0.2088, exceeds critical threshold of 0.2",
+    "triggered_at": "2026-09-20 18:45:36.783811+00:00"
+  },
+  {
+    "alert_id": "al_778f8be3912c",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "delinq_30plus_rate",
+    "metric_display_name": "30+ DPD Rate",
+    "category": "delinquency",
+    "severity": "critical",
+    "observed_value": 0.3192,
+    "threshold_value": 0.25,
+    "message": "30+ DPD Rate = 0.3192, exceeds critical threshold of 0.25",
+    "triggered_at": "2026-09-20 18:45:36.783816+00:00"
+  },
+  {
+    "alert_id": "al_c5b6ea1602a0",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "psi_prediction_score",
+    "metric_display_name": "Score PSI",
+    "category": "drift",
+    "severity": "critical",
+    "observed_value": 0.26218509109877713,
+    "threshold_value": 0.25,
+    "message": "Score PSI = 0.2622, exceeds critical threshold of 0.25",
+    "triggered_at": "2026-09-20 18:45:36.783820+00:00"
+  },
+  {
+    "alert_id": "al_54d3fe87d694",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "csi_past_due_days",
+    "metric_display_name": "CSI (Past Due Days)",
+    "category": "drift",
+    "severity": "warning",
+    "observed_value": 0.232284,
+    "threshold_value": 0.1,
+    "message": "CSI (Past Due Days) = 0.2323, exceeds warning threshold of 0.1",
+    "triggered_at": "2026-09-20 18:45:36.783824+00:00"
+  },
+  {
+    "alert_id": "al_29cafce1099a",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "perf_auc",
+    "metric_display_name": "ROC AUC",
+    "category": "performance",
+    "severity": "warning",
+    "observed_value": 0.7490005779310069,
+    "threshold_value": 0.03,
+    "message": "ROC AUC declined by 0.0364 vs baseline, exceeding warning threshold of 0.03",
+    "triggered_at": "2026-09-20 18:45:36.783829+00:00"
+  },
+  {
+    "alert_id": "al_fa0ecbc9d5b4",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "perf_gini",
+    "metric_display_name": "Gini Coefficient",
+    "category": "performance",
+    "severity": "warning",
+    "observed_value": 0.4980011558620139,
+    "threshold_value": 0.05,
+    "message": "Gini Coefficient declined by 0.0728 vs baseline, exceeding warning threshold of 0.05",
+    "triggered_at": "2026-09-20 18:45:36.783832+00:00"
+  },
+  {
+    "alert_id": "al_abea3d8be7a6",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "perf_ks",
+    "metric_display_name": "KS Statistic",
+    "category": "performance",
+    "severity": "critical",
+    "observed_value": 0.3715817373801789,
+    "threshold_value": 0.05,
+    "message": "KS Statistic declined by 0.0637 vs baseline, exceeding critical threshold of 0.05",
+    "triggered_at": "2026-09-20 18:45:36.783836+00:00"
+  },
+  {
+    "alert_id": "al_fee60fbcef15",
+    "run_id": "run_40fcd8b5c06b",
+    "metric_key": "strategy_approval_rate",
+    "metric_display_name": "Approval Rate",
+    "category": "strategy",
+    "severity": "critical",
+    "observed_value": 0.6048,
+    "threshold_value": 0.1,
+    "message": "Approval Rate changed by 0.1964 vs baseline, exceeding critical threshold of 0.1",
+    "triggered_at": "2026-09-20 18:45:36.783839+00:00"
+  }
+]

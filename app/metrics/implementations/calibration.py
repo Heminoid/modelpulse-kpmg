@@ -23,6 +23,9 @@ def _calc_brier_score(df: pd.DataFrame, mapped_roles: dict[str, list[str]], **kw
         brier_skill_score = 1 - (brier / brier_null)
         
     return MetricResult(
+        metric_key="calib_brier_score",
+        display_name="Brier Skill Score",
+        category="calibration",
         status="ok",
         scalar_value=float(brier_skill_score),
         metadata={"brier_score": float(brier), "brier_null": float(brier_null)}
@@ -68,6 +71,9 @@ def _calc_calib_summary(df: pd.DataFrame, mapped_roles: dict[str, list[str]], **
         status = "warning"
         
     return MetricResult(
+        metric_key="calib_summary",
+        display_name="Calibration Ratio",
+        category="calibration",
         status=status,
         scalar_value=ratio,
         metadata={"realized_dr": float(realized_dr), "avg_predicted_pd": float(avg_predicted_pd)}

@@ -1,7 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import Card from '../components/Card';
-import { getRuns, getReports, generateReport, getReportDownloadUrl, getMonitors } from '../services/api';
+import { getRuns, getReports, generateReport, getReportDownloadUrl, getMonitors, getReportQA } from '../services/api';
 import { FileText, Download, FileUp } from 'lucide-react';
+import { useToast } from '../components/ui/ToastContext';
+import DataTable from '../components/ui/DataTable';
+import Badge from '../components/ui/Badge';
+import './Reports.css';
+
+const AVAILABLE_SECTIONS = [
+  { id: 'narrative', name: 'AI Narrative / Executive Summary', default: true },
+  { id: 'alerts', name: 'Alerts & Breaches', default: true },
+  { id: 'performance', name: 'Performance Analysis', default: true },
+  { id: 'calibration', name: 'Calibration Assessment', default: true },
+  { id: 'stability', name: 'Stability / Drift', default: true },
+  { id: 'data_quality', name: 'Data Quality', default: true },
+  { id: 'fairness', name: 'Discrimination Testing', default: true },
+  { id: 'delinquency', name: 'Delinquency Analysis', default: true },
+  { id: 'insights', name: 'Key Insights (Findings)', default: true },
+  { id: 'segments', name: 'Segment Breakdown', default: true },
+  { id: 'timeseries', name: 'Time-Series Cohort Trends', default: true },
+  { id: 'stat_tests', name: 'Statistical Tests', default: true },
+  { id: 'charts', name: 'Charts & Visualizations', default: true },
+  { id: 'vintage', name: 'Vintage Analysis', default: false },
+  { id: 'override', name: 'Override Analysis', default: false },
+];
 
 const Reports = () => {
   const [runs, setRuns] = useState([]);
@@ -9,10 +31,15 @@ const Reports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const { addToast } = useToast();
 
   // Form State
   const [reportType, setReportType] = useState('full_technical');
   const [reportFormat, setReportFormat] = useState('html');
+  const [selectedSections, setSelectedSections] = useState(
+    AVAILABLE_SECTIONS.filter(s => s.default).map(s => s.id)
+  );
+  const [reportQA, setReportQA] = useState({});
 
   const [monitors, setMonitors] = useState([]);
 
@@ -21,7 +48,7 @@ const Reports = () => {
       try {
         const [runsRes, monitorsRes] = await Promise.all([
           getRuns(),
-          getMonitors() // Assumes getMonitors is exported from api.js
+          getMonitors()
         ]);
         setRuns(runsRes.data || []);
         setMonitors(monitorsRes.data || []);
@@ -45,7 +72,20 @@ const Reports = () => {
     setLoading(true);
     try {
       const res = await getReports(runId);
-      setReports(res.data || []);
+      const fetchedReports = res.data || [];
+      setReports(fetchedReports);
+
+      // Fetch QA scores for each report
+      const qaScores = {};
+      await Promise.all(fetchedReports.map(async (r) => {
+        try {
+          const qaRes = await getReportQA(runId, r.report_type);
+          qaScores[r.report_id] = qaRes.data?.score;
+        } catch(e) {
+          qaScores[r.report_id] = null;
+        }
+      }));
+      setReportQA(qaScores);
     } catch (e) {
       console.error(e);
       setReports([]);
@@ -60,38 +100,95 @@ const Reports = () => {
 
     setGenerating(true);
     try {
-      await generateReport(selectedRunId, { report_type: reportType, format: reportFormat });
+      await generateReport(selectedRunId, { report_type: reportType, format: reportFormat, sections: selectedSections });
       await fetchReports(selectedRunId);
+      addToast({ message: 'Report generated successfully', type: 'success' });
     } catch (e) {
-      alert("Failed to generate report. Check backend logs for details.");
+      addToast({ message: 'Failed to generate report. Check backend logs for details.', type: 'error' });
     } finally {
       setGenerating(false);
     }
   };
 
   const handleDownload = (reportId) => {
-    // Instead of axios, we use standard browser navigation to trigger a download
-    window.location.href = getReportDownloadUrl(selectedRunId, reportId);
+    const link = document.createElement('a');
+    link.href = getReportDownloadUrl(selectedRunId, reportId);
+    link.download = '';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
+
+  const columns = [
+    { 
+      key: 'type', 
+      label: 'Type', 
+      render: row => (
+        <span className="capitalize-text">
+          {(row.report_type || '').replace('_', ' ')}
+        </span>
+      )
+    },
+    { 
+      key: 'format', 
+      label: 'Format', 
+      render: row => (
+        <Badge status={row.format === 'pdf' ? 'error' : 'info'} size="small">
+          <span className="uppercase-text">{row.format}</span>
+        </Badge>
+      )
+    },
+    { 
+      key: 'generated_at', 
+      label: 'Generated At', 
+      render: row => (
+        <span className="text-muted">
+          {row.generated_at ? new Date(row.generated_at).toLocaleString() : 'Unknown'}
+        </span>
+      )
+    },
+    {
+      key: 'qa',
+      label: 'QA Status',
+      render: row => {
+        const score = reportQA[row.report_id];
+        if (score === undefined || score === null) return <span className="text-muted">N/A</span>;
+        if (score >= 100) return <Badge status="healthy">QA: Complete</Badge>;
+        if (score >= 70) return <Badge status="warning">QA: {score}%</Badge>;
+        return <Badge status="critical">QA: {score}%</Badge>;
+      }
+    },
+    { 
+      key: 'actions', 
+      label: 'Actions', 
+      align: 'right',
+      render: row => (
+        <button className="btn btn-secondary download-btn" onClick={() => handleDownload(row.report_id)}>
+          <Download size={16} /> Download
+        </button>
+      )
+    }
+  ];
 
   return (
     <div className="reports-container">
-      <div className="page-header" style={{ marginBottom: '2rem' }}>
+      <div className="page-header header-spacing">
         <div>
           <h1 className="page-title">Reports</h1>
           <p className="page-subtitle">Generate and download executive reports.</p>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
+      <div className="reports-grid">
         <Card title="Generate Report" icon={FileUp}>
-          <form onSubmit={handleGenerate} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'var(--text-secondary)' }}>Select Run</label>
-              <select 
+          <form onSubmit={handleGenerate} className="form-layout">
+            <div className="form-group">
+              <label className="form-label" htmlFor="report-run">Select Run</label>
+              <select
+                id="report-run"
                 value={selectedRunId}
                 onChange={e => setSelectedRunId(e.target.value)}
-                style={{ padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
+                className="form-input"
               >
                 {runs.map(r => {
                   const mon = monitors.find(m => m.monitor_id === r.monitor_id);
@@ -105,12 +202,13 @@ const Reports = () => {
               </select>
             </div>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'var(--text-secondary)' }}>Report Type</label>
-              <select 
+            <div className="form-group">
+              <label className="form-label" htmlFor="report-type">Report Type</label>
+              <select
+                id="report-type"
                 value={reportType}
                 onChange={e => setReportType(e.target.value)}
-                style={{ padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
+                className="form-input"
               >
                 <option value="full_technical">Full Technical Report</option>
                 <option value="executive_summary">Executive Summary</option>
@@ -120,19 +218,43 @@ const Reports = () => {
               </select>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'var(--text-secondary)' }}>Format</label>
-              <select 
+            <div className="form-group">
+              <label className="form-label" htmlFor="report-format">Format</label>
+              <select
+                id="report-format"
                 value={reportFormat}
                 onChange={e => setReportFormat(e.target.value)}
-                style={{ padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
+                className="form-input"
               >
                 <option value="html">HTML</option>
                 <option value="pdf">PDF</option>
+                <option value="docx">DOCX</option>
               </select>
             </div>
 
-            <button type="submit" className="btn btn-primary" disabled={generating || !selectedRunId} style={{ marginTop: '1rem' }}>
+            <div className="form-group">
+              <label className="form-label">Include Sections</label>
+              <div className="sections-checkboxes" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {AVAILABLE_SECTIONS.map(section => (
+                  <label key={section.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <input 
+                      type="checkbox"
+                      checked={selectedSections.includes(section.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedSections([...selectedSections, section.id]);
+                        } else {
+                          setSelectedSections(selectedSections.filter(id => id !== section.id));
+                        }
+                      }}
+                    />
+                    {section.name}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <button type="submit" className="btn btn-primary submit-btn" disabled={generating || !selectedRunId}>
               {generating ? 'Generating...' : 'Generate Report'}
             </button>
           </form>
@@ -142,48 +264,11 @@ const Reports = () => {
           {loading ? (
             <div>Loading...</div>
           ) : reports.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+            <div className="empty-state">
               No reports found for this run. Generate one on the left.
             </div>
           ) : (
-            <div className="data-table-container">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Format</th>
-                    <th>Generated At</th>
-                    <th style={{ textAlign: 'right' }}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {reports.map((report) => (
-                    <tr key={report.report_id}>
-                      <td style={{ textTransform: 'capitalize' }}>{(report.report_type || '').replace('_', ' ')}</td>
-                      <td>
-                        <span style={{ 
-                          background: report.format === 'pdf' ? 'rgba(239, 68, 68, 0.2)' : 'rgba(99, 102, 241, 0.2)',
-                          color: report.format === 'pdf' ? 'var(--error)' : 'var(--accent-secondary)',
-                          padding: '0.25rem 0.5rem',
-                          borderRadius: 'var(--radius-sm)',
-                          fontSize: '0.8rem',
-                          fontWeight: 'bold',
-                          textTransform: 'uppercase'
-                        }}>
-                          {report.format}
-                        </span>
-                      </td>
-                      <td style={{ color: 'var(--text-muted)' }}>{report.generated_at ? new Date(report.generated_at).toLocaleString() : 'Unknown'}</td>
-                      <td style={{ textAlign: 'right' }}>
-                        <button className="btn btn-secondary" style={{ padding: '0.5rem' }} onClick={() => handleDownload(report.report_id)}>
-                          <Download size={16} /> Download
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <DataTable columns={columns} data={reports} />
           )}
         </Card>
       </div>

@@ -39,7 +39,7 @@ def run_override_analysis(df: pd.DataFrame, mapping: ColumnMapping, score_cutoff
         empty_result.insight_narrative = "Insufficient data for override analysis."
         return empty_result
         
-    positive_label = mapping.mappings.get(decision_col + "_positive_label", "APPROVED")
+    positive_label = mapping.decision_positive_label
     if clean_df[decision_col].dtype == object:
         is_approved = clean_df[decision_col].astype(str).str.upper() == positive_label.upper()
     else:

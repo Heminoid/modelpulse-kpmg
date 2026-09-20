@@ -1,0 +1,364 @@
+{
+  "dataset_id": "ds_20260920_cacc9ba353a8",
+  "row_count": 800,
+  "column_count": 8,
+  "file_size_bytes": 48415,
+  "duplicate_row_count": 0,
+  "columns": [
+    {
+      "name": "txn_id",
+      "original_name": "txn_id",
+      "inferred_type": "id",
+      "null_count": 0,
+      "null_percent": 0.0,
+      "unique_count": 800,
+      "sample_values": [
+        "TXN0000000",
+        "TXN0000001",
+        "TXN0000002",
+        "TXN0000003",
+        "TXN0000004"
+      ],
+      "min_val": null,
+      "max_val": null,
+      "mean_val": null,
+      "std_val": null,
+      "median_val": null,
+      "top_categories": null,
+      "parse_success": null,
+      "parse_warning": null,
+      "is_likely_id": true,
+      "flags": []
+    },
+    {
+      "name": "txn_date",
+      "original_name": "txn_date",
+      "inferred_type": "datetime",
+      "null_count": 0,
+      "null_percent": 0.0,
+      "unique_count": 178,
+      "sample_values": [
+        "2025-01-21",
+        "2025-02-18",
+        "2025-06-19",
+        "2025-01-02",
+        "2025-06-27"
+      ],
+      "min_val": null,
+      "max_val": null,
+      "mean_val": null,
+      "std_val": null,
+      "median_val": null,
+      "top_categories": null,
+      "parse_success": true,
+      "parse_warning": null,
+      "is_likely_id": null,
+      "flags": []
+    },
+    {
+      "name": "txn_amount",
+      "original_name": "txn_amount",
+      "inferred_type": "numeric",
+      "null_count": 0,
+      "null_percent": 0.0,
+      "unique_count": 777,
+      "sample_values": [
+        66.78,
+        92.63,
+        49.33,
+        25.04,
+        40.44
+      ],
+      "min_val": 1.87,
+      "max_val": 1086.4,
+      "mean_val": 101.19775,
+      "std_val": 127.59431304466189,
+      "median_val": 60.29,
+      "top_categories": null,
+      "parse_success": null,
+      "parse_warning": null,
+      "is_likely_id": null,
+      "flags": []
+    },
+    {
+      "name": "merchant_category",
+      "original_name": "merchant_category",
+      "inferred_type": "categorical",
+      "null_count": 0,
+      "null_percent": 0.0,
+      "unique_count": 6,
+      "sample_values": [
+        "grocery",
+        "electronics",
+        "fashion",
+        "gaming",
+        "travel"
+      ],
+      "min_val": null,
+      "max_val": null,
+      "mean_val": null,
+      "std_val": null,
+      "median_val": null,
+      "top_categories": [
+        {
+          "value": "grocery",
+          "count": 191,
+          "pct": 23.9
+        },
+        {
+          "value": "electronics",
+          "count": 163,
+          "pct": 20.4
+        },
+        {
+          "value": "fashion",
+          "count": 140,
+          "pct": 17.5
+        },
+        {
+          "value": "travel",
+          "count": 131,
+          "pct": 16.4
+        },
+        {
+          "value": "gaming",
+          "count": 95,
+          "pct": 11.9
+        },
+        {
+          "value": "crypto",
+          "count": 80,
+          "pct": 10.0
+        }
+      ],
+      "parse_success": null,
+      "parse_warning": null,
+      "is_likely_id": null,
+      "flags": []
+    },
+    {
+      "name": "fraud_score",
+      "original_name": "fraud_score",
+      "inferred_type": "numeric",
+      "null_count": 0,
+      "null_percent": 0.0,
+      "unique_count": 398,
+      "sample_values": [
+        590,
+        524,
+        696,
+        442,
+        621
+      ],
+      "min_val": 137.0,
+      "max_val": 945.0,
+      "mean_val": 500.0075,
+      "std_val": 130.07684238520758,
+      "median_val": 495.0,
+      "top_categories": null,
+      "parse_success": null,
+      "parse_warning": null,
+      "is_likely_id": null,
+      "flags": []
+    },
+    {
+      "name": "fraud_probability",
+      "original_name": "fraud_probability",
+      "inferred_type": "numeric",
+      "null_count": 0,
+      "null_percent": 0.0,
+      "unique_count": 794,
+      "sample_values": [
+        0.063312,
+        0.036099,
+        0.149048,
+        0.017784,
+        0.08161
+      ],
+      "min_val": 0.001182,
+      "max_val": 0.616479,
+      "mean_val": 0.051216396250000004,
+      "std_val": 0.06437345288019654,
+      "median_val": 0.028067,
+      "top_categories": null,
+      "parse_success": null,
+      "parse_warning": null,
+      "is_likely_id": null,
+      "flags": []
+    },
+    {
+      "name": "decision_flag",
+      "original_name": "decision_flag",
+      "inferred_type": "categorical",
+      "null_count": 0,
+      "null_percent": 0.0,
+      "unique_count": 3,
+      "sample_values": [
+        "REVIEW",
+        "APPROVED",
+        "BLOCKED"
+      ],
+      "min_val": null,
+      "max_val": null,
+      "mean_val": null,
+      "std_val": null,
+      "median_val": null,
+      "top_categories": [
+        {
+          "value": "APPROVED",
+          "count": 743,
+          "pct": 92.9
+        },
+        {
+          "value": "BLOCKED",
+          "count": 39,
+          "pct": 4.9
+        },
+        {
+          "value": "REVIEW",
+          "count": 18,
+          "pct": 2.2
+        }
+      ],
+      "parse_success": null,
+      "parse_warning": null,
+      "is_likely_id": null,
+      "flags": []
+    },
+    {
+      "name": "is_fraud",
+      "original_name": "is_fraud",
+      "inferred_type": "boolean",
+      "null_count": 0,
+      "null_percent": 0.0,
+      "unique_count": 2,
+      "sample_values": [
+        0,
+        1
+      ],
+      "min_val": 0.0,
+      "max_val": 1.0,
+      "mean_val": 0.03875,
+      "std_val": 0.1931192800328349,
+      "median_val": 0.0,
+      "top_categories": null,
+      "parse_success": null,
+      "parse_warning": null,
+      "is_likely_id": null,
+      "flags": []
+    }
+  ],
+  "null_summary": {
+    "txn_id": 0,
+    "txn_date": 0,
+    "txn_amount": 0,
+    "merchant_category": 0,
+    "fraud_score": 0,
+    "fraud_probability": 0,
+    "decision_flag": 0,
+    "is_fraud": 0
+  },
+  "monitoring_readiness": [],
+  "preview_rows": [
+    {
+      "txn_id": "TXN0000000",
+      "txn_date": "2025-01-21",
+      "txn_amount": 66.78,
+      "merchant_category": "grocery",
+      "fraud_score": 590,
+      "fraud_probability": 0.063312,
+      "decision_flag": "REVIEW",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000001",
+      "txn_date": "2025-02-18",
+      "txn_amount": 92.63,
+      "merchant_category": "grocery",
+      "fraud_score": 524,
+      "fraud_probability": 0.036099,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000002",
+      "txn_date": "2025-06-19",
+      "txn_amount": 49.33,
+      "merchant_category": "grocery",
+      "fraud_score": 696,
+      "fraud_probability": 0.149048,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000003",
+      "txn_date": "2025-01-02",
+      "txn_amount": 25.04,
+      "merchant_category": "electronics",
+      "fraud_score": 442,
+      "fraud_probability": 0.017784,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000004",
+      "txn_date": "2025-06-27",
+      "txn_amount": 40.44,
+      "merchant_category": "electronics",
+      "fraud_score": 621,
+      "fraud_probability": 0.08161,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000005",
+      "txn_date": "2025-05-11",
+      "txn_amount": 22.4,
+      "merchant_category": "fashion",
+      "fraud_score": 499,
+      "fraud_probability": 0.029185,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000006",
+      "txn_date": "2025-03-29",
+      "txn_amount": 71.25,
+      "merchant_category": "grocery",
+      "fraud_score": 376,
+      "fraud_probability": 0.009913,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000007",
+      "txn_date": "2025-04-19",
+      "txn_amount": 291.27,
+      "merchant_category": "fashion",
+      "fraud_score": 571,
+      "fraud_probability": 0.05386,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000008",
+      "txn_date": "2025-03-09",
+      "txn_amount": 38.81,
+      "merchant_category": "gaming",
+      "fraud_score": 647,
+      "fraud_probability": 0.101494,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    },
+    {
+      "txn_id": "TXN0000009",
+      "txn_date": "2025-04-12",
+      "txn_amount": 33.7,
+      "merchant_category": "travel",
+      "fraud_score": 547,
+      "fraud_probability": 0.044004,
+      "decision_flag": "APPROVED",
+      "is_fraud": 0
+    }
+  ]
+}

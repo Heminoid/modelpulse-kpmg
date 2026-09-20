@@ -97,7 +97,8 @@ def execute_run(monitor_id: str) -> RunMetadata:
             df=df,
             mapping=ColumnMapping(**monitor.get("column_mapping")),
             metric_keys=metric_keys,
-            baseline_df=baseline_df
+            baseline_df=baseline_df,
+            baseline_stats=baseline_stats.model_dump() if baseline_stats else None,
         )
         
         # Update run tracking
@@ -147,7 +148,18 @@ def execute_run(monitor_id: str) -> RunMetadata:
         override_analysis = run_override_analysis_all(df, ColumnMapping(**monitor.get("column_mapping")))
         
         from app.metrics.implementations.fairness import run_fairness_analysis
-        fairness_analysis = run_fairness_analysis(df, ColumnMapping(**monitor.get("column_mapping")), ["income_band", "home_ownership", "loan_purpose"])
+        fairness_mapping = ColumnMapping(**monitor.get("column_mapping"))
+        fairness_groups = [
+            col for col, role in fairness_mapping.mappings.items() 
+            if role in ("protected_class", "segment_field") and col in df.columns
+        ]
+        if not fairness_groups and fairness_mapping.segment_fields:
+            fairness_groups = [col for col in fairness_mapping.segment_fields if col in df.columns]
+        if not fairness_groups:
+            fairness_groups = [
+                col for col in ["income_band", "home_ownership", "loan_purpose"] if col in df.columns
+            ] or list(df.select_dtypes(include=["object", "category"]).columns[:3])
+        fairness_analysis = run_fairness_analysis(df, fairness_mapping, fairness_groups)
         
         from app.services.timeseries_service import TimeSeriesService
         timeseries_analysis = TimeSeriesService().analyze(df, ColumnMapping(**monitor.get("column_mapping")))

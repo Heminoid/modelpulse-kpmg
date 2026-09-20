@@ -1,0 +1,32 @@
+{
+  "score": 89.63434280771979,
+  "status": "healthy",
+  "components": {
+    "calib_ratio_overall": {
+      "score": 78.94794747263259,
+      "weight": 0.2,
+      "status": "healthy"
+    },
+    "psi_prediction_score": {
+      "score": 96.9286201751341,
+      "weight": 0.2,
+      "status": "healthy"
+    },
+    "perf_auc": {
+      "score": 98.28215850666375,
+      "weight": 0.15,
+      "status": "healthy"
+    },
+    "perf_gini": {
+      "score": 84.24185014856891,
+      "weight": 0.25,
+      "status": "healthy"
+    },
+    "perf_ks": {
+      "score": 93.2812148251233,
+      "weight": 0.2,
+      "status": "healthy"
+    }
+  },
+  "recommended_actions": []
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "report_id": "report_518d21df",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_c1c753a0d6da/report_518d21df.html",
+    "download_url": "/api/v1/runs/run_c1c753a0d6da/reports/report_518d21df/download",
+    "size_bytes": 376677,
+    "generated_at": "2026-09-20T17:58:15.486922+00:00"
+  },
+  {
+    "report_id": "report_f571cf64",
+    "report_type": "full_technical",
+    "format": "docx",
+    "file_path": "storage/runs/run_c1c753a0d6da/report_f571cf64.docx",
+    "download_url": "/api/v1/runs/run_c1c753a0d6da/reports/report_f571cf64/download",
+    "size_bytes": 249894,
+    "generated_at": "2026-09-20T17:58:35.226940+00:00"
+  },
+  {
+    "report_id": "report_d01137c8",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_c1c753a0d6da/report_d01137c8.html",
+    "download_url": "/api/v1/runs/run_c1c753a0d6da/reports/report_d01137c8/download",
+    "size_bytes": 91997,
+    "generated_at": "2026-09-20T18:29:04.916648+00:00"
+  },
+  {
+    "report_id": "report_62152505",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_c1c753a0d6da/report_62152505.html",
+    "download_url": "/api/v1/runs/run_c1c753a0d6da/reports/report_62152505/download",
+    "size_bytes": 362234,
+    "generated_at": "2026-09-20T18:30:08.881935+00:00"
+  },
+  {
+    "report_id": "report_ff72acba",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_c1c753a0d6da/report_ff72acba.html",
+    "download_url": "/api/v1/runs/run_c1c753a0d6da/reports/report_ff72acba/download",
+    "size_bytes": 362234,
+    "generated_at": "2026-09-20T18:30:49.222073+00:00"
+  }
+]

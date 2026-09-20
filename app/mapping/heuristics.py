@@ -119,10 +119,15 @@ ROLE_PATTERNS: dict[str, list[str]] = {
         "tier", "bucket", "group", "class", "ownership", "tenure",
         "employment", "industry", "sector", "merchant",
     ],
+    "protected_class": [
+        "gender", "race", "age", "zip", "ethnicity", "sex", 
+        "marital", "religion", "nationalorigin"
+    ],
 }
 
 # Priority order for conflict resolution (most specific first)
 _ROLE_PRIORITY = [
+    "protected_class",
     "prediction_probability",
     "prediction_score",
     "target",

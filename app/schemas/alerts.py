@@ -21,7 +21,7 @@ DEFAULT_ALERT_THRESHOLDS = {
     # Calibration thresholds
     "calib_brier_score":              {"warning_increase": 0.02, "critical_increase": 0.05},
     "calib_ratio_overall":            {"warning_low": 0.80, "warning_high": 1.25, "critical_low": 0.60, "critical_high": 1.50},
-    "calib_gap_per_bin":              {"warning": 0.03, "critical": 0.05},
+    "calib_summary":                  {"warning_low": 0.80, "warning_high": 1.25, "critical_low": 0.60, "critical_high": 1.50},
 
     # Strategy thresholds (change from baseline)
     "strategy_approval_rate":         {"warning_change": 0.05, "critical_change": 0.10},

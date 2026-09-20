@@ -1,0 +1,98 @@
+[
+  {
+    "alert_id": "al_301e1d4c872f",
+    "run_id": "run_b1d5dc4d5fb8",
+    "metric_key": "calib_summary",
+    "metric_display_name": "Calibration Ratio",
+    "category": "calibration",
+    "severity": "warning",
+    "observed_value": 1.479668878037837,
+    "threshold_value": 1.25,
+    "message": "Calibration Ratio = 1.4797, outside warning range [0.8, 1.25]",
+    "triggered_at": "2026-09-20 12:38:17.605613+00:00"
+  },
+  {
+    "alert_id": "al_912d7a1be470",
+    "run_id": "run_b1d5dc4d5fb8",
+    "metric_key": "psi_prediction_score",
+    "metric_display_name": "Score PSI",
+    "category": "drift",
+    "severity": "critical",
+    "observed_value": 0.26218509109877713,
+    "threshold_value": 0.25,
+    "message": "Score PSI = 0.2622, exceeds critical threshold of 0.25",
+    "triggered_at": "2026-09-20 12:38:17.605624+00:00"
+  },
+  {
+    "alert_id": "al_e9208ab36e03",
+    "run_id": "run_b1d5dc4d5fb8",
+    "metric_key": "csi_debt_to_income",
+    "metric_display_name": "CSI (Debt To Income)",
+    "category": "drift",
+    "severity": "warning",
+    "observed_value": 0.181333,
+    "threshold_value": 0.1,
+    "message": "CSI (Debt To Income) = 0.1813, exceeds warning threshold of 0.1",
+    "triggered_at": "2026-09-20 12:38:17.605630+00:00"
+  },
+  {
+    "alert_id": "al_e654ccac9ace",
+    "run_id": "run_b1d5dc4d5fb8",
+    "metric_key": "csi_credit_score",
+    "metric_display_name": "CSI (Credit Score)",
+    "category": "drift",
+    "severity": "warning",
+    "observed_value": 0.133108,
+    "threshold_value": 0.1,
+    "message": "CSI (Credit Score) = 0.1331, exceeds warning threshold of 0.1",
+    "triggered_at": "2026-09-20 12:38:17.605634+00:00"
+  },
+  {
+    "alert_id": "al_53f868736bdc",
+    "run_id": "run_b1d5dc4d5fb8",
+    "metric_key": "perf_auc",
+    "metric_display_name": "ROC AUC",
+    "category": "performance",
+    "severity": "warning",
+    "observed_value": 0.7490005779310069,
+    "threshold_value": 0.03,
+    "message": "ROC AUC declined by 0.0364 vs baseline, exceeding warning threshold of 0.03",
+    "triggered_at": "2026-09-20 12:38:17.605639+00:00"
+  },
+  {
+    "alert_id": "al_4daae435f5a6",
+    "run_id": "run_b1d5dc4d5fb8",
+    "metric_key": "perf_gini",
+    "metric_display_name": "Gini Coefficient",
+    "category": "performance",
+    "severity": "warning",
+    "observed_value": 0.4980011558620139,
+    "threshold_value": 0.05,
+    "message": "Gini Coefficient declined by 0.0728 vs baseline, exceeding warning threshold of 0.05",
+    "triggered_at": "2026-09-20 12:38:17.605643+00:00"
+  },
+  {
+    "alert_id": "al_9d24773ca76b",
+    "run_id": "run_b1d5dc4d5fb8",
+    "metric_key": "perf_ks",
+    "metric_display_name": "KS Statistic",
+    "category": "performance",
+    "severity": "critical",
+    "observed_value": 0.3715817373801789,
+    "threshold_value": 0.05,
+    "message": "KS Statistic declined by 0.0637 vs baseline, exceeding critical threshold of 0.05",
+    "triggered_at": "2026-09-20 12:38:17.605647+00:00"
+  },
+  {
+    "alert_id": "al_d5d296802111",
+    "run_id": "run_b1d5dc4d5fb8",
+    "metric_key": "strategy_approval_rate",
+    "metric_display_name": "Approval Rate",
+    "category": "strategy",
+    "severity": "critical",
+    "observed_value": 0.6048,
+    "threshold_value": 0.1,
+    "message": "Approval Rate changed by 0.1964 vs baseline, exceeding critical threshold of 0.1",
+    "triggered_at": "2026-09-20 12:38:17.605651+00:00"
+  }
+]

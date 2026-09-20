@@ -16,13 +16,12 @@ ModelPulse is a dataset-agnostic, comprehensive platform for model risk manageme
 - Python 3.10+
 - `pip` or `uv` for dependency management
 
-### WeasyPrint OS Dependencies Note
+### Report Generation Engine (PDF, DOCX, HTML)
 
-PDF report generation uses `weasyprint`, which requires certain OS-level dependencies (Pango, Cairo, etc.). 
-- **macOS**: `brew install pango cairo`
-- **Ubuntu/Debian**: `sudo apt-get install libpango-1.0-0 libpangoft2-1.0-0 libjpeg-dev libopenjp2-7-dev libffi-dev`
-
-If the OS dependencies are missing, the server will safely fallback and return a `400 Bad Request` explaining the missing libraries when you attempt to download a PDF report, while HTML reports will continue to work normally.
+ModelPulse generates publication-grade governance reports in three formats:
+- **PDF Reports**: Rendered via headless Puppeteer/Chromium (`app/scripts/generate_pdf.js`) for pixel-perfect KPMG report layouts, with automatic fallback to standalone HTML if headless Chrome dependencies are absent.
+- **Word (DOCX) Reports**: Built natively via `python-docx` with embedded KPMG branding, regulatory tables, and high-resolution chart images.
+- **Interactive HTML**: Self-contained single-page governance reports suitable for browser inspection and archival.
 
 ## Setup & Installation
 

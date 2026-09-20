@@ -1,0 +1,50 @@
+{
+  "available": true,
+  "time_column": "txn_date",
+  "periods": [
+    {
+      "period": "2025-01",
+      "volume": 148,
+      "default_rate": 0.0405,
+      "mean_score": 506.06,
+      "approval_rate": 0.9257
+    },
+    {
+      "period": "2025-02",
+      "volume": 111,
+      "default_rate": 0.045,
+      "mean_score": 497.71,
+      "approval_rate": 0.9459
+    },
+    {
+      "period": "2025-03",
+      "volume": 135,
+      "default_rate": 0.0593,
+      "mean_score": 500.15,
+      "approval_rate": 0.9185
+    },
+    {
+      "period": "2025-04",
+      "volume": 132,
+      "default_rate": 0.0303,
+      "mean_score": 501.04,
+      "approval_rate": 0.9318
+    },
+    {
+      "period": "2025-05",
+      "volume": 133,
+      "default_rate": 0.0,
+      "mean_score": 497.43,
+      "approval_rate": 0.9474
+    },
+    {
+      "period": "2025-06",
+      "volume": 141,
+      "default_rate": 0.0567,
+      "mean_score": 496.79,
+      "approval_rate": 0.9078
+    }
+  ],
+  "total_periods": 6,
+  "trend_summary": "Analyzed 6 cohorts from 2025-01 to 2025-06"
+}

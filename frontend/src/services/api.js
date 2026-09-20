@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -54,12 +54,16 @@ export const getChampion = () => apiClient.get('/registry/champion');
 export const getModel = (modelId) => apiClient.get(`/registry/models/${modelId}`);
 export const updateModel = (modelId, payload) => apiClient.put(`/registry/models/${modelId}`, payload);
 export const linkRun = (modelId, runId) => apiClient.post(`/registry/models/${modelId}/link-run/${runId}`);
-export const getChampionChallenger = (championId, challengerId) => 
-  apiClient.get(`/registry/champion-challenger?champion_id=${championId}&challenger_id=${challengerId}`);
+export const getChampionChallenger = (championId, challengerId, includeNarrative = false) => {
+  let url = `/registry/champion-challenger?champion_id=${championId}&challenger_id=${challengerId}`;
+  if (includeNarrative) url += `&include_narrative=true`;
+  return apiClient.get(url);
+};
 
 // --- Reports ---
 export const generateReport = (runId, payload) => apiClient.post(`/runs/${runId}/reports/generate`, payload);
 export const getReports = (runId) => apiClient.get(`/runs/${runId}/reports`);
+export const getReportQA = (runId, reportType) => apiClient.get(`/runs/${runId}/reports/qa/${reportType}`);
 // Download doesn't go through axios easily if we want file saving, but we can export the URL generator
 export const getReportDownloadUrl = (runId, reportId) => `${API_BASE_URL}/runs/${runId}/reports/${reportId}/download`;
 
@@ -79,8 +83,16 @@ export const getRunVintage = (runId) => apiClient.get(`/runs/${runId}/vintage`);
 export const getRunOverrideAnalysis = (runId, scoreCutoff = 600) => apiClient.get(`/runs/${runId}/override-analysis?score_cutoff=${scoreCutoff}`);
 export const getRunFairness = (runId) => apiClient.get(`/runs/${runId}/fairness`);
 export const getRunTimeSeries = (runId) => apiClient.get(`/runs/${runId}/time-series`);
-export const generateNarrative = (runId) => apiClient.post(`/runs/${runId}/narratives`);
+export const generateNarrative = (runId, section = null) => {
+  const params = section ? `?section=${section}` : '';
+  return apiClient.post(`/runs/${runId}/narratives${params}`);
+};
 export const getNarratives = (runId) => apiClient.get(`/runs/${runId}/narratives`);
+export const verifyNarrative = (runId) => apiClient.get(`/runs/${runId}/narratives/verify`);
+export const getRunHealth = (runId) => apiClient.get(`/runs/${runId}/health`);
+export const getRunAlerts = (runId) => apiClient.get(`/runs/${runId}/alerts`);
+export const getRunSegments = (runId) => apiClient.get(`/runs/${runId}/segments`);
+export const getRunInsights = (runId) => apiClient.get(`/runs/${runId}/insights`);
 
 // --- Health ---
 export const getHealth = () => apiClient.get('/health');

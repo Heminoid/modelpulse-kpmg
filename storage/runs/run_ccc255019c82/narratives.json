@@ -1,0 +1,16 @@
+{
+  "executive_summary": "The model is in a critical state with 3 critical issues detected.",
+  "technical_summary": "Mock technical summary based on findings.",
+  "root_causes": [
+    "Mock cause 1",
+    "Mock cause 2"
+  ],
+  "key_segments": [],
+  "recommended_actions": [
+    "Mock action 1"
+  ],
+  "confidence_notes": [
+    "Generated deterministically from computed metrics. No LLM used."
+  ],
+  "generated_by": "mock_deterministic"
+}

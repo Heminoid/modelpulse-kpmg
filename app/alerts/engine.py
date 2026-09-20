@@ -17,11 +17,10 @@ def evaluate_alerts(run_id: str, results: list[MetricResult], thresholds: dict[s
         eff_thresholds[k] = v.copy()
         
     for k, v in thresholds.items():
-        # custom thresholds can override defaults, but we need to know the specific sub-key e.g. 'warning', 'critical'
-        # if the user just passes a flat dict, we might need a convention.
-        # Spec says thresholds: dict[str, float]. But DEFAULT_ALERT_THRESHOLDS is dict[str, dict[str, float]].
-        # For simplicity, we assume the user overrides specific subkeys if they provide them, or we just ignore custom overrides for this MVP if it's too complex.
-        pass
+        if k in eff_thresholds and isinstance(eff_thresholds[k], dict) and isinstance(v, dict):
+            eff_thresholds[k].update(v)
+        else:
+            eff_thresholds[k] = v
 
     for res in results:
         key = res.metric_key
@@ -29,7 +28,14 @@ def evaluate_alerts(run_id: str, results: list[MetricResult], thresholds: dict[s
         if val is None or res.status in ["skipped", "error"]:
             continue
             
+        # Summary metric is not evaluated for alerts; individual csi_<feature> metrics are evaluated
+        if key == "csi_feature_drift":
+            continue
+
         thresh = eff_thresholds.get(key)
+        if not thresh and key.startswith("csi_"):
+            thresh = {"warning": 0.10, "critical": 0.25}
+
         if not thresh:
             continue
             

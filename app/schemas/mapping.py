@@ -22,6 +22,7 @@ class ColumnRole(str, Enum):
     RISK_BAND = "risk_band"
     SEGMENT_FIELD = "segment_field"
     FEATURE_FIELD = "feature_field"
+    PROTECTED_CLASS = "protected_class"
     IGNORED = "ignored"
 
 

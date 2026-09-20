@@ -1,0 +1,74 @@
+[
+  {
+    "alert_id": "al_64110e3918b6",
+    "run_id": "run_d25aff085bda",
+    "metric_key": "calib_summary",
+    "metric_display_name": "Calibration Ratio",
+    "category": "calibration",
+    "severity": "warning",
+    "observed_value": 1.479668878037837,
+    "threshold_value": 1.25,
+    "message": "Calibration Ratio = 1.4797, outside warning range [0.8, 1.25]",
+    "triggered_at": "2026-09-20 12:11:15.911822+00:00"
+  },
+  {
+    "alert_id": "al_30e473ac938b",
+    "run_id": "run_d25aff085bda",
+    "metric_key": "psi_prediction_score",
+    "metric_display_name": "Score PSI",
+    "category": "drift",
+    "severity": "critical",
+    "observed_value": 0.26218509109877713,
+    "threshold_value": 0.25,
+    "message": "Score PSI = 0.2622, exceeds critical threshold of 0.25",
+    "triggered_at": "2026-09-20 12:11:15.911833+00:00"
+  },
+  {
+    "alert_id": "al_10546b0cb711",
+    "run_id": "run_d25aff085bda",
+    "metric_key": "perf_auc",
+    "metric_display_name": "ROC AUC",
+    "category": "performance",
+    "severity": "warning",
+    "observed_value": 0.7490005779310069,
+    "threshold_value": 0.03,
+    "message": "ROC AUC declined by 0.0364 vs baseline, exceeding warning threshold of 0.03",
+    "triggered_at": "2026-09-20 12:11:15.911838+00:00"
+  },
+  {
+    "alert_id": "al_f23af537746a",
+    "run_id": "run_d25aff085bda",
+    "metric_key": "perf_gini",
+    "metric_display_name": "Gini Coefficient",
+    "category": "performance",
+    "severity": "warning",
+    "observed_value": 0.4980011558620139,
+    "threshold_value": 0.05,
+    "message": "Gini Coefficient declined by 0.0728 vs baseline, exceeding warning threshold of 0.05",
+    "triggered_at": "2026-09-20 12:11:15.911842+00:00"
+  },
+  {
+    "alert_id": "al_eafe13dbaaf4",
+    "run_id": "run_d25aff085bda",
+    "metric_key": "perf_ks",
+    "metric_display_name": "KS Statistic",
+    "category": "performance",
+    "severity": "critical",
+    "observed_value": 0.3715817373801789,
+    "threshold_value": 0.05,
+    "message": "KS Statistic declined by 0.0637 vs baseline, exceeding critical threshold of 0.05",
+    "triggered_at": "2026-09-20 12:11:15.911846+00:00"
+  },
+  {
+    "alert_id": "al_5c52e41a6fc2",
+    "run_id": "run_d25aff085bda",
+    "metric_key": "strategy_approval_rate",
+    "metric_display_name": "Approval Rate",
+    "category": "strategy",
+    "severity": "critical",
+    "observed_value": 0.6048,
+    "threshold_value": 0.1,
+    "message": "Approval Rate changed by 0.1964 vs baseline, exceeding critical threshold of 0.1",
+    "triggered_at": "2026-09-20 12:11:15.911850+00:00"
+  }
+]

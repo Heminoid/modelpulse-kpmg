@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 import logging
+from typing import Optional
 from jinja2 import Environment, FileSystemLoader
 
 logger = logging.getLogger(__name__)
@@ -20,7 +21,7 @@ class ReportService:
         self.templates_dir = Path(__file__).parent.parent / "templates"
         self.env = Environment(loader=FileSystemLoader(str(self.templates_dir)))
         
-    def generate(self, run_id: str, report_type: ReportType, fmt: ReportFormat, run_store: MonitorRunStore) -> Path:
+    def generate(self, run_id: str, report_type: ReportType, fmt: ReportFormat, run_store: MonitorRunStore, sections: Optional[list[str]] = None) -> Path:
         run = run_store.get(run_id)
         if not run:
             raise ValueError(f"Run {run_id} not found")
@@ -31,12 +32,62 @@ class ReportService:
         alerts = run_store.load_artifact(run_id, "alerts.json") or []
         
         # Load all additional insights for the report
-        narrative = run_store.load_artifact(run_id, "narrative.json") or {}
+        narrative = run_store.load_artifact(run_id, "narratives.json") or {}
         stat_tests = run_store.load_artifact(run_id, "stat_tests.json") or {}
         vintage = run_store.load_artifact(run_id, "vintage.json") or {}
         override = run_store.load_artifact(run_id, "override.json") or {}
         fairness = run_store.load_artifact(run_id, "fairness.json") or {}
-        
+        segments = run_store.load_artifact(run_id, "segments.json") or []
+        insights = run_store.load_artifact(run_id, "insights.json") or {}
+        timeseries = run_store.load_artifact(run_id, "timeseries.json") or {}
+
+        if sections is not None:
+            if len(sections) == 0:
+                metrics = []
+                vintage = {}
+                override = {}
+                fairness = {}
+                charts = []
+                stat_tests = {}
+                alerts = []
+                narrative = {}
+                segments = []
+                insights = {}
+                timeseries = {}
+            else:
+                category_map = {
+                    'performance': ['performance'],
+                    'calibration': ['calibration'],
+                    'stability': ['drift', 'stability'],
+                    'data_quality': ['data_quality'],
+                    'delinquency': ['delinquency'],
+                    'strategy': ['strategy'],
+                }
+                allowed_categories = set()
+                for s in sections:
+                    allowed_categories.update(category_map.get(s, [s]))
+                metrics = [m for m in metrics if m.get('category') in allowed_categories]
+                if 'vintage' not in sections:
+                    vintage = {}
+                if 'override' not in sections:
+                    override = {}
+                if 'fairness' not in sections:
+                    fairness = {}
+                if 'charts' not in sections:
+                    charts = []
+                if 'stat_tests' not in sections:
+                    stat_tests = {}
+                if 'alerts' not in sections:
+                    alerts = []
+                if 'narrative' not in sections and 'executive_summary' not in sections:
+                    narrative = {}
+                if 'segments' not in sections:
+                    segments = []
+                if 'insights' not in sections:
+                    insights = {}
+                if 'timeseries' not in sections:
+                    timeseries = {}
+
         # Render charts to base64
         chart_images = {}
         for c_dict in charts:
@@ -70,6 +121,10 @@ class ReportService:
             "vintage": vintage,
             "override": override,
             "fairness": fairness,
+            "segments": segments,
+            "insights": insights,
+            "timeseries": timeseries,
+            "sections": sections,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "kpmg_logo_b64": kpmg_logo_b64,
         }
@@ -102,6 +157,11 @@ class ReportService:
             finally:
                 if temp_html_path.exists():
                     os.remove(temp_html_path)
+                    
+        elif fmt == ReportFormat.DOCX:
+            from app.services.docx_builder import DocxReportBuilder
+            builder = DocxReportBuilder()
+            builder.build(context, out_path, report_type.value)
             
         # Optional: could save metadata about generated reports to a reports.json in the run dir
         reports_meta = run_store.load_artifact(run_id, "reports.json") or []

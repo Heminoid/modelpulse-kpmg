@@ -1,0 +1,22 @@
+{
+  "id": "map_20260920_a20e0bcf8918",
+  "dataset_id": "ds_20260920_b734b957de16",
+  "mappings": {
+    "txn_id": "record_id",
+    "txn_date": "event_time",
+    "txn_amount": "amount_field",
+    "merchant_category": "segment_field",
+    "fraud_score": "prediction_score",
+    "fraud_probability": "prediction_probability",
+    "decision_flag": "decision",
+    "is_fraud": "target"
+  },
+  "segment_fields": [],
+  "feature_fields": [],
+  "ignored_fields": [],
+  "score_direction": "lower_is_better",
+  "target_positive_label": 1,
+  "decision_positive_label": "APPROVE",
+  "created_at": "2026-09-20T12:10:16.772241Z",
+  "version": 1
+}

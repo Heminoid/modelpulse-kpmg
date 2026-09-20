@@ -1,0 +1,539 @@
+[
+  {
+    "chart_id": "chart_score_distribution",
+    "chart_type": "bar",
+    "title": "Score Distribution",
+    "subtitle": null,
+    "x_label": "Score Band",
+    "y_label": "Count",
+    "series": [
+      {
+        "name": "Current",
+        "data": [
+          {
+            "x": "352-402",
+            "y": 3
+          },
+          {
+            "x": "402-452",
+            "y": 14
+          },
+          {
+            "x": "452-501",
+            "y": 94
+          },
+          {
+            "x": "501-551",
+            "y": 246
+          },
+          {
+            "x": "551-601",
+            "y": 500
+          },
+          {
+            "x": "601-651",
+            "y": 660
+          },
+          {
+            "x": "651-701",
+            "y": 619
+          },
+          {
+            "x": "701-750",
+            "y": 260
+          },
+          {
+            "x": "750-800",
+            "y": 90
+          },
+          {
+            "x": "800-850",
+            "y": 14
+          }
+        ],
+        "color": "#3b82f6"
+      }
+    ],
+    "annotations": null,
+    "image_url": null
+  },
+  {
+    "chart_id": "chart_pd_distribution",
+    "chart_type": "bar",
+    "title": "Probability of Default Distribution",
+    "subtitle": null,
+    "x_label": "PD Band",
+    "y_label": "Count",
+    "series": [
+      {
+        "name": "Current",
+        "data": [
+          {
+            "x": "0.00-0.10",
+            "y": 1282
+          },
+          {
+            "x": "0.10-0.20",
+            "y": 425
+          },
+          {
+            "x": "0.20-0.30",
+            "y": 222
+          },
+          {
+            "x": "0.30-0.40",
+            "y": 158
+          },
+          {
+            "x": "0.40-0.50",
+            "y": 123
+          },
+          {
+            "x": "0.50-0.60",
+            "y": 89
+          },
+          {
+            "x": "0.60-0.69",
+            "y": 65
+          },
+          {
+            "x": "0.69-0.79",
+            "y": 59
+          },
+          {
+            "x": "0.79-0.89",
+            "y": 47
+          },
+          {
+            "x": "0.89-0.99",
+            "y": 30
+          }
+        ],
+        "color": "#8b5cf6"
+      }
+    ],
+    "annotations": null,
+    "image_url": null
+  },
+  {
+    "chart_id": "chart_bad_rate_by_score_band",
+    "chart_type": "bar",
+    "title": "Bad Rate by Score Band",
+    "subtitle": null,
+    "x_label": "Band",
+    "y_label": "Bad Rate",
+    "series": [
+      {
+        "name": "Bad Rate",
+        "data": [
+          {
+            "x": "600-700",
+            "y": 0.19656786271450857
+          },
+          {
+            "x": "700-800",
+            "y": 0.062146892655367235
+          },
+          {
+            "x": "800+",
+            "y": 0.0
+          },
+          {
+            "x": "<600",
+            "y": 0.4964622641509434
+          }
+        ],
+        "color": "#ef4444"
+      }
+    ],
+    "annotations": null,
+    "image_url": null
+  },
+  {
+    "chart_id": "chart_approval_by_risk_band",
+    "chart_type": "bar",
+    "title": "Approval Rate by Risk Band",
+    "subtitle": null,
+    "x_label": "Band",
+    "y_label": "Approval Rate",
+    "series": [
+      {
+        "name": "Approval Rate",
+        "data": [
+          {
+            "x": "600-700",
+            "y": 0.7542901716068643
+          },
+          {
+            "x": "700-800",
+            "y": 0.9830508474576272
+          },
+          {
+            "x": "800+",
+            "y": 1.0
+          },
+          {
+            "x": "<600",
+            "y": 0.2134433962264151
+          }
+        ],
+        "color": "#10b981"
+      }
+    ],
+    "annotations": null,
+    "image_url": null
+  },
+  {
+    "chart_id": "chart_calibration",
+    "chart_type": "line",
+    "title": "Calibration Curve",
+    "subtitle": null,
+    "x_label": "Decile",
+    "y_label": "Probability",
+    "series": [
+      {
+        "name": "Predicted PD",
+        "data": [
+          {
+            "x": "Bin 1",
+            "y": 0.005365788
+          },
+          {
+            "x": "Bin 2",
+            "y": 0.01628198
+          },
+          {
+            "x": "Bin 3",
+            "y": 0.030600672
+          },
+          {
+            "x": "Bin 4",
+            "y": 0.047444204
+          },
+          {
+            "x": "Bin 5",
+            "y": 0.075041144
+          },
+          {
+            "x": "Bin 6",
+            "y": 0.115461144
+          },
+          {
+            "x": "Bin 7",
+            "y": 0.173837676
+          },
+          {
+            "x": "Bin 8",
+            "y": 0.268523632
+          },
+          {
+            "x": "Bin 9",
+            "y": 0.42560272400000004
+          },
+          {
+            "x": "Bin 10",
+            "y": 0.7206397600000001
+          }
+        ],
+        "color": "#3b82f6"
+      },
+      {
+        "name": "Observed Bad Rate",
+        "data": [
+          {
+            "x": "Bin 1",
+            "y": 0.044
+          },
+          {
+            "x": "Bin 2",
+            "y": 0.104
+          },
+          {
+            "x": "Bin 3",
+            "y": 0.1
+          },
+          {
+            "x": "Bin 4",
+            "y": 0.204
+          },
+          {
+            "x": "Bin 5",
+            "y": 0.208
+          },
+          {
+            "x": "Bin 6",
+            "y": 0.244
+          },
+          {
+            "x": "Bin 7",
+            "y": 0.368
+          },
+          {
+            "x": "Bin 8",
+            "y": 0.388
+          },
+          {
+            "x": "Bin 9",
+            "y": 0.488
+          },
+          {
+            "x": "Bin 10",
+            "y": 0.632
+          }
+        ],
+        "color": "#ef4444"
+      }
+    ],
+    "annotations": null,
+    "image_url": null
+  },
+  {
+    "chart_id": "chart_dpd_distribution",
+    "chart_type": "bar",
+    "title": "DPD Distribution",
+    "subtitle": null,
+    "x_label": "Days Past Due",
+    "y_label": "Count",
+    "series": [
+      {
+        "name": "Current",
+        "data": [
+          {
+            "x": "Current",
+            "y": 1702
+          },
+          {
+            "x": "1-29",
+            "y": 0
+          },
+          {
+            "x": "30-59",
+            "y": 78
+          },
+          {
+            "x": "60-89",
+            "y": 198
+          },
+          {
+            "x": "90+",
+            "y": 522
+          }
+        ],
+        "color": "#f59e0b"
+      }
+    ],
+    "annotations": null,
+    "image_url": null
+  },
+  {
+    "chart_id": "chart_psi_breakdown",
+    "chart_type": "bar",
+    "title": "PSI Breakdown",
+    "subtitle": null,
+    "x_label": "Feature",
+    "y_label": "PSI",
+    "series": [
+      {
+        "name": "PSI",
+        "data": [
+          {
+            "x": "Score PSI",
+            "y": 0.26218509109877713
+          }
+        ],
+        "color": "#f43f5e"
+      }
+    ],
+    "annotations": [
+      {
+        "y": 0.25,
+        "color": "red",
+        "label": "Critical"
+      },
+      {
+        "y": 0.1,
+        "color": "orange",
+        "label": "Warning"
+      }
+    ],
+    "image_url": null
+  },
+  {
+    "chart_id": "chart_decile_lift",
+    "chart_type": "bar",
+    "title": "Decile Lift",
+    "subtitle": null,
+    "x_label": "Decile",
+    "y_label": "Lift",
+    "series": [
+      {
+        "name": "Lift",
+        "data": [
+          {
+            "x": "Decile 1",
+            "y": 0.15827338129496402
+          },
+          {
+            "x": "Decile 2",
+            "y": 0.41726618705035967
+          },
+          {
+            "x": "Decile 3",
+            "y": 0.31654676258992803
+          },
+          {
+            "x": "Decile 4",
+            "y": 0.6762589928057553
+          },
+          {
+            "x": "Decile 5",
+            "y": 0.8633093525179855
+          },
+          {
+            "x": "Decile 6",
+            "y": 0.935251798561151
+          },
+          {
+            "x": "Decile 7",
+            "y": 1.1366906474820142
+          },
+          {
+            "x": "Decile 8",
+            "y": 1.4676258992805753
+          },
+          {
+            "x": "Decile 9",
+            "y": 1.8129496402877696
+          },
+          {
+            "x": "Decile 10",
+            "y": 2.2158273381294964
+          }
+        ],
+        "color": "#6366f1"
+      }
+    ],
+    "annotations": [
+      {
+        "y": 1.0,
+        "color": "gray",
+        "label": "Baseline"
+      }
+    ],
+    "image_url": null
+  },
+  {
+    "chart_id": "chart_roc_curve",
+    "chart_type": "line",
+    "title": "ROC Curve",
+    "subtitle": null,
+    "x_label": "False Positive Rate",
+    "y_label": "True Positive Rate",
+    "series": [
+      {
+        "name": "ROC",
+        "data": [
+          {
+            "x": 0.0,
+            "y": 0.0
+          },
+          {
+            "x": 0.004986149584487534,
+            "y": 0.02302158273381295
+          },
+          {
+            "x": 0.009418282548476454,
+            "y": 0.06618705035971223
+          },
+          {
+            "x": 0.01772853185595568,
+            "y": 0.1093525179856115
+          },
+          {
+            "x": 0.032686980609418284,
+            "y": 0.1510791366906475
+          },
+          {
+            "x": 0.0520775623268698,
+            "y": 0.21726618705035972
+          },
+          {
+            "x": 0.07977839335180055,
+            "y": 0.29784172661870506
+          },
+          {
+            "x": 0.12631578947368421,
+            "y": 0.41007194244604317
+          },
+          {
+            "x": 0.1739612188365651,
+            "y": 0.4949640287769784
+          },
+          {
+            "x": 0.2365650969529086,
+            "y": 0.6057553956834533
+          },
+          {
+            "x": 0.3207756232686981,
+            "y": 0.6820143884892086
+          },
+          {
+            "x": 0.42049861495844876,
+            "y": 0.7784172661870503
+          },
+          {
+            "x": 0.5013850415512465,
+            "y": 0.8388489208633093
+          },
+          {
+            "x": 0.6116343490304709,
+            "y": 0.9064748201438849
+          },
+          {
+            "x": 0.7168975069252077,
+            "y": 0.9366906474820144
+          },
+          {
+            "x": 0.7950138504155124,
+            "y": 0.962589928057554
+          },
+          {
+            "x": 0.8565096952908587,
+            "y": 0.9827338129496402
+          },
+          {
+            "x": 0.9013850415512465,
+            "y": 0.9913669064748202
+          },
+          {
+            "x": 0.9401662049861496,
+            "y": 0.9971223021582734
+          },
+          {
+            "x": 0.9673130193905817,
+            "y": 0.9985611510791367
+          },
+          {
+            "x": 0.9933518005540166,
+            "y": 1.0
+          },
+          {
+            "x": 1.0,
+            "y": 1.0
+          }
+        ],
+        "color": "#8b5cf6"
+      }
+    ],
+    "annotations": [
+      {
+        "x": 0,
+        "y": 0,
+        "label": "Diagonal",
+        "color": "gray",
+        "linestyle": "dotted"
+      }
+    ],
+    "image_url": null
+  }
+]

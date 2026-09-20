@@ -1,0 +1,78 @@
+{
+  "tests": [
+    {
+      "test_name": "Hosmer-Lemeshow Test",
+      "test_key": "hosmer_lemeshow",
+      "statistic": 5.696075257688341,
+      "p_value": 0.6607159661229997,
+      "degrees_of_freedom": 3,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Binomial Test: Band 600-700",
+      "test_key": "binom_band_600-700",
+      "statistic": 5.0,
+      "p_value": 0.6607159661229997,
+      "degrees_of_freedom": null,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Binomial Test: Band 700-800",
+      "test_key": "binom_band_700-800",
+      "statistic": 4.0,
+      "p_value": 0.6607159661229997,
+      "degrees_of_freedom": null,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Binomial Test: Band <600",
+      "test_key": "binom_band_<600",
+      "statistic": 1.0,
+      "p_value": 0.9810231752954329,
+      "degrees_of_freedom": null,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Fisher Exact Test: Band 800+",
+      "test_key": "fisher_band_800+",
+      "statistic": 1.4090909090909092,
+      "p_value": 0.694150773741175,
+      "degrees_of_freedom": null,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": true,
+      "notes": null
+    },
+    {
+      "test_name": "Mann-Whitney U: Approved vs Declined Scores",
+      "test_key": "mann_whitney_scores",
+      "statistic": 3354.0,
+      "p_value": 0.694150773741175,
+      "degrees_of_freedom": null,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    }
+  ],
+  "correction_method": "bh",
+  "n_significant": 0
+}

@@ -1,44 +1,281 @@
-/* Additional styling for Dataset Detail to make ag-grid look good in dark mode */
-
 .dataset-detail-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
-.tab-content {
-  flex: 1;
+.detail-header-spacing {
+  margin-bottom: 1.5rem;
 }
 
-/* Custom dark theme overrides for ag-grid */
-.ag-theme-alpine-dark {
-  --ag-background-color: var(--bg-secondary);
-  --ag-header-background-color: var(--bg-primary);
-  --ag-border-color: var(--border-color);
-  --ag-row-border-color: var(--border-light);
-  --ag-header-column-separator-display: none;
-  --ag-header-column-resize-handle-display: block;
-  --ag-font-family: var(--font-sans);
-  --ag-font-size: 14px;
-  
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-card);
+.detail-header-flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.ag-theme-alpine-dark .ag-header-cell-label {
+.back-btn {
+  padding: 0.5rem;
+}
+
+.tab-content-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.summary-label {
+  color: var(--text-muted);
+}
+
+.summary-value {
+  font-size: 1.25rem;
   font-weight: 600;
+}
+
+.mapping-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.mapping-title {
+  margin-bottom: 0.5rem;
+}
+
+.mapping-subtitle {
+  color: var(--text-muted);
+}
+
+.mapping-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.validation-box {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid;
+}
+
+.validation-box.valid {
+  background: rgba(16, 185, 129, 0.1);
+  border-left-color: var(--success);
+}
+
+.validation-box.invalid {
+  background: rgba(239, 68, 68, 0.1);
+  border-left-color: var(--error);
+}
+
+.validation-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.validation-box.valid .validation-header strong {
+  color: var(--success);
+}
+
+.validation-box.invalid .validation-header strong {
+  color: var(--error);
+}
+
+.validation-errors {
+  padding-left: 2rem;
+  color: var(--error);
+}
+
+.mapping-select {
+  padding: 0.5rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  width: 200px;
+}
+
+.dataset-tab-panel {
+  padding-top: 1.5rem;
+}
+
+/* Fix AG Grid filter input overlap */
+.ag-theme-alpine .ag-filter-body input[type="text"],
+.ag-theme-alpine .ag-floating-filter-input input[type="text"],
+.ag-theme-alpine .ag-text-field-input {
+  padding-left: 24px !important;
+}
+
+/* Data Explorer & Preview */
+.null-cell-highlight {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--error);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-weight: 500;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.preview-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.preview-description {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+}
+
+.preview-search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.search-icon {
+  margin-right: 0.5rem;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  color: var(--text-primary);
+  width: 250px;
+  font-size: 0.9rem;
+}
+
+.ag-grid-wrapper {
+  height: 650px;
+  width: 100%;
+}
+
+.column-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.violation-note {
+  color: var(--error);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* MRM Checklist */
+.mrm-checklist-grid {
+  padding: 0 1.5rem 1.5rem;
+  display: flex;
+  gap: 1.25rem;
+}
+
+.checklist-card {
+  flex: 1;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.checklist-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.checklist-title {
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+
+.checklist-desc {
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 12px;
+  margin-bottom: 1rem;
+  flex: 1;
+  line-height: 1.4;
 }
 
-.ag-theme-alpine-dark .ag-row {
-  transition: background-color var(--transition-fast);
+.checklist-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-top: 1px solid var(--border-primary);
+  padding-top: 0.75rem;
 }
 
-.ag-theme-alpine-dark .ag-row-hover {
-  background-color: rgba(255, 255, 255, 0.03);
+.checklist-status.status-valid {
+  color: var(--success);
+}
+
+.checklist-status.status-invalid {
+  color: var(--error);
+}
+
+.validation-box-margin {
+  margin: 0 1.5rem 1.5rem;
+}
+
+.back-btn-custom {
+  padding: 0.5rem;
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+
+.dataset-title-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dataset-icon-badge {
+  padding: 0.75rem;
+  background: var(--bg-tertiary);
+  border-radius: 0.75rem;
+  color: var(--brand-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dataset-page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.dataset-id-subtitle {
+  margin: 0;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
 }

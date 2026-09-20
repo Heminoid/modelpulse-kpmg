@@ -1,0 +1,4 @@
+{
+  "available": false,
+  "reason": "event_time column contains single unique value or is entirely malformed \u2014 time-series analysis requires time variation"
+}

@@ -25,5 +25,32 @@
     "download_url": "/api/v1/runs/run_ccc255019c82/reports/report_5cce82d9/download",
     "size_bytes": 292732,
     "generated_at": "2026-07-05T16:44:18.259864+00:00"
+  },
+  {
+    "report_id": "report_43bd7a9b",
+    "report_type": "full_technical",
+    "format": "docx",
+    "file_path": "storage/runs/run_ccc255019c82/report_43bd7a9b.docx",
+    "download_url": "/api/v1/runs/run_ccc255019c82/reports/report_43bd7a9b/download",
+    "size_bytes": 37922,
+    "generated_at": "2026-09-16T18:45:05.534403+00:00"
+  },
+  {
+    "report_id": "report_d77c2369",
+    "report_type": "full_technical",
+    "format": "docx",
+    "file_path": "storage/runs/run_ccc255019c82/report_d77c2369.docx",
+    "download_url": "/api/v1/runs/run_ccc255019c82/reports/report_d77c2369/download",
+    "size_bytes": 240655,
+    "generated_at": "2026-09-16T18:57:34.240207+00:00"
+  },
+  {
+    "report_id": "report_2daa1f25",
+    "report_type": "full_technical",
+    "format": "docx",
+    "file_path": "storage/runs/run_ccc255019c82/report_2daa1f25.docx",
+    "download_url": "/api/v1/runs/run_ccc255019c82/reports/report_2daa1f25/download",
+    "size_bytes": 240728,
+    "generated_at": "2026-09-16T19:04:05.563744+00:00"
   }
 ]

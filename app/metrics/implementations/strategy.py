@@ -65,3 +65,80 @@ register_metric(
         calculation_fn=_calc_bad_rate,
     )
 )
+
+
+def _calc_bad_rate_approved(df: pd.DataFrame, mapped_roles: dict[str, list[str]], mapping, **kwargs) -> MetricResult:
+    decision_col = mapped_roles["decision"][0]
+    target_col = mapped_roles["target"][0]
+    approved_label = mapping.decision_positive_label
+
+    clean_df = df[[decision_col, target_col]].dropna()
+    if len(clean_df) == 0:
+        return MetricResult(status="skipped", skipped_reason="Empty decision/target columns")
+
+    if clean_df[decision_col].dtype == object:
+        is_approved = clean_df[decision_col].astype(str).str.upper() == str(approved_label).upper()
+    else:
+        is_approved = clean_df[decision_col] == 1
+
+    approved = clean_df[is_approved]
+    if len(approved) == 0:
+        return MetricResult(status="skipped", skipped_reason="No approved records")
+
+    br = float(approved[target_col].mean())
+    return MetricResult(
+        status="ok",
+        scalar_value=br,
+    )
+
+register_metric(
+    MetricDefinition(
+        metric_key="strategy_bad_rate_approved",
+        display_name="Bad Rate (Approved Only)",
+        category="strategy",
+        description="Realized default rate among approved accounts only",
+        required_roles=["decision", "target"],
+        optional_roles=[],
+        template_compatibility=["all"],
+        output_type="scalar",
+        chart_recommendation="none",
+        threshold_support=True,
+        calculation_fn=_calc_bad_rate_approved,
+    )
+)
+
+
+def _calc_decline_rate(df: pd.DataFrame, mapped_roles: dict[str, list[str]], mapping, **kwargs) -> MetricResult:
+    decision_col = mapped_roles["decision"][0]
+    approved_label = mapping.decision_positive_label
+
+    clean_df = df[decision_col].dropna()
+    if len(clean_df) == 0:
+        return MetricResult(status="skipped", skipped_reason="Empty decision column")
+
+    if clean_df.dtype == object:
+        is_approved = clean_df.astype(str).str.upper() == str(approved_label).upper()
+    else:
+        is_approved = clean_df == 1
+
+    dr = float((~is_approved).mean())
+    return MetricResult(
+        status="ok",
+        scalar_value=dr,
+    )
+
+register_metric(
+    MetricDefinition(
+        metric_key="strategy_decline_rate",
+        display_name="Decline Rate",
+        category="strategy",
+        description="Percentage of applications declined",
+        required_roles=["decision"],
+        optional_roles=[],
+        template_compatibility=["all"],
+        output_type="scalar",
+        chart_recommendation="none",
+        threshold_support=True,
+        calculation_fn=_calc_decline_rate,
+    )
+)

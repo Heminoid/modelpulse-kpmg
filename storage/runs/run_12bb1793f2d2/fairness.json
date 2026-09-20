@@ -1,0 +1,120 @@
+{
+  "proxy_groups_analyzed": [
+    "merchant_category"
+  ],
+  "overall_approval_rate": 0.92875,
+  "di_results": [
+    {
+      "group_col": "merchant_category",
+      "group_value": "gaming",
+      "n": 95,
+      "approval_rate": 0.7684,
+      "reference_rate": 0.9288,
+      "di_ratio": 0.8274,
+      "status": "warning",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "merchant_category used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "merchant_category",
+      "group_value": "crypto",
+      "n": 80,
+      "approval_rate": 0.8125,
+      "reference_rate": 0.9288,
+      "di_ratio": 0.8748,
+      "status": "warning",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "merchant_category used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "merchant_category",
+      "group_value": "travel",
+      "n": 131,
+      "approval_rate": 0.9466,
+      "reference_rate": 0.9288,
+      "di_ratio": 1.0192,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "merchant_category used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "merchant_category",
+      "group_value": "grocery",
+      "n": 191,
+      "approval_rate": 0.9634,
+      "reference_rate": 0.9288,
+      "di_ratio": 1.0373,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "merchant_category used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "merchant_category",
+      "group_value": "fashion",
+      "n": 140,
+      "approval_rate": 0.9786,
+      "reference_rate": 0.9288,
+      "di_ratio": 1.0536,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "merchant_category used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "merchant_category",
+      "group_value": "electronics",
+      "n": 163,
+      "approval_rate": 0.9816,
+      "reference_rate": 0.9288,
+      "di_ratio": 1.0569,
+      "status": "ok",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "merchant_category used as proxy variable. Not a legally protected class."
+    }
+  ],
+  "adverse_impact_flags": [],
+  "borderline_flags": [
+    {
+      "group_col": "merchant_category",
+      "group_value": "gaming",
+      "n": 95,
+      "approval_rate": 0.7684,
+      "reference_rate": 0.9288,
+      "di_ratio": 0.8274,
+      "status": "warning",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "merchant_category used as proxy variable. Not a legally protected class."
+    },
+    {
+      "group_col": "merchant_category",
+      "group_value": "crypto",
+      "n": 80,
+      "approval_rate": 0.8125,
+      "reference_rate": 0.9288,
+      "di_ratio": 0.8748,
+      "status": "warning",
+      "fourfifths_rule_breach": "False",
+      "low_power_warning": "False",
+      "is_proxy": true,
+      "proxy_note": "merchant_category used as proxy variable. Not a legally protected class."
+    }
+  ],
+  "regulatory_note": "Proxy analysis only. ECOA/FHA require actual protected class data.",
+  "recommended_actions": [
+    "Monitor borderline groups for emerging adverse impact trends."
+  ],
+  "ecoa_compliance_summary": "No direct adverse impact detected. Borderline: gaming (DI=0.8274)"
+}

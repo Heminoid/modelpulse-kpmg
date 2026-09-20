@@ -1,0 +1,50 @@
+{
+  "available": true,
+  "time_column": "application_time",
+  "periods": [
+    {
+      "period": "2025-01",
+      "volume": 459,
+      "default_rate": 0.1046,
+      "mean_score": 654.11,
+      "approval_rate": 0.7778
+    },
+    {
+      "period": "2025-02",
+      "volume": 379,
+      "default_rate": 0.0897,
+      "mean_score": 658.09,
+      "approval_rate": 0.8153
+    },
+    {
+      "period": "2025-03",
+      "volume": 471,
+      "default_rate": 0.0955,
+      "mean_score": 659.64,
+      "approval_rate": 0.8047
+    },
+    {
+      "period": "2025-04",
+      "volume": 372,
+      "default_rate": 0.129,
+      "mean_score": 656.51,
+      "approval_rate": 0.7661
+    },
+    {
+      "period": "2025-05",
+      "volume": 458,
+      "default_rate": 0.1092,
+      "mean_score": 660.16,
+      "approval_rate": 0.8013
+    },
+    {
+      "period": "2025-06",
+      "volume": 361,
+      "default_rate": 0.1025,
+      "mean_score": 656.04,
+      "approval_rate": 0.7839
+    }
+  ],
+  "total_periods": 6,
+  "trend_summary": "Analyzed 6 cohorts from 2025-01 to 2025-06"
+}

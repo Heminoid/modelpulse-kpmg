@@ -7,6 +7,7 @@ HEALTH_WEIGHTS = {
     "psi_prediction_score":     0.20,
     "calib_ratio_overall": 0.20,
     "perf_auc":            0.15,
+    "csi_feature_drift":   0.15,
 }
 
 def compute_health_score(results: list[MetricResult]) -> HealthScore:
@@ -21,6 +22,7 @@ def compute_health_score(results: list[MetricResult]) -> HealthScore:
         "psi_prediction_score":     lambda v: max(0.0, 100.0 - (v / 0.25) * 100),
         "calib_ratio_overall": lambda v: max(0.0, 100.0 - abs(1.0 - v) * 200),
         "perf_auc":            lambda v: min(100.0, max(0.0, (v - 0.5) / 0.3 * 100)),
+        "csi_feature_drift":   lambda v: max(0.0, 100.0 - (v / 0.25) * 100),
     }
     
     components = {}
@@ -33,6 +35,8 @@ def compute_health_score(results: list[MetricResult]) -> HealthScore:
             key = "calib_ratio_overall"
             
         if key in HEALTH_WEIGHTS and r.scalar_value is not None:
+            if key in components:
+                continue
             scorer = scorers.get(key)
             if scorer:
                 c_score = scorer(r.scalar_value)

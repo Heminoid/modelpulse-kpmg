@@ -1,0 +1,78 @@
+{
+  "tests": [
+    {
+      "test_name": "Hosmer-Lemeshow Test",
+      "test_key": "hosmer_lemeshow",
+      "statistic": 41.541368223844,
+      "p_value": 3.3016069636595687e-06,
+      "degrees_of_freedom": 8,
+      "conclusion": "Reject H\u2080 \u2014 distributions differ",
+      "pass_fail": "fail",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Binomial Test: Band 600-700",
+      "test_key": "binom_band_600-700",
+      "statistic": 225.0,
+      "p_value": 1.0,
+      "degrees_of_freedom": null,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Binomial Test: Band 700-800",
+      "test_key": "binom_band_700-800",
+      "statistic": 23.0,
+      "p_value": 1.0,
+      "degrees_of_freedom": null,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Binomial Test: Band <600",
+      "test_key": "binom_band_<600",
+      "statistic": 210.0,
+      "p_value": 2.6584506291665387e-48,
+      "degrees_of_freedom": null,
+      "conclusion": "Reject H\u2080 \u2014 distributions differ",
+      "pass_fail": "fail",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Binomial Test: Band 800+",
+      "test_key": "binom_band_800+",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "degrees_of_freedom": null,
+      "conclusion": "Fail to reject H\u2080 \u2014 distributions are similar",
+      "pass_fail": "pass",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    },
+    {
+      "test_name": "Mann-Whitney U: Approved vs Declined Scores",
+      "test_key": "mann_whitney_scores",
+      "statistic": 3372339.5,
+      "p_value": 1.43079984038083e-251,
+      "degrees_of_freedom": null,
+      "conclusion": "Reject H\u2080 \u2014 distributions differ",
+      "pass_fail": "fail",
+      "alpha": 0.05,
+      "small_sample_warning": false,
+      "notes": null
+    }
+  ],
+  "correction_method": "bh",
+  "n_significant": 3
+}

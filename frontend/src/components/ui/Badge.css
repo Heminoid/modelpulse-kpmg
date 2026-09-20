@@ -1,0 +1,72 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  gap: var(--space-xs);
+  white-space: nowrap;
+}
+
+/* Sizes */
+.badge-sm {
+  padding: 2px 8px;
+  font-size: var(--font-size-xs);
+}
+
+.badge-sm .badge-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.badge-md {
+  padding: 4px 12px;
+  font-size: var(--font-size-sm);
+}
+
+.badge-md .badge-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.badge-lg {
+  padding: 6px 16px;
+  font-size: var(--font-size-base);
+}
+
+.badge-lg .badge-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Status Variants */
+.badge-healthy {
+  background-color: var(--status-healthy-bg);
+  color: var(--status-healthy);
+  border-color: var(--status-healthy-border);
+}
+
+.badge-watch {
+  background-color: var(--status-watch-bg);
+  color: var(--status-watch);
+  border-color: var(--status-watch-border);
+}
+
+.badge-deteriorating {
+  background-color: var(--status-deteriorating-bg);
+  color: var(--status-deteriorating);
+  border-color: var(--status-deteriorating-border);
+}
+
+.badge-critical {
+  background-color: var(--status-critical-bg);
+  color: var(--status-critical);
+  border-color: var(--status-critical-border);
+}
+
+.badge-info {
+  background-color: var(--status-info-bg);
+  color: var(--status-info);
+  border-color: var(--status-info-border);
+}

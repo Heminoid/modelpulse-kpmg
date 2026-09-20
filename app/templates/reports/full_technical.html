@@ -89,6 +89,26 @@
         </div>
         {% endif %}
 
+        <!-- Key Insights (Deterministic Findings) -->
+        {% if insights and insights.deterministic_findings %}
+        <div class="mb-10 avoid-break">
+            <h2 class="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-6">Key Insights</h2>
+            <div class="space-y-3">
+                {% for f in insights.deterministic_findings %}
+                <div class="p-4 rounded-lg {% if f.severity == 'critical' %}bg-red-50 border border-red-200{% elif f.severity == 'warning' %}bg-orange-50 border border-orange-200{% else %}bg-blue-50 border border-blue-200{% endif %}">
+                    <p class="font-bold text-gray-900">{{ f.title }} <span class="text-xs font-semibold uppercase text-gray-500">[{{ f.severity }}]</span></p>
+                    <p class="text-gray-700 mt-1">{{ f.narrative }}</p>
+                    {% if f.recommended_actions %}
+                    <ul class="list-disc pl-5 mt-2 text-sm text-gray-600">
+                        {% for a in f.recommended_actions %}<li>{{ a }}</li>{% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Alerts -->
         {% if alerts %}
         <div class="mb-10 avoid-break">
@@ -127,7 +147,7 @@
                             <td class="px-6 py-4 font-medium">{{ m.display_name or m.metric_key }}</td>
                             <td class="px-6 py-4">{{ m.category | default('GENERAL') }}</td>
                             <td class="px-6 py-4">{{ "%.4f"|format(m.scalar_value) if m.scalar_value is not none else "N/A" }}</td>
-                            <td class="px-6 py-4 text-gray-500">{{ m.lower_threshold or m.upper_threshold or 'N/A' }}</td>
+                            <td class="px-6 py-4 text-gray-500">{{ m.threshold_value if m.threshold_value is not none else 'N/A' }}</td>
                             <td class="px-6 py-4">
                                 <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase
                                     {% if m.status == 'ok' %}bg-green-100 text-green-800
@@ -223,6 +243,48 @@
         </div>
         {% endif %}
 
+        <!-- Segment Breakdown -->
+        {% if segments %}
+        <div class="mb-10 page-break avoid-break">
+            <h2 class="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-6">Segment Breakdown</h2>
+            <div class="overflow-hidden rounded-lg border border-gray-200">
+                <table class="w-full text-left text-sm text-gray-700">
+                    <thead class="bg-gray-50 border-b border-gray-200 text-gray-900 font-semibold uppercase tracking-wider text-xs">
+                        <tr>
+                            <th class="px-6 py-4">Segment</th>
+                            <th class="px-6 py-4">Value</th>
+                            <th class="px-6 py-4 text-right">Count</th>
+                            <th class="px-6 py-4 text-right">Share</th>
+                            <th class="px-6 py-4 text-right">Bad Rate</th>
+                            <th class="px-6 py-4 text-right">Share Drift</th>
+                            <th class="px-6 py-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for s in segments %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium">{{ s.segment_column }}</td>
+                            <td class="px-6 py-4">{{ s.segment_value }}</td>
+                            <td class="px-6 py-4 text-right">{{ s.count }}</td>
+                            <td class="px-6 py-4 text-right">{{ "%.1f"|format(s.share_pct * 100) if s.share_pct is not none else 'N/A' }}%</td>
+                            <td class="px-6 py-4 text-right">{{ "%.2f"|format(s.bad_rate * 100) if s.bad_rate is not none else 'N/A' }}{% if s.bad_rate is not none %}%{% endif %}</td>
+                            <td class="px-6 py-4 text-right">{{ "%.2f"|format(s.share_drift * 100) if s.share_drift is not none else 'N/A' }}{% if s.share_drift is not none %}pp{% endif %}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase
+                                    {% if s.drift_status == 'alert' %}bg-red-100 text-red-800
+                                    {% elif s.drift_status == 'watch' %}bg-yellow-100 text-yellow-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ s.drift_status or 'n/a' }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Vintage Analysis -->
         {% if vintage and vintage.roll_rate_matrix %}
         <div class="mb-10 page-break avoid-break">
@@ -288,6 +350,40 @@
                 </div>
             </div>
             {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Time-Series Cohort Trends -->
+        {% if timeseries and timeseries.available %}
+        <div class="mb-10 page-break avoid-break">
+            <h2 class="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-6">Time-Series Cohort Trends</h2>
+            <p class="text-gray-600 mb-4">{{ timeseries.trend_summary }}</p>
+            {% if timeseries.periods %}
+            <div class="overflow-hidden rounded-lg border border-gray-200">
+                <table class="w-full text-left text-sm text-gray-700">
+                    <thead class="bg-gray-50 border-b border-gray-200 text-gray-900 font-semibold uppercase tracking-wider text-xs">
+                        <tr>
+                            <th class="px-6 py-4">Cohort Period</th>
+                            <th class="px-6 py-4 text-right">Volume</th>
+                            <th class="px-6 py-4 text-right">Default Rate</th>
+                            <th class="px-6 py-4 text-right">Mean Score</th>
+                            <th class="px-6 py-4 text-right">Approval Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for p in timeseries.periods %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium">{{ p.period }}</td>
+                            <td class="px-6 py-4 text-right">{{ p.volume }}</td>
+                            <td class="px-6 py-4 text-right">{{ "%.2f"|format(p.default_rate * 100) if p.default_rate is not none else 'N/A' }}{% if p.default_rate is not none %}%{% endif %}</td>
+                            <td class="px-6 py-4 text-right">{{ p.mean_score if p.mean_score is not none else 'N/A' }}</td>
+                            <td class="px-6 py-4 text-right">{{ "%.1f"|format(p.approval_rate * 100) if p.approval_rate is not none else 'N/A' }}{% if p.approval_rate is not none %}%{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
         </div>
         {% endif %}
 

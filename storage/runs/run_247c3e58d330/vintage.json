@@ -1,0 +1,5 @@
+{
+  "cohort_curves": null,
+  "reason": "event_time column not mapped or missing.",
+  "roll_rate_matrix": null
+}

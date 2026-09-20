@@ -1,0 +1,76 @@
+.health-gauge {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.gauge-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+.gauge-bg {
+  stroke: var(--border-primary);
+}
+
+.gauge-progress {
+  transition: stroke-dashoffset 1s ease-out, stroke 0.5s ease;
+}
+
+.gauge-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(20%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gauge-score {
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.gauge-status {
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Sizes */
+.gauge-sm {
+  min-width: 70px;
+}
+.gauge-sm .gauge-score {
+  font-size: 1.125rem;
+}
+.gauge-sm .gauge-status {
+  font-size: 0.55rem;
+}
+
+.gauge-md .gauge-score {
+  font-size: var(--font-size-3xl);
+}
+.gauge-md .gauge-status {
+  font-size: var(--font-size-xs);
+  margin-top: 4px;
+}
+
+.gauge-lg .gauge-score {
+  font-size: calc(var(--font-size-3xl) * 1.5);
+}
+.gauge-lg .gauge-status {
+  font-size: var(--font-size-sm);
+  margin-top: 8px;
+}

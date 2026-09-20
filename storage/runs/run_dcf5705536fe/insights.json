@@ -1,0 +1,97 @@
+{
+  "run_id": "run_dcf5705536fe",
+  "monitor_name": "Stable Monitor",
+  "template_type": "credit_scorecard_monitoring",
+  "run_date": "2026-09-20T12:11:42.714827+00:00",
+  "dataset_rows": 2500,
+  "has_baseline": true,
+  "target_base_rate": 0.1048,
+  "approval_rate": 0.792,
+  "metric_status_table": [
+    {
+      "metric_key": "calib_brier_score",
+      "value": 0.13598371712659207,
+      "status": "ok"
+    },
+    {
+      "metric_key": "calib_summary",
+      "value": 1.105260262636837,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_row_count",
+      "value": 2500.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_duplicate_count",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_invalid_probability",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_invalid_target",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "dq_score_pd_coherence",
+      "value": -0.9836445780682199,
+      "status": "ok"
+    },
+    {
+      "metric_key": "psi_prediction_score",
+      "value": 0.0076784495621647405,
+      "status": "ok"
+    },
+    {
+      "metric_key": "csi_feature_drift",
+      "value": 0.019623,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_auc",
+      "value": 0.7948464755199912,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_gini",
+      "value": 0.5896929510399824,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_ks",
+      "value": 0.4664060741256165,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_approval_rate",
+      "value": 0.792,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_bad_rate",
+      "value": 0.1048,
+      "status": "ok"
+    }
+  ],
+  "threshold_breaches": [],
+  "top_worsening_metrics": [],
+  "top_drifting_features": [],
+  "top_worsening_segments": [],
+  "calibration_ratio_overall": null,
+  "calibration_worst_band": null,
+  "severe_dpd_rate": null,
+  "dpd_worst_segment": null,
+  "deterministic_findings": [],
+  "finding_count_by_severity": {
+    "critical": 0,
+    "warning": 0,
+    "info": 0
+  },
+  "priority_review_areas": []
+}

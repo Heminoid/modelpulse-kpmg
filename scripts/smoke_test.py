@@ -255,7 +255,9 @@ def phase_3(client: httpx.Client) -> None:
     keys = [
         "perf_auc", "perf_gini", "perf_ks", "perf_decile_table",
         "calib_summary", "strategy_bad_rate", "strategy_approval_rate",
-        "delinq_buckets", "dq_score_pd_coherence", "psi_prediction_score"
+        "strategy_bad_rate_approved", "strategy_decline_rate",
+        "delinq_buckets", "delinq_severe_rate", "delinq_30plus_rate",
+        "dq_score_pd_coherence", "psi_prediction_score"
     ]
     
     results = run_metrics(df, mapping, keys)
@@ -268,6 +270,10 @@ def phase_3(client: httpx.Client) -> None:
     check("Bad rate matches expected", abs(res_map["strategy_bad_rate"].scalar_value - ev.BAD_RATE) < 1e-3)
     check("Approval rate matches expected", abs(res_map["strategy_approval_rate"].scalar_value - ev.APPROVAL_RATE) < 1e-3)
     check("Calibration ratio matches expected", abs(res_map["calib_summary"].scalar_value - ev.CALIBRATION_RATIO) < 1e-3)
+    check("Delinquency severe rate matches expected", abs(res_map["delinq_severe_rate"].scalar_value - 0.2386) < 1e-3)
+    check("Delinquency 30+ DPD rate matches expected", abs(res_map["delinq_30plus_rate"].scalar_value - 0.4924) < 1e-3)
+    check("Bad rate on approved matches expected", abs(res_map["strategy_bad_rate_approved"].scalar_value - ev.BAD_RATE_ON_APPROVED) < 1e-3)
+    check("Decline rate matches expected", abs(res_map["strategy_decline_rate"].scalar_value - (1 - ev.APPROVAL_RATE)) < 1e-3)
     
     # Check tables
     check("Decile table has 10 rows", len(res_map["perf_decile_table"].table_data) == 10)
@@ -404,6 +410,9 @@ def phase_4(client: httpx.Client) -> None:
         
         warn_auc = [a for a in alerts2 if a["metric_key"] == "perf_auc" and a["severity"] == "warning"]
         check("Warning AUC decline fired", len(warn_auc) > 0)
+
+        csi_alerts = [a for a in alerts2 if a["metric_key"].startswith("csi_") and a["severity"] in ["warning", "critical"]]
+        check("Feature CSI alert fired on drifted", len(csi_alerts) > 0)
     else:
         check("Alerts artifact exists for drifted", False)
         
@@ -571,6 +580,13 @@ def phase_7(client: httpx.Client, run_id: str) -> None:
     if res.status_code == 200:
         check("List includes generated report", len(res.json()["data"]) > 0)
 
+    # Report QA checklist check
+    qa_res = client.get(f"{BASE_URL}/api/v1/runs/{run_id}/reports/qa/sr_11_7")
+    check("GET /reports/qa/sr_11_7 returns 200", qa_res.status_code == 200)
+    if qa_res.status_code == 200:
+        qa_data = qa_res.json()["data"]
+        check("QA checklist completes with no missing metrics", qa_data.get("complete") is True or len(qa_data.get("missing", [])) == 0)
+
 def phase_8_acceptance(client) -> None:
     heading("Phase 8: Full Acceptance (6 datasets)")
     import os
@@ -627,21 +643,24 @@ def phase_8_acceptance(client) -> None:
     _, _, run_stable = setup_monitor("stable", "healthy_current_stable.csv", is_baseline=False, baseline_id=baseline_id)
     with open(f"storage/runs/{run_stable}/alerts.json") as f:
         alerts = json.load(f)
-    drift_perf_alerts = [a for a in alerts if a["alert_type"] in ["drift", "performance"]]
+    drift_perf_alerts = [a for a in alerts if a.get("category") in ["drift", "performance"]]
     check("Zero drift/performance alerts on stable", len(drift_perf_alerts) == 0)
     
     # 3. healthy_current_drifted.csv
     _, _, run_drifted = setup_monitor("drifted", "healthy_current_drifted.csv", is_baseline=False, baseline_id=baseline_id)
     with open(f"storage/runs/{run_drifted}/alerts.json") as f:
         alerts = json.load(f)
+    check("Alerts fired on negative-control drifted run", len(alerts) > 0)
     check("Critical PSI alert fired", any(a["metric_key"] == "psi_prediction_score" and a["severity"] == "critical" for a in alerts))
     
     # 4. fraud_sample.csv
-    _, _, run_fraud = setup_monitor("fraud", "fraud_sample.csv", score_direction="lower_is_better", dec_label="APPROVE")
+    _, _, run_fraud = setup_monitor("fraud", "fraud_sample.csv", score_direction="lower_is_better", dec_label="APPROVED")
     with open(f"storage/runs/{run_fraud}/metrics.json") as f:
         metrics = json.load(f)
     auc_val = next(m["scalar_value"] for m in metrics if m["metric_key"] == "perf_auc")
     check("Fraud AUC ≈ 0.755 (fixes direction bug)", abs(auc_val - 0.755) < 0.05)
+    fraud_approval = next(m["scalar_value"] for m in metrics if m["metric_key"] == "strategy_approval_rate")
+    check("Fraud approval rate respects configured decision_positive_label", fraud_approval is not None and fraud_approval > 0.1)
     
     # 5. edge_cases.csv
     _, _, run_edge = setup_monitor("edge", "edge_cases.csv")

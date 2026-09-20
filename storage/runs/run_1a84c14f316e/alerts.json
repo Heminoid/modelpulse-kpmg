@@ -1,0 +1,38 @@
+[
+  {
+    "alert_id": "al_cea6376b072b",
+    "run_id": "run_1a84c14f316e",
+    "metric_key": "calib_summary",
+    "metric_display_name": "Calibration Ratio",
+    "category": "calibration",
+    "severity": "critical",
+    "observed_value": 0.5935176968362323,
+    "threshold_value": 0.6,
+    "message": "Calibration Ratio = 0.5935, outside critical range [0.6, 1.5]",
+    "triggered_at": "2026-09-20 18:45:36.898443+00:00"
+  },
+  {
+    "alert_id": "al_9e3ae8efdb3d",
+    "run_id": "run_1a84c14f316e",
+    "metric_key": "delinq_severe_rate",
+    "metric_display_name": "Severe Delinquency Rate",
+    "category": "delinquency",
+    "severity": "critical",
+    "observed_value": 0.23857868020304568,
+    "threshold_value": 0.2,
+    "message": "Severe Delinquency Rate = 0.2386, exceeds critical threshold of 0.2",
+    "triggered_at": "2026-09-20 18:45:36.898453+00:00"
+  },
+  {
+    "alert_id": "al_38575957472a",
+    "run_id": "run_1a84c14f316e",
+    "metric_key": "delinq_30plus_rate",
+    "metric_display_name": "30+ DPD Rate",
+    "category": "delinquency",
+    "severity": "critical",
+    "observed_value": 0.49238578680203043,
+    "threshold_value": 0.25,
+    "message": "30+ DPD Rate = 0.4924, exceeds critical threshold of 0.25",
+    "triggered_at": "2026-09-20 18:45:36.898458+00:00"
+  }
+]

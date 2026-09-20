@@ -62,3 +62,4 @@ class ChampionChallengerResult(BaseModel):
     metric_winners: dict
     recommendation: str
     summary: str
+    ai_narrative: dict | None = None

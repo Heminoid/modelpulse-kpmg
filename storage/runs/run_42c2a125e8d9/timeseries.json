@@ -1,0 +1,92 @@
+{
+  "available": true,
+  "time_column": "application_time",
+  "periods": [
+    {
+      "period": "2024-01",
+      "volume": 451,
+      "default_rate": 0.133,
+      "mean_score": 657.64,
+      "approval_rate": 0.796
+    },
+    {
+      "period": "2024-02",
+      "volume": 401,
+      "default_rate": 0.1022,
+      "mean_score": 661.97,
+      "approval_rate": 0.8055
+    },
+    {
+      "period": "2024-03",
+      "volume": 421,
+      "default_rate": 0.0855,
+      "mean_score": 656.67,
+      "approval_rate": 0.7957
+    },
+    {
+      "period": "2024-04",
+      "volume": 406,
+      "default_rate": 0.0837,
+      "mean_score": 661.32,
+      "approval_rate": 0.83
+    },
+    {
+      "period": "2024-05",
+      "volume": 395,
+      "default_rate": 0.0709,
+      "mean_score": 661.22,
+      "approval_rate": 0.7949
+    },
+    {
+      "period": "2024-06",
+      "volume": 400,
+      "default_rate": 0.085,
+      "mean_score": 656.32,
+      "approval_rate": 0.7725
+    },
+    {
+      "period": "2024-07",
+      "volume": 447,
+      "default_rate": 0.085,
+      "mean_score": 659.9,
+      "approval_rate": 0.8076
+    },
+    {
+      "period": "2024-08",
+      "volume": 417,
+      "default_rate": 0.1103,
+      "mean_score": 659.58,
+      "approval_rate": 0.7722
+    },
+    {
+      "period": "2024-09",
+      "volume": 431,
+      "default_rate": 0.0998,
+      "mean_score": 661.76,
+      "approval_rate": 0.8074
+    },
+    {
+      "period": "2024-10",
+      "volume": 446,
+      "default_rate": 0.074,
+      "mean_score": 663.65,
+      "approval_rate": 0.8206
+    },
+    {
+      "period": "2024-11",
+      "volume": 435,
+      "default_rate": 0.0874,
+      "mean_score": 658.13,
+      "approval_rate": 0.8138
+    },
+    {
+      "period": "2024-12",
+      "volume": 350,
+      "default_rate": 0.0771,
+      "mean_score": 659.89,
+      "approval_rate": 0.7943
+    }
+  ],
+  "total_periods": 12,
+  "trend_summary": "Analyzed 12 cohorts from 2024-01 to 2024-12"
+}

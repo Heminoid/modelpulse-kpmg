@@ -1,0 +1,4 @@
+{
+  "available": false,
+  "reason": "event_time column could not be parsed as datetimes (majority invalid)"
+}

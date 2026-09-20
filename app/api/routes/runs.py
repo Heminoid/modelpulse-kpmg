@@ -67,6 +67,54 @@ def get_chart_image(run_id: str, chart_id: str, format: str = "png"):
     media_type = "image/svg+xml" if format == "svg" else "image/png"
     return Response(content=img_bytes, media_type=media_type)
 
+@router.get("/{run_id}/health")
+def get_run_health(run_id: str):
+    run = store.get(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+        
+    health = store.load_artifact(run_id, "health.json")
+    if not health:
+        raise HTTPException(status_code=404, detail="Health data not found for this run")
+        
+    return APIResponse(success=True, data=health)
+
+@router.get("/{run_id}/alerts")
+def get_run_alerts(run_id: str):
+    run = store.get(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+        
+    alerts = store.load_artifact(run_id, "alerts.json")
+    if alerts is None:
+        raise HTTPException(status_code=404, detail="Alerts not found for this run")
+        
+    return APIResponse(success=True, data=alerts)
+
+@router.get("/{run_id}/segments")
+def get_run_segments(run_id: str):
+    run = store.get(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+        
+    segments = store.load_artifact(run_id, "segments.json")
+    if segments is None:
+        raise HTTPException(status_code=404, detail="Segments not found for this run")
+        
+    return APIResponse(success=True, data=segments)
+
+@router.get("/{run_id}/insights")
+def get_run_insights(run_id: str):
+    run = store.get(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+        
+    insights = store.load_artifact(run_id, "insights.json")
+    if not insights:
+        raise HTTPException(status_code=404, detail="Insights not found for this run")
+        
+    return APIResponse(success=True, data=insights)
+
 @router.get("/{run_id}/metrics")
 def get_run_metrics(run_id: str):
     run = store.get(run_id)
@@ -154,6 +202,26 @@ def get_run_time_series(run_id: str):
         
     return APIResponse(success=True, data=ts)
 
+@router.get("/{run_id}/narratives/verify")
+def verify_narrative_citations_endpoint(run_id: str):
+    run = store.get(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+    
+    narrative = store.load_artifact(run_id, "narratives.json")
+    if not narrative:
+        raise HTTPException(status_code=404, detail="No narrative found for this run")
+    
+    metrics = store.load_artifact(run_id, "metrics.json") or []
+    alerts = store.load_artifact(run_id, "alerts.json") or []
+    health = store.load_artifact(run_id, "health.json") or {}
+    stat_tests = store.load_artifact(run_id, "stat_tests.json") or {}
+    
+    from app.services.citation_verifier import verify_narrative_citations
+    result = verify_narrative_citations(narrative, metrics, alerts, health, stat_tests)
+    
+    return APIResponse(success=True, data=result)
+
 @router.get("/{run_id}", response_model=APIResponse[RunMetadata])
 def get_run(run_id: str):
     run = store.get(run_id)
@@ -170,7 +238,7 @@ def delete_run(run_id: str):
 
 
 @router.post("/{run_id}/narratives")
-async def generate_narrative(run_id: str):
+async def generate_narrative(run_id: str, section: str | None = None):
     run = store.get(run_id)
     if not run:
         raise HTTPException(status_code=404, detail="Run not found")
@@ -184,7 +252,9 @@ async def generate_narrative(run_id: str):
     
     context = InsightContext(**context_data)
     svc = LLMService()
-    narrative = await svc.generate_narrative(context)
+    
+    existing = store.load_artifact(run_id, "narratives.json") if section else None
+    narrative = await svc.generate_narrative(context, section=section, existing_narrative=existing)
     
     store.save_artifact(run_id, "narratives.json", narrative)
     return APIResponse(success=True, data=narrative)

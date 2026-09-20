@@ -54,6 +54,21 @@
         </div>
         {% endif %}
 
+        <!-- Key Insights -->
+        {% if insights and insights.deterministic_findings %}
+        <div class="mb-10 avoid-break">
+            <h2 class="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-6">Key Insights</h2>
+            <div class="space-y-3">
+                {% for f in insights.deterministic_findings %}
+                <div class="p-4 rounded-lg {% if f.severity == 'critical' %}bg-red-50 border border-red-200{% elif f.severity == 'warning' %}bg-orange-50 border border-orange-200{% else %}bg-blue-50 border border-blue-200{% endif %}">
+                    <p class="font-bold text-gray-900">{{ f.title }} <span class="text-xs font-semibold uppercase text-gray-500">[{{ f.severity }}]</span></p>
+                    <p class="text-gray-700 mt-1">{{ f.narrative }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Alerts -->
         {% if alerts %}
         <div class="mb-10 avoid-break">
@@ -104,6 +119,21 @@
                 {% endfor %}
             </div>
         </div>
+
+        <!-- Key Visualizations -->
+        {% if chart_images %}
+        <div class="mb-10 avoid-break">
+            <h2 class="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-6">Key Visualizations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% for chart_id, b64 in chart_images.items() %}
+                <div class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                    <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2 text-center">{{ chart_id.replace('_', ' ') }}</h3>
+                    <img class="chart-img" src="data:image/png;base64,{{ b64 }}" style="width: 100%; border-radius: 0.5rem;" alt="{{ chart_id }}" />
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
 
     </div>
 </div>

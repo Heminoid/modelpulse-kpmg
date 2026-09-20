@@ -1,0 +1,14 @@
+[
+  {
+    "alert_id": "al_401d21e79857",
+    "run_id": "run_af9a101d8d6d",
+    "metric_key": "delinq_30plus_rate",
+    "metric_display_name": "30+ DPD Rate",
+    "category": "delinquency",
+    "severity": "warning",
+    "observed_value": 0.16,
+    "threshold_value": 0.15,
+    "message": "30+ DPD Rate = 0.1600, exceeds warning threshold of 0.15",
+    "triggered_at": "2026-09-20 12:11:20.493098+00:00"
+  }
+]

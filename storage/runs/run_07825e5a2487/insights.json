@@ -1,0 +1,117 @@
+{
+  "run_id": "run_07825e5a2487",
+  "monitor_name": "baseline",
+  "template_type": "credit_scorecard_monitoring",
+  "run_date": "2026-09-20T17:59:11.313834+00:00",
+  "dataset_rows": 5000,
+  "has_baseline": false,
+  "target_base_rate": 0.0916,
+  "approval_rate": 0.8012,
+  "metric_status_table": [
+    {
+      "metric_key": "calib_brier_score",
+      "value": 0.11649367548031564,
+      "status": "ok"
+    },
+    {
+      "metric_key": "calib_summary",
+      "value": 0.9999999257641976,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_row_count",
+      "value": 5000.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_duplicate_count",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_null_rate",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_invalid_probability",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_invalid_target",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "dq_score_pd_coherence",
+      "value": -0.9835932614812057,
+      "status": "ok"
+    },
+    {
+      "metric_key": "dq_band_consistency",
+      "value": 1.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "delinq_severe_rate",
+      "value": 0.066,
+      "status": "ok"
+    },
+    {
+      "metric_key": "delinq_30plus_rate",
+      "value": 0.15,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_auc",
+      "value": 0.7853789185457805,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_gini",
+      "value": 0.5707578370915609,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_ks",
+      "value": 0.43529868726432963,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_approval_rate",
+      "value": 0.8012,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_bad_rate",
+      "value": 0.0916,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_bad_rate_approved",
+      "value": 0.06315526709935097,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_decline_rate",
+      "value": 0.1988,
+      "status": "ok"
+    }
+  ],
+  "threshold_breaches": [],
+  "top_worsening_metrics": [],
+  "top_drifting_features": [],
+  "top_worsening_segments": [],
+  "calibration_ratio_overall": null,
+  "calibration_worst_band": null,
+  "severe_dpd_rate": null,
+  "dpd_worst_segment": null,
+  "deterministic_findings": [],
+  "finding_count_by_severity": {
+    "critical": 0,
+    "warning": 0,
+    "info": 0
+  },
+  "priority_review_areas": []
+}

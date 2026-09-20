@@ -50,3 +50,7 @@
   padding: 1.5rem;
   flex: 1;
 }
+
+.card-body.p-0 {
+  padding: 0;
+}

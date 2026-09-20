@@ -1,0 +1,102 @@
+{
+  "run_id": "run_c2def4418a36",
+  "monitor_name": "edge",
+  "template_type": "credit_scorecard_monitoring",
+  "run_date": "2026-09-20T12:11:47.513186+00:00",
+  "dataset_rows": 420,
+  "has_baseline": false,
+  "target_base_rate": 0.09285714285714286,
+  "approval_rate": 0.8047619047619048,
+  "metric_status_table": [
+    {
+      "metric_key": "calib_brier_score",
+      "value": 0.05421492680887152,
+      "status": "ok"
+    },
+    {
+      "metric_key": "calib_summary",
+      "value": 0.936621489569675,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_row_count",
+      "value": 420.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_duplicate_count",
+      "value": 20.0,
+      "status": "warning"
+    },
+    {
+      "metric_key": "data_quality_invalid_probability",
+      "value": 5.0,
+      "status": "error"
+    },
+    {
+      "metric_key": "data_quality_invalid_target",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "dq_score_pd_coherence",
+      "value": -0.9724413526716542,
+      "status": "ok"
+    },
+    {
+      "metric_key": "dq_band_consistency",
+      "value": 1.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "delinq_severe_rate",
+      "value": 0.07142857142857142,
+      "status": "ok"
+    },
+    {
+      "metric_key": "delinq_30plus_rate",
+      "value": 0.15,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_auc",
+      "value": 0.8291615479115478,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_gini",
+      "value": 0.6583230958230957,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_ks",
+      "value": 0.5095208845208845,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_approval_rate",
+      "value": 0.8047619047619048,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_bad_rate",
+      "value": 0.09285714285714286,
+      "status": "ok"
+    }
+  ],
+  "threshold_breaches": [],
+  "top_worsening_metrics": [],
+  "top_drifting_features": [],
+  "top_worsening_segments": [],
+  "calibration_ratio_overall": null,
+  "calibration_worst_band": null,
+  "severe_dpd_rate": null,
+  "dpd_worst_segment": null,
+  "deterministic_findings": [],
+  "finding_count_by_severity": {
+    "critical": 0,
+    "warning": 0,
+    "info": 0
+  },
+  "priority_review_areas": []
+}

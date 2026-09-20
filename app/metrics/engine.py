@@ -61,10 +61,20 @@ def run_metrics(
                 baseline_stats=baseline_stats,
             )
             # Ensure the result carries the base metadata
-            result.metric_key = definition.metric_key
-            result.display_name = definition.display_name
-            result.category = definition.category
-            results.append(result)
+            if isinstance(result, list):
+                for r in result:
+                    if not r.metric_key:
+                        r.metric_key = definition.metric_key
+                    if not r.display_name:
+                        r.display_name = definition.display_name
+                    if not r.category:
+                        r.category = definition.category
+                    results.append(r)
+            else:
+                result.metric_key = definition.metric_key
+                result.display_name = definition.display_name
+                result.category = definition.category
+                results.append(result)
         except Exception as e:
             logger.exception("Metric {} failed to execute", key)
             results.append(

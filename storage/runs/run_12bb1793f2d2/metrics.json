@@ -1,0 +1,575 @@
+[
+  {
+    "metric_key": "calib_brier_score",
+    "display_name": "Brier Skill Score",
+    "category": "calibration",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": -0.00019371963619274624,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": {
+      "brier_score": 0.03725565325376125,
+      "brier_null": 0.0372484375
+    },
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.608991+00:00"
+  },
+  {
+    "metric_key": "calib_summary",
+    "display_name": "Calibration Ratio",
+    "category": "calibration",
+    "status": "warning",
+    "skipped_reason": null,
+    "scalar_value": 0.7565936465121752,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": {
+      "realized_dr": 0.03875,
+      "avg_predicted_pd": 0.051216396250000004
+    },
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.609180+00:00"
+  },
+  {
+    "metric_key": "data_quality_row_count",
+    "display_name": "Row Count",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 800.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.609187+00:00"
+  },
+  {
+    "metric_key": "data_quality_duplicate_count",
+    "display_name": "Duplicate Row Count",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.609497+00:00"
+  },
+  {
+    "metric_key": "data_quality_null_rates",
+    "display_name": "Null Rates",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "column": "txn_id",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "record_id",
+        "status": "ok"
+      },
+      {
+        "column": "txn_date",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "event_time",
+        "status": "ok"
+      },
+      {
+        "column": "txn_amount",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "amount_field",
+        "status": "ok"
+      },
+      {
+        "column": "merchant_category",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "segment_field",
+        "status": "ok"
+      },
+      {
+        "column": "fraud_score",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "prediction_score",
+        "status": "ok"
+      },
+      {
+        "column": "fraud_probability",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "prediction_probability",
+        "status": "ok"
+      },
+      {
+        "column": "decision_flag",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "decision",
+        "status": "ok"
+      },
+      {
+        "column": "is_fraud",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "target",
+        "status": "ok"
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.609676+00:00"
+  },
+  {
+    "metric_key": "data_quality_invalid_probability",
+    "display_name": "Invalid Probability Count",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.609793+00:00"
+  },
+  {
+    "metric_key": "data_quality_invalid_target",
+    "display_name": "Invalid Target Count",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.609911+00:00"
+  },
+  {
+    "metric_key": "data_quality_readiness_summary",
+    "display_name": "Monitoring Readiness Summary",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "role": "target",
+        "mapped_column": "is_fraud",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "prediction_score",
+        "mapped_column": "fraud_score",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "prediction_probability",
+        "mapped_column": "fraud_probability",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "decision",
+        "mapped_column": "decision_flag",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "record_id",
+        "mapped_column": "txn_id",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "event_time",
+        "mapped_column": "txn_date",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "dpd_field",
+        "mapped_column": null,
+        "available": false,
+        "warning": "Missing critical role"
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.609919+00:00"
+  },
+  {
+    "metric_key": "dq_score_pd_coherence",
+    "display_name": "Score-PD Coherence",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.999993636688114,
+    "scalar_label": "Spearman \u03c1: 1.000",
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.610392+00:00"
+  },
+  {
+    "metric_key": "dq_band_consistency",
+    "display_name": "Band Consistency",
+    "category": "data_quality",
+    "status": "skipped",
+    "skipped_reason": "Missing required roles: score_band",
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.610404+00:00"
+  },
+  {
+    "metric_key": "delinq_buckets",
+    "display_name": "DPD Buckets",
+    "category": "delinquency",
+    "status": "skipped",
+    "skipped_reason": "Missing required roles: dpd_field",
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.610406+00:00"
+  },
+  {
+    "metric_key": "delinq_severe_rate",
+    "display_name": "Severe Delinquency Rate",
+    "category": "delinquency",
+    "status": "skipped",
+    "skipped_reason": "Missing required roles: dpd_field",
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.610408+00:00"
+  },
+  {
+    "metric_key": "delinq_30plus_rate",
+    "display_name": "30+ DPD Rate",
+    "category": "delinquency",
+    "status": "skipped",
+    "skipped_reason": "Missing required roles: dpd_field",
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.610409+00:00"
+  },
+  {
+    "metric_key": "psi_prediction_score",
+    "display_name": "Score PSI",
+    "category": "drift",
+    "status": "skipped",
+    "skipped_reason": "No baseline provided",
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.610412+00:00"
+  },
+  {
+    "metric_key": "csi_feature_drift",
+    "display_name": "Feature CSI Drift",
+    "category": "drift",
+    "status": "skipped",
+    "skipped_reason": "No baseline stats available for CSI",
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.610415+00:00"
+  },
+  {
+    "metric_key": "perf_auc",
+    "display_name": "ROC AUC",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.7549393850413189,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.611398+00:00"
+  },
+  {
+    "metric_key": "perf_gini",
+    "display_name": "Gini Coefficient",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.5098787700826377,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.612168+00:00"
+  },
+  {
+    "metric_key": "perf_ks",
+    "display_name": "KS Statistic",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.3975837912664122,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.612937+00:00"
+  },
+  {
+    "metric_key": "perf_decile_table",
+    "display_name": "Decile Table",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "decile": 1,
+        "n": 80,
+        "n_bads": 0,
+        "n_goods": 80,
+        "bad_rate": 0.0,
+        "cumulative_bad_pct": 0.0,
+        "cumulative_good_pct": 0.10403120936280884,
+        "lift": 0.0
+      },
+      {
+        "decile": 2,
+        "n": 80,
+        "n_bads": 1,
+        "n_goods": 79,
+        "bad_rate": 0.0125,
+        "cumulative_bad_pct": 0.03225806451612903,
+        "cumulative_good_pct": 0.2067620286085826,
+        "lift": 0.32258064516129037
+      },
+      {
+        "decile": 3,
+        "n": 80,
+        "n_bads": 0,
+        "n_goods": 80,
+        "bad_rate": 0.0,
+        "cumulative_bad_pct": 0.03225806451612903,
+        "cumulative_good_pct": 0.3107932379713914,
+        "lift": 0.0
+      },
+      {
+        "decile": 4,
+        "n": 80,
+        "n_bads": 2,
+        "n_goods": 78,
+        "bad_rate": 0.025,
+        "cumulative_bad_pct": 0.0967741935483871,
+        "cumulative_good_pct": 0.41222366710013003,
+        "lift": 0.6451612903225807
+      },
+      {
+        "decile": 5,
+        "n": 80,
+        "n_bads": 3,
+        "n_goods": 77,
+        "bad_rate": 0.0375,
+        "cumulative_bad_pct": 0.1935483870967742,
+        "cumulative_good_pct": 0.5123537061118335,
+        "lift": 0.9677419354838709
+      },
+      {
+        "decile": 6,
+        "n": 80,
+        "n_bads": 3,
+        "n_goods": 77,
+        "bad_rate": 0.0375,
+        "cumulative_bad_pct": 0.2903225806451613,
+        "cumulative_good_pct": 0.6124837451235371,
+        "lift": 0.9677419354838709
+      },
+      {
+        "decile": 7,
+        "n": 80,
+        "n_bads": 3,
+        "n_goods": 77,
+        "bad_rate": 0.0375,
+        "cumulative_bad_pct": 0.3870967741935484,
+        "cumulative_good_pct": 0.7126137841352406,
+        "lift": 0.9677419354838709
+      },
+      {
+        "decile": 8,
+        "n": 80,
+        "n_bads": 3,
+        "n_goods": 77,
+        "bad_rate": 0.0375,
+        "cumulative_bad_pct": 0.4838709677419355,
+        "cumulative_good_pct": 0.812743823146944,
+        "lift": 0.9677419354838709
+      },
+      {
+        "decile": 9,
+        "n": 80,
+        "n_bads": 6,
+        "n_goods": 74,
+        "bad_rate": 0.075,
+        "cumulative_bad_pct": 0.6774193548387096,
+        "cumulative_good_pct": 0.9089726918075423,
+        "lift": 1.9354838709677418
+      },
+      {
+        "decile": 10,
+        "n": 80,
+        "n_bads": 10,
+        "n_goods": 70,
+        "bad_rate": 0.125,
+        "cumulative_bad_pct": 1.0,
+        "cumulative_good_pct": 1.0,
+        "lift": 3.2258064516129035
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.614354+00:00"
+  },
+  {
+    "metric_key": "score_distribution_analysis",
+    "display_name": "Score Distribution Analysis",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "band": "Quintile 1",
+        "n": 160,
+        "pct_of_portfolio": 0.2,
+        "bad_rate": 0.00625,
+        "approval_rate": 1.0
+      },
+      {
+        "band": "Quintile 2",
+        "n": 160,
+        "pct_of_portfolio": 0.2,
+        "bad_rate": 0.0125,
+        "approval_rate": 0.975
+      },
+      {
+        "band": "Quintile 3",
+        "n": 160,
+        "pct_of_portfolio": 0.2,
+        "bad_rate": 0.0375,
+        "approval_rate": 0.96875
+      },
+      {
+        "band": "Quintile 4",
+        "n": 160,
+        "pct_of_portfolio": 0.2,
+        "bad_rate": 0.0375,
+        "approval_rate": 0.96875
+      },
+      {
+        "band": "Quintile 5",
+        "n": 160,
+        "pct_of_portfolio": 0.2,
+        "bad_rate": 0.1,
+        "approval_rate": 0.73125
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.615948+00:00"
+  },
+  {
+    "metric_key": "strategy_approval_rate",
+    "display_name": "Approval Rate",
+    "category": "strategy",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.616047+00:00"
+  },
+  {
+    "metric_key": "strategy_bad_rate",
+    "display_name": "Overall Bad Rate",
+    "category": "strategy",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.03875,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 12:11:20.616151+00:00"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "report_id": "report_c17ef2e9",
+    "report_type": "full_technical",
+    "format": "html",
+    "file_path": "storage/runs/run_121544ca36e2/report_c17ef2e9.html",
+    "download_url": "/api/v1/runs/run_121544ca36e2/reports/report_c17ef2e9/download",
+    "size_bytes": 312101,
+    "generated_at": "2026-09-20T17:58:15.700766+00:00"
+  },
+  {
+    "report_id": "report_74791660",
+    "report_type": "full_technical",
+    "format": "docx",
+    "file_path": "storage/runs/run_121544ca36e2/report_74791660.docx",
+    "download_url": "/api/v1/runs/run_121544ca36e2/reports/report_74791660/download",
+    "size_bytes": 217961,
+    "generated_at": "2026-09-20T17:58:35.493201+00:00"
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "cohort_curves": [],
+  "reason": null,
+  "roll_rate_matrix": {
+    "type": "cross_sectional_dpd_distribution",
+    "note": "True roll rate matrix requires two time-snapshot datasets. This shows current DPD bucket distribution.",
+    "buckets": [
+      {
+        "bucket": "Current (0 DPD)",
+        "count": 1702,
+        "pct": 68.08,
+        "cumulative_pct": 68.08
+      },
+      {
+        "bucket": "1-29 DPD",
+        "count": 0,
+        "pct": 0.0,
+        "cumulative_pct": 68.08
+      },
+      {
+        "bucket": "30-59 DPD",
+        "count": 78,
+        "pct": 3.12,
+        "cumulative_pct": 71.2
+      },
+      {
+        "bucket": "60-89 DPD",
+        "count": 198,
+        "pct": 7.92,
+        "cumulative_pct": 79.12
+      },
+      {
+        "bucket": "90+ DPD",
+        "count": 522,
+        "pct": 20.88,
+        "cumulative_pct": 100.0
+      }
+    ],
+    "severe_delinquency_rate": 0.2088
+  }
+}

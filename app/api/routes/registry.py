@@ -66,7 +66,7 @@ def link_run(model_id: str, run_id: str):
     return APIResponse(success=True, data=model)
 
 @router.get("/champion-challenger", response_model=APIResponse[ChampionChallengerResult])
-def compare_champion_challenger(champion_id: str, challenger_id: str):
+async def compare_champion_challenger(champion_id: str, challenger_id: str, include_narrative: bool = False):
     champ = store.get(champion_id)
     chall = store.get(challenger_id)
     if not champ or not chall:
@@ -118,5 +118,13 @@ def compare_champion_challenger(champion_id: str, challenger_id: str):
         recommendation=rec,
         summary=f"Challenger won {chall_wins} metrics, Champion won {champ_wins} metrics."
     )
+    
+    if include_narrative:
+        from app.services.llm_service import LLMService
+        svc = LLMService()
+        ai_narrative = await svc.generate_comparison_narrative(
+            champ_metrics, chall_metrics, deltas, winners
+        )
+        res.ai_narrative = ai_narrative
     
     return APIResponse(success=True, data=res)

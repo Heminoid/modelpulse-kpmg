@@ -4,8 +4,8 @@ import json
 
 from app.schemas.insights import InsightContext, LLMConfig, LLMProvider
 
-API_BASE_URL = "https://api.cloudflare.com/client/v4/accounts/807138141acff1fd312857bec4c03ed0/ai/run/"
-HEADERS = {"Authorization": "Bearer cfut_aKIwZLQFcG143f0gKG8KoTO92a0JKXXtLanVDtK1dd8ba334"}
+from app.core.config import settings
+
 
 
 class LLMService:
@@ -15,24 +15,49 @@ class LLMService:
         self,
         context: InsightContext,
         mode: str = "executive",
-        config: LLMConfig = LLMConfig()
+        config: LLMConfig = LLMConfig(),
+        section: str | None = None,
+        existing_narrative: dict | None = None
     ) -> dict:
         """
         Generates a narrative summary from the provided InsightContext.
         Falls back to a deterministic mock narrative if the LLM call fails.
         """
-        if config.provider == LLMProvider.MOCK:
-            return self._mock_narrative(context, mode)
-        elif config.provider == LLMProvider.CLOUDFLARE:
-            try:
-                return await self._cloudflare_narrative(context, config)
-            except Exception as e:
-                logger.error(f"Cloudflare AI call failed: {e}. Falling back to mock.")
-                return self._mock_narrative(context, mode)
-        else:
-            raise NotImplementedError(f"Provider {config.provider} not implemented.")
+        provider = config.provider
+        if provider == "auto" or getattr(settings, "llm_provider", "") == "auto":
+            if settings.cloudflare_account_id and settings.cloudflare_api_token:
+                provider = LLMProvider.CLOUDFLARE
+            else:
+                provider = LLMProvider.MOCK
 
-    async def _cloudflare_narrative(self, context: InsightContext, config: LLMConfig) -> dict:
+        # A section-scoped regeneration only makes sense if there's an existing
+        # narrative to merge the regenerated section into. Otherwise (first-ever
+        # generation for this run) fall back to generating the full narrative,
+        # so callers never end up persisting a narrative missing the other keys.
+        effective_section = section if existing_narrative else None
+
+        if provider == LLMProvider.MOCK:
+            result = self._mock_narrative(context, mode)
+        elif provider == LLMProvider.CLOUDFLARE:
+            if not settings.cloudflare_account_id or not settings.cloudflare_api_token:
+                logger.warning("Cloudflare credentials missing. Falling back to mock narrative.")
+                result = self._mock_narrative(context, mode)
+            else:
+                try:
+                    result = await self._cloudflare_narrative(context, config, effective_section)
+                except Exception as e:
+                    logger.error(f"Cloudflare AI call failed: {e}. Falling back to mock.")
+                    result = self._mock_narrative(context, mode)
+        else:
+            raise NotImplementedError(f"Provider {provider} not implemented.")
+
+        if effective_section and existing_narrative:
+            merged = dict(existing_narrative)
+            merged[effective_section] = result.get(effective_section, result.get('content', ''))
+            return merged
+        return result
+
+    async def _cloudflare_narrative(self, context: InsightContext, config: LLMConfig, section: str | None = None) -> dict:
         """Calls the Cloudflare Workers AI Llama model to generate the narrative."""
         logger.info(f"Calling Cloudflare Workers AI ({config.model}) for run {context.run_id}")
         
@@ -62,6 +87,31 @@ class LLMService:
         
         Output ONLY valid JSON matching the requested keys, with no additional text or markdown formatting. NEVER NEST JSON OBJECTS INSIDE executive_summary OR technical_summary.
         """
+        
+        if section:
+            section_prompts = {
+                'executive_summary': 'Write ONLY the "executive_summary" — a rigorous, high-level summary of the model\'s health. Cite specific finding counts and the most critical metric values. (MUST BE A PLAIN STRING, NOT AN OBJECT OR DICT).',
+                'technical_summary': 'Write ONLY the "technical_summary" — an in-depth paragraph detailing specific metric breaches, performance degradation (e.g., AUC, Gini drops), data drift, or calibration issues. Use specific numbers. (MUST BE A PLAIN STRING, NOT AN OBJECT).',
+                'root_causes': 'Write ONLY the "root_causes" — a bulleted list of strings describing likely quantitative or qualitative root causes based on the findings.',
+                'recommended_actions': 'Write ONLY the "recommended_actions" — a bulleted list of actionable MRM recommendations (e.g., "Recalibrate scorecard", "Investigate feature X drift").'
+            }
+            
+            section_req = section_prompts.get(section, f'Write ONLY the "{section}".')
+            user_prompt = f"""
+            Please write a JSON response with the following exact key based on the context:
+            - "{section}": {section_req}
+            
+            Context:
+            Dataset Rows: {context.dataset_rows}
+            Has Baseline: {context.has_baseline}
+            Findings Count: {json.dumps(context.finding_count_by_severity)}
+            Top Worsening Metrics: {', '.join(context.top_worsening_metrics) if context.top_worsening_metrics else 'None'}
+            
+            Detailed Findings (Use these numbers in your analysis!):
+            {json.dumps([f.model_dump() for f in context.deterministic_findings], indent=2)}
+            
+            Output ONLY valid JSON matching the requested key, with no additional text or markdown formatting.
+            """
 
         inputs = [
             {"role": "system", "content": system_prompt},
@@ -73,10 +123,13 @@ class LLMService:
             "max_tokens": 2000
         }
         
+        api_base_url = f"https://api.cloudflare.com/client/v4/accounts/{settings.cloudflare_account_id}/ai/run/"
+        headers = {"Authorization": f"Bearer {settings.cloudflare_api_token}"}
+
         async with httpx.AsyncClient(timeout=30.0) as client:
             response = await client.post(
-                f"{API_BASE_URL}{config.model}",
-                headers=HEADERS,
+                f"{api_base_url}{config.model}",
+                headers=headers,
                 json=payload
             )
             response.raise_for_status()
@@ -152,4 +205,88 @@ class LLMService:
             "recommended_actions": ["Mock action 1"],
             "confidence_notes": ["Generated deterministically from computed metrics. No LLM used."],
             "generated_by": "mock_deterministic",
+        }
+
+    async def generate_comparison_narrative(
+        self,
+        champion_metrics: dict,
+        challenger_metrics: dict,
+        deltas: dict,
+        winners: dict,
+        config: LLMConfig = LLMConfig()
+    ) -> dict:
+        """Generate AI narrative comparing champion vs challenger models."""
+        provider = config.provider
+        if provider == "auto" or getattr(settings, "llm_provider", "") == "auto":
+            if settings.cloudflare_account_id and settings.cloudflare_api_token:
+                provider = LLMProvider.CLOUDFLARE
+            else:
+                provider = LLMProvider.MOCK
+        
+        if provider == LLMProvider.MOCK or not settings.cloudflare_account_id or not settings.cloudflare_api_token:
+            return self._mock_comparison(champion_metrics, challenger_metrics, deltas, winners)
+        
+        try:
+            # Build comparison prompt
+            system_prompt = (
+                "You are a Senior Quantitative Analyst comparing two credit scoring models. "
+                "Provide a clear, data-driven comparison for senior risk executives."
+            )
+            
+            comparison_data = []
+            for key in deltas:
+                comparison_data.append(f"- {key}: Champion={champion_metrics.get(key, 'N/A')}, "
+                                       f"Challenger={challenger_metrics.get(key, 'N/A')}, "
+                                       f"Delta={deltas[key]:+.4f}, Winner={winners.get(key, 'tie')}")
+            
+            user_prompt = f"""Compare these two models and provide a JSON response with:
+            - "comparison_summary": A professional paragraph comparing the models' performance (string)
+            - "key_differences": List of the most important differences
+            - "recommendation": Your recommendation on whether to promote the challenger
+            - "risks": Any risks of promoting the challenger
+            
+            Metric Comparison:
+            {chr(10).join(comparison_data)}
+            
+            Output ONLY valid JSON."""
+            
+            inputs = [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}]
+            payload = {"messages": inputs, "max_tokens": 1500}
+            
+            api_base_url = f"https://api.cloudflare.com/client/v4/accounts/{settings.cloudflare_account_id}/ai/run/"
+            headers = {"Authorization": f"Bearer {settings.cloudflare_api_token}"}
+            
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                response = await client.post(f"{api_base_url}{config.model}", headers=headers, json=payload)
+                response.raise_for_status()
+                result = response.json()
+                response_text = result["result"].get("response", "")
+                
+                import re
+                text = str(response_text).strip()
+                match = re.search(r'\{.*\}', text, re.DOTALL)
+                if match:
+                    parsed = json.loads(match.group(0))
+                    parsed["generated_by"] = "cloudflare_llm"
+                    return parsed
+                return self._mock_comparison(champion_metrics, challenger_metrics, deltas, winners)
+        except Exception as e:
+            logger.error(f"Champion/Challenger narrative failed: {e}")
+            return self._mock_comparison(champion_metrics, challenger_metrics, deltas, winners)
+
+    def _mock_comparison(self, champ_metrics, chall_metrics, deltas, winners):
+        chall_wins = list(winners.values()).count('challenger')
+        champ_wins = list(winners.values()).count('champion')
+        
+        key_diffs = []
+        for key, winner in winners.items():
+            delta = deltas.get(key, 0)
+            key_diffs.append(f"{key}: {'Challenger' if winner == 'challenger' else 'Champion'} is better by {abs(delta):.4f}")
+        
+        return {
+            'comparison_summary': f'The challenger model won on {chall_wins} metrics while the champion retained superiority on {champ_wins} metrics.',
+            'key_differences': key_diffs[:5],
+            'recommendation': 'Consider promoting the challenger' if chall_wins > champ_wins else 'Champion should be retained',
+            'risks': ['Score distribution may shift post-deployment', 'Recalibration may be needed'],
+            'generated_by': 'mock_deterministic'
         }

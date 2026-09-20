@@ -1,0 +1,746 @@
+[
+  {
+    "metric_key": "calib_brier_score",
+    "display_name": "Brier Skill Score",
+    "category": "calibration",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.05421492680887152,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": {
+      "brier_score": 0.0796679161142119,
+      "brier_null": 0.08423469387755102
+    },
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.642868+00:00"
+  },
+  {
+    "metric_key": "calib_summary",
+    "display_name": "Calibration Ratio",
+    "category": "calibration",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.936621489569675,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": {
+      "realized_dr": 0.09285714285714286,
+      "avg_predicted_pd": 0.09914052142857144
+    },
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.643027+00:00"
+  },
+  {
+    "metric_key": "data_quality_row_count",
+    "display_name": "Row Count",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 420.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.643032+00:00"
+  },
+  {
+    "metric_key": "data_quality_duplicate_count",
+    "display_name": "Duplicate Row Count",
+    "category": "data_quality",
+    "status": "warning",
+    "skipped_reason": null,
+    "scalar_value": 20.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.643559+00:00"
+  },
+  {
+    "metric_key": "data_quality_null_rates",
+    "display_name": "Null Rates",
+    "category": "data_quality",
+    "status": "warning",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "column": "application_id",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "record_id",
+        "status": "ok"
+      },
+      {
+        "column": "application_time",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "event_time",
+        "status": "ok"
+      },
+      {
+        "column": "credit_score",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "feature_field",
+        "status": "ok"
+      },
+      {
+        "column": "annual_income",
+        "null_count": 41,
+        "null_pct": 0.09761904761904762,
+        "role": "feature_field",
+        "status": "warning"
+      },
+      {
+        "column": "debt_to_income",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "feature_field",
+        "status": "ok"
+      },
+      {
+        "column": "employment_length",
+        "null_count": 73,
+        "null_pct": 0.1738095238095238,
+        "role": "feature_field",
+        "status": "warning"
+      },
+      {
+        "column": "loan_amount",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "amount_field",
+        "status": "ok"
+      },
+      {
+        "column": "loan_purpose",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "segment_field",
+        "status": "ok"
+      },
+      {
+        "column": "home_ownership",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "segment_field",
+        "status": "ok"
+      },
+      {
+        "column": "number_of_delinquent_accounts",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "feature_field",
+        "status": "ok"
+      },
+      {
+        "column": "delinquent_months",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "feature_field",
+        "status": "ok"
+      },
+      {
+        "column": "months_since_last_delinquent",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "feature_field",
+        "status": "ok"
+      },
+      {
+        "column": "revolving_utilization",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "feature_field",
+        "status": "ok"
+      },
+      {
+        "column": "inquiries_last_6m",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "feature_field",
+        "status": "ok"
+      },
+      {
+        "column": "model_score",
+        "null_count": 31,
+        "null_pct": 0.07380952380952381,
+        "role": "prediction_score",
+        "status": "warning"
+      },
+      {
+        "column": "probability_of_default",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "prediction_probability",
+        "status": "ok"
+      },
+      {
+        "column": "risk_rating",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "risk_band",
+        "status": "ok"
+      },
+      {
+        "column": "application_status",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "decision",
+        "status": "ok"
+      },
+      {
+        "column": "actual_default",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "target",
+        "status": "ok"
+      },
+      {
+        "column": "past_due_days",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "dpd_field",
+        "status": "ok"
+      },
+      {
+        "column": "score_band",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "score_band",
+        "status": "ok"
+      },
+      {
+        "column": "income_band",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "segment_field",
+        "status": "ok"
+      },
+      {
+        "column": "channel",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "segment_field",
+        "status": "ok"
+      },
+      {
+        "column": "notes",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "role": "record_id",
+        "status": "ok"
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.643912+00:00"
+  },
+  {
+    "metric_key": "data_quality_null_rate",
+    "display_name": "Overall Null Rate",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.014384920634920634,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.644055+00:00"
+  },
+  {
+    "metric_key": "data_quality_invalid_probability",
+    "display_name": "Invalid Probability Count",
+    "category": "data_quality",
+    "status": "error",
+    "skipped_reason": null,
+    "scalar_value": 5.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.644152+00:00"
+  },
+  {
+    "metric_key": "data_quality_invalid_target",
+    "display_name": "Invalid Target Count",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.644250+00:00"
+  },
+  {
+    "metric_key": "data_quality_readiness_summary",
+    "display_name": "Monitoring Readiness Summary",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "role": "target",
+        "mapped_column": "actual_default",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "prediction_score",
+        "mapped_column": "model_score",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "prediction_probability",
+        "mapped_column": "probability_of_default",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "decision",
+        "mapped_column": "application_status",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "record_id",
+        "mapped_column": "application_id",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "event_time",
+        "mapped_column": "application_time",
+        "available": true,
+        "warning": null
+      },
+      {
+        "role": "dpd_field",
+        "mapped_column": "past_due_days",
+        "available": true,
+        "warning": null
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.644255+00:00"
+  },
+  {
+    "metric_key": "dq_score_pd_coherence",
+    "display_name": "Score-PD Coherence",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": -0.9724413526716542,
+    "scalar_label": "Spearman \u03c1: -0.972",
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.644714+00:00"
+  },
+  {
+    "metric_key": "dq_band_consistency",
+    "display_name": "Band Consistency",
+    "category": "data_quality",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 1.0,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.645053+00:00"
+  },
+  {
+    "metric_key": "delinq_buckets",
+    "display_name": "DPD Buckets",
+    "category": "delinquency",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "bucket": "Current",
+        "count": 357
+      },
+      {
+        "bucket": "1-29",
+        "count": 0
+      },
+      {
+        "bucket": "30-59",
+        "count": 18
+      },
+      {
+        "bucket": "60-89",
+        "count": 15
+      },
+      {
+        "bucket": "90+",
+        "count": 30
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.645211+00:00"
+  },
+  {
+    "metric_key": "delinq_severe_rate",
+    "display_name": "Severe Delinquency Rate",
+    "category": "delinquency",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.07142857142857142,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.645357+00:00"
+  },
+  {
+    "metric_key": "delinq_30plus_rate",
+    "display_name": "30+ DPD Rate",
+    "category": "delinquency",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.15,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.645504+00:00"
+  },
+  {
+    "metric_key": "psi_prediction_score",
+    "display_name": "Score PSI",
+    "category": "drift",
+    "status": "skipped",
+    "skipped_reason": "No baseline provided",
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.645508+00:00"
+  },
+  {
+    "metric_key": "csi_feature_drift",
+    "display_name": "Feature CSI Drift",
+    "category": "drift",
+    "status": "skipped",
+    "skipped_reason": "No baseline stats available for CSI",
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.645511+00:00"
+  },
+  {
+    "metric_key": "perf_auc",
+    "display_name": "ROC AUC",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.8291615479115478,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.646308+00:00"
+  },
+  {
+    "metric_key": "perf_gini",
+    "display_name": "Gini Coefficient",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.6583230958230957,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.646991+00:00"
+  },
+  {
+    "metric_key": "perf_ks",
+    "display_name": "KS Statistic",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.5095208845208845,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.647578+00:00"
+  },
+  {
+    "metric_key": "perf_decile_table",
+    "display_name": "Decile Table",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "decile": 1,
+        "n": 39,
+        "n_bads": 0,
+        "n_goods": 39,
+        "bad_rate": 0.0,
+        "cumulative_bad_pct": 0.0,
+        "cumulative_good_pct": 0.11079545454545454,
+        "lift": 0.0
+      },
+      {
+        "decile": 2,
+        "n": 39,
+        "n_bads": 0,
+        "n_goods": 39,
+        "bad_rate": 0.0,
+        "cumulative_bad_pct": 0.0,
+        "cumulative_good_pct": 0.2215909090909091,
+        "lift": 0.0
+      },
+      {
+        "decile": 3,
+        "n": 39,
+        "n_bads": 0,
+        "n_goods": 39,
+        "bad_rate": 0.0,
+        "cumulative_bad_pct": 0.0,
+        "cumulative_good_pct": 0.33238636363636365,
+        "lift": 0.0
+      },
+      {
+        "decile": 4,
+        "n": 39,
+        "n_bads": 2,
+        "n_goods": 37,
+        "bad_rate": 0.05128205128205128,
+        "cumulative_bad_pct": 0.05405405405405406,
+        "cumulative_good_pct": 0.4375,
+        "lift": 0.5391545391545391
+      },
+      {
+        "decile": 5,
+        "n": 39,
+        "n_bads": 3,
+        "n_goods": 36,
+        "bad_rate": 0.07692307692307693,
+        "cumulative_bad_pct": 0.13513513513513514,
+        "cumulative_good_pct": 0.5397727272727273,
+        "lift": 0.8087318087318088
+      },
+      {
+        "decile": 6,
+        "n": 38,
+        "n_bads": 1,
+        "n_goods": 37,
+        "bad_rate": 0.02631578947368421,
+        "cumulative_bad_pct": 0.16216216216216217,
+        "cumulative_good_pct": 0.6448863636363636,
+        "lift": 0.27667140825035563
+      },
+      {
+        "decile": 7,
+        "n": 39,
+        "n_bads": 4,
+        "n_goods": 35,
+        "bad_rate": 0.10256410256410256,
+        "cumulative_bad_pct": 0.2702702702702703,
+        "cumulative_good_pct": 0.7443181818181818,
+        "lift": 1.0783090783090783
+      },
+      {
+        "decile": 8,
+        "n": 39,
+        "n_bads": 5,
+        "n_goods": 34,
+        "bad_rate": 0.1282051282051282,
+        "cumulative_bad_pct": 0.40540540540540543,
+        "cumulative_good_pct": 0.8409090909090909,
+        "lift": 1.3478863478863479
+      },
+      {
+        "decile": 9,
+        "n": 39,
+        "n_bads": 3,
+        "n_goods": 36,
+        "bad_rate": 0.07692307692307693,
+        "cumulative_bad_pct": 0.4864864864864865,
+        "cumulative_good_pct": 0.9431818181818182,
+        "lift": 0.8087318087318088
+      },
+      {
+        "decile": 10,
+        "n": 39,
+        "n_bads": 19,
+        "n_goods": 20,
+        "bad_rate": 0.48717948717948717,
+        "cumulative_bad_pct": 1.0,
+        "cumulative_good_pct": 1.0,
+        "lift": 5.121968121968122
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.648755+00:00"
+  },
+  {
+    "metric_key": "score_distribution_analysis",
+    "display_name": "Score Distribution Analysis",
+    "category": "performance",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": null,
+    "scalar_label": null,
+    "table_data": [
+      {
+        "band": "<600",
+        "n": 62,
+        "pct_of_portfolio": 0.14761904761904762,
+        "bad_rate": 0.3387096774193548,
+        "approval_rate": 0.41935483870967744
+      },
+      {
+        "band": "600-700",
+        "n": 244,
+        "pct_of_portfolio": 0.580952380952381,
+        "bad_rate": 0.07377049180327869,
+        "approval_rate": 0.8278688524590164
+      },
+      {
+        "band": "700-800",
+        "n": 113,
+        "pct_of_portfolio": 0.26904761904761904,
+        "bad_rate": 0.0,
+        "approval_rate": 0.9646017699115044
+      },
+      {
+        "band": "800+",
+        "n": 1,
+        "pct_of_portfolio": 0.002380952380952381,
+        "bad_rate": 0.0,
+        "approval_rate": 1.0
+      }
+    ],
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.649507+00:00"
+  },
+  {
+    "metric_key": "strategy_approval_rate",
+    "display_name": "Approval Rate",
+    "category": "strategy",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.8047619047619048,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.649582+00:00"
+  },
+  {
+    "metric_key": "strategy_bad_rate",
+    "display_name": "Overall Bad Rate",
+    "category": "strategy",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.09285714285714286,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.649605+00:00"
+  },
+  {
+    "metric_key": "strategy_bad_rate_approved",
+    "display_name": "Bad Rate (Approved Only)",
+    "category": "strategy",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.05029585798816568,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.649891+00:00"
+  },
+  {
+    "metric_key": "strategy_decline_rate",
+    "display_name": "Decline Rate",
+    "category": "strategy",
+    "status": "ok",
+    "skipped_reason": null,
+    "scalar_value": 0.19523809523809524,
+    "scalar_label": null,
+    "table_data": null,
+    "chart_data": null,
+    "metadata": null,
+    "threshold_breached": false,
+    "threshold_value": null,
+    "computed_at": "2026-09-20 14:09:54.650027+00:00"
+  }
+]

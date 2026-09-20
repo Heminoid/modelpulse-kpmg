@@ -1,0 +1,101 @@
+.portfolio-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-kpi-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.portfolio-kpi-row > * {
+  flex: 1;
+}
+
+.portfolio-controls {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.pill-btn {
+  border-radius: 9999px;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.portfolio-card {
+  cursor: pointer;
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-card.critical {
+  border-left-color: var(--status-critical);
+}
+
+.portfolio-card.warning {
+  border-left-color: var(--status-warning);
+}
+
+.portfolio-card.watch {
+  border-left-color: var(--status-warning);
+}
+
+.portfolio-card.healthy {
+  border-left-color: var(--status-healthy);
+}
+
+.portfolio-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.portfolio-card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.portfolio-card-body {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.health-section {
+  flex: 0 0 auto;
+}
+
+.details-section {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .portfolio-kpi-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .portfolio-controls {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

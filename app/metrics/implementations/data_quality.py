@@ -98,6 +98,36 @@ register_metric(
 )
 
 
+def _calc_null_rate_overall(df: pd.DataFrame, **kwargs) -> MetricResult:
+    total_cells = df.shape[0] * df.shape[1]
+    if total_cells == 0:
+        return MetricResult(status="skipped", skipped_reason="Empty dataset")
+
+    null_count = int(df.isna().sum().sum())
+    null_pct = float(null_count / total_cells)
+    status = "critical" if null_pct > 0.20 else ("warning" if null_pct > 0.05 else "ok")
+    return MetricResult(
+        status=status,
+        scalar_value=null_pct,
+    )
+
+register_metric(
+    MetricDefinition(
+        metric_key="data_quality_null_rate",
+        display_name="Overall Null Rate",
+        category="data_quality",
+        description="Overall null rate across all cells in the dataset",
+        required_roles=[],
+        optional_roles=[],
+        template_compatibility=["all"],
+        output_type="scalar",
+        chart_recommendation="none",
+        threshold_support=True,
+        calculation_fn=_calc_null_rate_overall,
+    )
+)
+
+
 def _calc_invalid_probability(df: pd.DataFrame, mapped_roles: dict[str, list[str]], **kwargs) -> MetricResult:
     col = mapped_roles["prediction_probability"][0]
     invalid = df[(df[col] < 0) | (df[col] > 1)]

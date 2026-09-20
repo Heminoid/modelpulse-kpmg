@@ -12,10 +12,14 @@ class ReportType(str, Enum):
 class ReportFormat(str, Enum):
     PDF  = "pdf"
     HTML = "html"
+    DOCX = "docx"
+
+from typing import Optional
 
 class ReportRequest(BaseModel):
     report_type: ReportType
     format: ReportFormat
+    sections: Optional[list[str]] = None
 
 class ReportMeta(BaseModel):
     report_id: str

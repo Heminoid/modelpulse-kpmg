@@ -1,0 +1,99 @@
+.workflow-stepper-container {
+  width: 100%;
+  margin-bottom: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.workflow-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.stepper-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  color: var(--text-secondary);
+}
+
+.stepper-step:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.stepper-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--border-secondary);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.stepper-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.stepper-step.active {
+  color: var(--brand-navy);
+  font-weight: var(--font-weight-bold);
+}
+
+[data-theme="dark"] .stepper-step.active {
+  color: var(--brand-blue);
+}
+
+.stepper-step.active .stepper-icon {
+  background: var(--brand-navy);
+  color: var(--text-inverse);
+  box-shadow: 0 0 0 3px rgba(0, 51, 141, 0.15);
+}
+
+[data-theme="dark"] .stepper-step.active .stepper-icon {
+  background: var(--brand-blue);
+}
+
+.stepper-step.completed .stepper-icon {
+  background: var(--status-healthy);
+  color: #ffffff;
+}
+
+.stepper-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border-primary);
+  margin: 0 0.5rem;
+  transition: background 0.3s ease;
+}
+
+.stepper-line.completed {
+  background: var(--status-healthy);
+}
+
+@media (max-width: 768px) {
+  .workflow-stepper {
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+  .stepper-line {
+    display: none;
+  }
+}

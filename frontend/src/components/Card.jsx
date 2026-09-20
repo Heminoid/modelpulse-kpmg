@@ -1,7 +1,7 @@
 import React from 'react';
 import './Card.css';
 
-const Card = ({ title, subtitle, icon: Icon, children, className = '', action }) => {
+const Card = ({ title, subtitle, icon: Icon, children, className = '', action, noPadding = false }) => {
   return (
     <div className={`card glass-panel ${className}`}>
       {(title || Icon || action) && (
@@ -20,7 +20,7 @@ const Card = ({ title, subtitle, icon: Icon, children, className = '', action })
           {action && <div className="card-action">{action}</div>}
         </div>
       )}
-      <div className="card-body">
+      <div className={`card-body ${noPadding ? 'p-0' : ''}`}>
         {children}
       </div>
     </div>

@@ -1,0 +1,42 @@
+{
+  "run_id": "run_fba98e261dd6",
+  "monitor_id": "mon_edge",
+  "dataset_id": "ds_20260920_ecdfcfcc60f6",
+  "baseline_dataset_id": null,
+  "status": "completed",
+  "error_message": null,
+  "started_at": "2026-09-20 13:48:43.113909+00:00",
+  "completed_at": "2026-09-20 13:48:43.136626+00:00",
+  "duration_seconds": 0.022717,
+  "metrics_computed": [
+    "calib_brier_score",
+    "calib_summary",
+    "data_quality_row_count",
+    "data_quality_duplicate_count",
+    "data_quality_null_rates",
+    "data_quality_invalid_target",
+    "data_quality_readiness_summary",
+    "dq_score_pd_coherence",
+    "dq_band_consistency",
+    "delinq_buckets",
+    "delinq_severe_rate",
+    "delinq_30plus_rate",
+    "perf_auc",
+    "perf_gini",
+    "perf_ks",
+    "perf_decile_table",
+    "score_distribution_analysis",
+    "strategy_approval_rate",
+    "strategy_bad_rate"
+  ],
+  "metrics_skipped": [
+    "psi_prediction_score",
+    "csi_feature_drift"
+  ],
+  "metrics_failed": [
+    "data_quality_invalid_probability"
+  ],
+  "row_count": 420,
+  "baseline_row_count": null,
+  "created_at": "2026-09-20 13:48:43.113736+00:00"
+}
