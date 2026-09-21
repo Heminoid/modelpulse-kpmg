@@ -318,5 +318,28 @@
     "registered_at": "2026-09-20T18:45:25.238239+00:00",
     "updated_at": "2026-09-20T18:45:25.239241+00:00",
     "promoted_to_production_at": null
+  },
+  {
+    "name": "CreditScorecard_v3",
+    "version": "3.0.0",
+    "model_type": "scorecard",
+    "description": null,
+    "owner": "Data Science Team",
+    "lifecycle_stage": "development",
+    "is_champion": false,
+    "dev_auc": null,
+    "dev_gini": null,
+    "dev_ks": null,
+    "dev_bad_rate": null,
+    "dev_approval_rate": null,
+    "dev_dataset_description": null,
+    "model_id": "model_edf3338e",
+    "linked_monitor_ids": [],
+    "linked_run_ids": [
+      "run_3af641877107"
+    ],
+    "registered_at": "2026-09-21T16:57:55.515734+00:00",
+    "updated_at": "2026-09-21T16:57:55.516786+00:00",
+    "promoted_to_production_at": null
   }
 ]

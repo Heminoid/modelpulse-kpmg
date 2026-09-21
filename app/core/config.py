@@ -31,8 +31,8 @@ class Settings(BaseSettings):
     temp_dir: Path = Path("storage/temp")
 
     # Upload limits
-    max_upload_size_mb: int = 100
-    allowed_extensions: list[str] = [".csv"]
+    max_upload_size_mb: int = 10240
+    allowed_extensions: list[str] = [".csv", ".tsv", ".xlsx"]
 
     # Monitoring defaults
     default_psi_bins: int = 10

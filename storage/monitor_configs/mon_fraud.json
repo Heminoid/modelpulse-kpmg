@@ -3,11 +3,11 @@
   "name": "fraud",
   "description": null,
   "template_type": "credit_scorecard_monitoring",
-  "dataset_id": "ds_20260920_e6c08360650f",
+  "dataset_id": "ds_20260921_cb025260b5f4",
   "baseline_dataset_id": null,
   "column_mapping": {
-    "id": "map_20260920_bd5c53ccf0dd",
-    "dataset_id": "ds_20260920_e6c08360650f",
+    "id": "map_20260921_4fc57ce8d49c",
+    "dataset_id": "ds_20260921_cb025260b5f4",
     "mappings": {
       "txn_id": "record_id",
       "txn_date": "event_time",
@@ -24,7 +24,7 @@
     "score_direction": "lower_is_better",
     "target_positive_label": 1,
     "decision_positive_label": "APPROVED",
-    "created_at": "2026-09-20 18:45:36.815359+00:00",
+    "created_at": "2026-09-21 16:58:00.454194+00:00",
     "version": 1
   },
   "selected_metrics": [],
@@ -34,7 +34,7 @@
   "n_bins": 10,
   "thresholds": {},
   "status": "active",
-  "created_at": "2026-09-20 18:45:36.816303+00:00",
-  "updated_at": "2026-09-20 18:45:36.816304+00:00",
+  "created_at": "2026-09-21 16:58:00.455159+00:00",
+  "updated_at": "2026-09-21 16:58:00.455161+00:00",
   "id": "mon_fraud"
 }

@@ -1,0 +1,214 @@
+{
+  "run_id": "run_76f17e99c5c1",
+  "monitor_name": "client",
+  "template_type": "credit_scorecard_monitoring",
+  "run_date": "2026-09-21T16:58:00.537798+00:00",
+  "dataset_rows": 197,
+  "has_baseline": false,
+  "target_base_rate": 0.05583756345177665,
+  "approval_rate": 0.7715736040609137,
+  "metric_status_table": [
+    {
+      "metric_key": "calib_brier_score",
+      "value": -0.06094153535838065,
+      "status": "ok"
+    },
+    {
+      "metric_key": "calib_summary",
+      "value": 0.5935176968362323,
+      "status": "critical"
+    },
+    {
+      "metric_key": "data_quality_row_count",
+      "value": 197.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_duplicate_count",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_null_rate",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_invalid_probability",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "data_quality_invalid_target",
+      "value": 0.0,
+      "status": "ok"
+    },
+    {
+      "metric_key": "dq_score_pd_coherence",
+      "value": -0.04219465910484292,
+      "status": "critical"
+    },
+    {
+      "metric_key": "dq_band_consistency",
+      "value": 0.868020304568528,
+      "status": "warning"
+    },
+    {
+      "metric_key": "delinq_severe_rate",
+      "value": 0.23857868020304568,
+      "status": "ok"
+    },
+    {
+      "metric_key": "delinq_30plus_rate",
+      "value": 0.49238578680203043,
+      "status": "ok"
+    },
+    {
+      "metric_key": "perf_auc",
+      "value": 0.33406647116324534,
+      "status": "critical"
+    },
+    {
+      "metric_key": "perf_gini",
+      "value": -0.3318670576735093,
+      "status": "critical"
+    },
+    {
+      "metric_key": "perf_ks",
+      "value": 0.3563049853372434,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_approval_rate",
+      "value": 0.7715736040609137,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_bad_rate",
+      "value": 0.05583756345177665,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_bad_rate_approved",
+      "value": 0.05263157894736842,
+      "status": "ok"
+    },
+    {
+      "metric_key": "strategy_decline_rate",
+      "value": 0.22842639593908629,
+      "status": "ok"
+    }
+  ],
+  "threshold_breaches": [
+    {
+      "metric_key": "calib_summary",
+      "value": 0.5935176968362323,
+      "severity": "critical"
+    },
+    {
+      "metric_key": "delinq_severe_rate",
+      "value": 0.23857868020304568,
+      "severity": "critical"
+    },
+    {
+      "metric_key": "delinq_30plus_rate",
+      "value": 0.49238578680203043,
+      "severity": "critical"
+    }
+  ],
+  "top_worsening_metrics": [],
+  "top_drifting_features": [],
+  "top_worsening_segments": [],
+  "calibration_ratio_overall": null,
+  "calibration_worst_band": null,
+  "severe_dpd_rate": null,
+  "dpd_worst_segment": null,
+  "deterministic_findings": [
+    {
+      "finding_id": "fnd_e67f341cc502",
+      "category": "data_quality",
+      "severity": "critical",
+      "title": "Score-PD Coherence Failed",
+      "narrative": "score and PD disagree",
+      "evidence_metrics": [
+        "dq_score_pd_coherence"
+      ],
+      "evidence_segments": [],
+      "supporting_values": {},
+      "possible_causes": [],
+      "recommended_actions": [],
+      "confidence": "high",
+      "generated_by": "rule_engine"
+    },
+    {
+      "finding_id": "fnd_5329cea65d1a",
+      "category": "performance",
+      "severity": "critical",
+      "title": "Inverted Rank Ordering",
+      "narrative": "Score rank-ordering is inverted vs the configured score direction \u2014 model may be broken or direction misconfigured; review mapping.",
+      "evidence_metrics": [
+        "perf_auc"
+      ],
+      "evidence_segments": [],
+      "supporting_values": {},
+      "possible_causes": [],
+      "recommended_actions": [],
+      "confidence": "high",
+      "generated_by": "rule_engine"
+    },
+    {
+      "finding_id": "fnd_00def0205e76",
+      "category": "data_quality",
+      "severity": "warning",
+      "title": "Score Band Inconsistency",
+      "narrative": "Score band column does not consistently match bands derived from the score.",
+      "evidence_metrics": [
+        "dq_band_consistency"
+      ],
+      "evidence_segments": [],
+      "supporting_values": {},
+      "possible_causes": [],
+      "recommended_actions": [],
+      "confidence": "high",
+      "generated_by": "rule_engine"
+    },
+    {
+      "finding_id": "fnd_221ce608c5c1",
+      "category": "calibration",
+      "severity": "critical",
+      "title": "Calibration Critical",
+      "narrative": "Overall calibration ratio is critically out of bounds.",
+      "evidence_metrics": [
+        "calib_summary"
+      ],
+      "evidence_segments": [],
+      "supporting_values": {},
+      "possible_causes": [],
+      "recommended_actions": [],
+      "confidence": "high",
+      "generated_by": "rule_engine"
+    },
+    {
+      "finding_id": "fnd_d15177eccdc3",
+      "category": "delinquency",
+      "severity": "critical",
+      "title": "High Severe Delinquency",
+      "narrative": "Severe delinquency rate (>90 DPD) has breached the critical threshold.",
+      "evidence_metrics": [
+        "delinq_severe_rate"
+      ],
+      "evidence_segments": [],
+      "supporting_values": {},
+      "possible_causes": [],
+      "recommended_actions": [],
+      "confidence": "high",
+      "generated_by": "rule_engine"
+    }
+  ],
+  "finding_count_by_severity": {
+    "critical": 4,
+    "warning": 1,
+    "info": 0
+  },
+  "priority_review_areas": []
+}

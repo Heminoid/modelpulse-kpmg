@@ -49,7 +49,7 @@ const Datasets = () => {
       addToast({ message: 'Dataset uploaded successfully', type: 'success' });
     } catch (error) {
       console.error("Upload failed", error);
-      addToast({ message: 'Failed to upload dataset', type: 'error' });
+      addToast({ message: error?.error || 'Failed to upload dataset', type: 'error' });
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
@@ -142,7 +142,7 @@ const Datasets = () => {
           type="file" 
           ref={fileInputRef} 
           className="hidden-input"
-          accept=".csv,.json"
+          accept=".csv,.tsv,.xlsx"
           onChange={handleFileChange} 
         />
         

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import io
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -28,11 +29,21 @@ def get_store() -> DatasetStore:
     return _dataset_store
 
 
+def _parse_upload(ext: str, file_bytes: bytes) -> pd.DataFrame:
+    """Parse uploaded file bytes into a DataFrame based on the original extension."""
+    buf = io.BytesIO(file_bytes)
+    if ext == ".xlsx":
+        return pd.read_excel(buf, engine="openpyxl")
+    if ext == ".tsv":
+        return pd.read_csv(buf, sep="\t")
+    return pd.read_csv(buf)
+
+
 def upload_dataset(
     filename: str,
     file_bytes: bytes,
 ) -> DatasetUploadResponse:
-    """Validate, save, and profile an uploaded CSV file."""
+    """Validate, save, and profile an uploaded dataset file (CSV, TSV, or Excel)."""
     # Validate extension
     ext = Path(filename).suffix.lower()
     if ext not in settings.allowed_extensions:
@@ -50,17 +61,18 @@ def upload_dataset(
     dataset_id = generate_id("ds")
     logger.info("Uploading dataset {} ({})", dataset_id, filename)
 
-    # Save raw CSV
+    # Parse whatever format was uploaded, then always persist the normalized
+    # result as a plain CSV — every downstream reader in this codebase only
+    # ever re-reads {dataset_id}.csv, so nothing else needs to know or care
+    # what the original upload format was.
+    try:
+        df = _parse_upload(ext, file_bytes)
+    except Exception as e:
+        raise InvalidFileTypeError(f"Could not parse {ext} file: {e}") from e
+
     csv_path = settings.uploads_dir / f"{dataset_id}.csv"
     csv_path.parent.mkdir(parents=True, exist_ok=True)
-    csv_path.write_bytes(file_bytes)
-
-    # Load and profile
-    try:
-        df = pd.read_csv(csv_path)
-    except Exception as e:
-        csv_path.unlink(missing_ok=True)
-        raise InvalidFileTypeError(f"Could not parse CSV: {e}") from e
+    df.to_csv(csv_path, index=False)
 
     file_size = len(file_bytes)
     profile = profile_dataset(df, dataset_id, file_size)
