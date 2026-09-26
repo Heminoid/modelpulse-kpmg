@@ -1,0 +1,37 @@
+{
+  "score": 43.50636420586479,
+  "status": "deteriorating",
+  "components": {
+    "calib_ratio_overall": {
+      "score": 4.066224392432588,
+      "weight": 0.2,
+      "status": "critical"
+    },
+    "psi_prediction_score": {
+      "score": 0.0,
+      "weight": 0.2,
+      "status": "critical"
+    },
+    "csi_feature_drift": {
+      "score": 27.466800000000006,
+      "weight": 0.15,
+      "status": "critical"
+    },
+    "perf_auc": {
+      "score": 83.00019264366898,
+      "weight": 0.15,
+      "status": "healthy"
+    },
+    "perf_gini": {
+      "score": 71.14302226600199,
+      "weight": 0.25,
+      "status": "watch"
+    },
+    "perf_ks": {
+      "score": 74.31634747603579,
+      "weight": 0.2,
+      "status": "watch"
+    }
+  },
+  "recommended_actions": []
+}

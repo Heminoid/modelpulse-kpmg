@@ -55,12 +55,17 @@ class MonitorRunStore:
         """
         all_items = []
         if self.root.exists():
-            for run_dir in sorted(self.root.iterdir(), reverse=True):
+            for run_dir in self.root.iterdir():
                 meta_path = run_dir / "run_metadata.json"
                 if run_dir.is_dir() and meta_path.exists():
                     item = load_json(meta_path)
                     if monitor_id is None or item.get("monitor_id") == monitor_id:
                         all_items.append(item)
+        # Sort by actual creation time, newest first — run_id is a random
+        # hex string, so sorting by directory name (as this used to do) put
+        # runs in an order unrelated to recency, making new runs appear to
+        # "disappear" off page 1 as soon as there were more than `limit` runs.
+        all_items.sort(key=lambda item: item.get("created_at") or "", reverse=True)
         total = len(all_items)
         start = (page - 1) * limit
         end = start + limit

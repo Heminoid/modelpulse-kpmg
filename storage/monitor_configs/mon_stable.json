@@ -3,11 +3,11 @@
   "name": "stable",
   "description": null,
   "template_type": "credit_scorecard_monitoring",
-  "dataset_id": "ds_20260921_3057e2597bb1",
-  "baseline_dataset_id": "ds_20260921_b9b5afa9f1cd",
+  "dataset_id": "ds_20260926_a533d4d714d5",
+  "baseline_dataset_id": "ds_20260926_a7988717d0c7",
   "column_mapping": {
-    "id": "map_20260921_066555bceefc",
-    "dataset_id": "ds_20260921_3057e2597bb1",
+    "id": "map_20260926_31e7e18419c8",
+    "dataset_id": "ds_20260926_a533d4d714d5",
     "mappings": {
       "application_id": "record_id",
       "application_time": "event_time",
@@ -38,7 +38,7 @@
     "score_direction": "higher_is_better",
     "target_positive_label": 1,
     "decision_positive_label": "APPROVED",
-    "created_at": "2026-09-21 16:58:00.308689+00:00",
+    "created_at": "2026-09-26 10:18:35.071977+00:00",
     "version": 1
   },
   "selected_metrics": [],
@@ -48,7 +48,7 @@
   "n_bins": 10,
   "thresholds": {},
   "status": "active",
-  "created_at": "2026-09-21 16:58:00.309873+00:00",
-  "updated_at": "2026-09-21 16:58:00.309874+00:00",
+  "created_at": "2026-09-26 10:18:35.073026+00:00",
+  "updated_at": "2026-09-26 10:18:35.073028+00:00",
   "id": "mon_stable"
 }

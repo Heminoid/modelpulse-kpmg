@@ -3,11 +3,11 @@
   "name": "edge",
   "description": null,
   "template_type": "credit_scorecard_monitoring",
-  "dataset_id": "ds_20260921_23bc8ae0f511",
+  "dataset_id": "ds_20260926_903b1ce1a912",
   "baseline_dataset_id": null,
   "column_mapping": {
-    "id": "map_20260921_fec0bb223579",
-    "dataset_id": "ds_20260921_23bc8ae0f511",
+    "id": "map_20260926_dc36f28233ce",
+    "dataset_id": "ds_20260926_903b1ce1a912",
     "mappings": {
       "application_id": "record_id",
       "application_time": "event_time",
@@ -40,7 +40,7 @@
     "score_direction": "higher_is_better",
     "target_positive_label": 1,
     "decision_positive_label": "APPROVED",
-    "created_at": "2026-09-21 16:58:00.492919+00:00",
+    "created_at": "2026-09-26 10:18:35.260781+00:00",
     "version": 1
   },
   "selected_metrics": [],
@@ -50,7 +50,7 @@
   "n_bins": 10,
   "thresholds": {},
   "status": "active",
-  "created_at": "2026-09-21 16:58:00.493871+00:00",
-  "updated_at": "2026-09-21 16:58:00.493872+00:00",
+  "created_at": "2026-09-26 10:18:35.261738+00:00",
+  "updated_at": "2026-09-26 10:18:35.261740+00:00",
   "id": "mon_edge"
 }

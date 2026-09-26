@@ -1,0 +1,20 @@
+[
+  {
+    "report_id": "report_b7cdd3a9",
+    "report_type": "executive_summary",
+    "format": "html",
+    "file_path": "storage/runs/run_f4853256c697/report_b7cdd3a9.html",
+    "download_url": "/api/v1/runs/run_f4853256c697/reports/report_b7cdd3a9/download",
+    "size_bytes": 309259,
+    "generated_at": "2026-09-26T10:18:30.078065+00:00"
+  },
+  {
+    "report_id": "report_8774c1fd",
+    "report_type": "executive_summary",
+    "format": "pdf",
+    "file_path": "storage/runs/run_f4853256c697/report_8774c1fd.pdf",
+    "download_url": "/api/v1/runs/run_f4853256c697/reports/report_8774c1fd/download",
+    "size_bytes": 1659288,
+    "generated_at": "2026-09-26T10:18:34.934016+00:00"
+  }
+]

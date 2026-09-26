@@ -3,11 +3,11 @@
   "name": "baseline",
   "description": null,
   "template_type": "credit_scorecard_monitoring",
-  "dataset_id": "ds_20260921_b9b5afa9f1cd",
+  "dataset_id": "ds_20260926_a7988717d0c7",
   "baseline_dataset_id": null,
   "column_mapping": {
-    "id": "map_20260921_67cae8b4c908",
-    "dataset_id": "ds_20260921_b9b5afa9f1cd",
+    "id": "map_20260926_7c21e0c7449f",
+    "dataset_id": "ds_20260926_a7988717d0c7",
     "mappings": {
       "application_id": "record_id",
       "application_time": "event_time",
@@ -38,7 +38,7 @@
     "score_direction": "higher_is_better",
     "target_positive_label": 1,
     "decision_positive_label": "APPROVED",
-    "created_at": "2026-09-21 16:58:00.221352+00:00",
+    "created_at": "2026-09-26 10:18:34.984040+00:00",
     "version": 1
   },
   "selected_metrics": [],
@@ -48,7 +48,7 @@
   "n_bins": 10,
   "thresholds": {},
   "status": "active",
-  "created_at": "2026-09-21 16:58:00.222492+00:00",
-  "updated_at": "2026-09-21 16:58:00.222494+00:00",
+  "created_at": "2026-09-26 10:18:34.985058+00:00",
+  "updated_at": "2026-09-26 10:18:34.985060+00:00",
   "id": "mon_baseline"
 }

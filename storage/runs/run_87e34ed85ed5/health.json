@@ -1,0 +1,27 @@
+{
+  "score": 94.97049839915768,
+  "status": "healthy",
+  "components": {
+    "calib_ratio_overall": {
+      "score": 87.32429791393498,
+      "weight": 0.2,
+      "status": "healthy"
+    },
+    "perf_auc": {
+      "score": 100.0,
+      "weight": 0.15,
+      "status": "healthy"
+    },
+    "perf_gini": {
+      "score": 94.04615654615654,
+      "weight": 0.25,
+      "status": "healthy"
+    },
+    "perf_ks": {
+      "score": 100.0,
+      "weight": 0.2,
+      "status": "healthy"
+    }
+  },
+  "recommended_actions": []
+}
